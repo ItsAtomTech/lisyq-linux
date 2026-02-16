@@ -7,14 +7,13 @@
 #include <QWebEnginePage>
 #include <QKeyEvent>
 
+#include <QWebEngineProfile>
+#include <QStandardPaths>
+#include <QDir>
+
 
 #include <QFile>
 #include <QTextStream>
-
-
-
-
-
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -43,6 +42,18 @@ MainWindow::MainWindow(QWidget *parent)
     // Add WebEngineView to mainFrame
     webView = new QWebEngineView(ui->mainFrame);
 
+    // Create or get the default profile
+    QWebEngineProfile *profile = new QWebEngineProfile("lisyqProfile", this);
+
+    QString storagePath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/webengine";
+    QDir().mkpath(storagePath);
+    profile->setPersistentStoragePath(storagePath);
+    profile->setPersistentCookiesPolicy(QWebEngineProfile::ForcePersistentCookies);
+
+    // Optional: also use this profile for the WebView
+    webView->setPage(new QWebEnginePage(profile, webView));
+
+
     QVBoxLayout *frameLayout = new QVBoxLayout(ui->mainFrame);
     frameLayout->setContentsMargins(0, 0, 0, 0);
     frameLayout->addWidget(webView);
@@ -51,11 +62,12 @@ MainWindow::MainWindow(QWidget *parent)
     webView->load(QUrl::fromLocalFile(path));
 
 
-    devTools = new QWebEngineView(); // no parent
+    devTools = new QWebEngineView(); // still no parent
+    devTools->setPage(new QWebEnginePage(profile, devTools));
+
+    // Attach DevTools to the main webView
     webView->page()->setDevToolsPage(devTools->page());
     devTools->resize(800, 600);
-
-
 
     SavePath = "";
     FromOpenFile = false;
