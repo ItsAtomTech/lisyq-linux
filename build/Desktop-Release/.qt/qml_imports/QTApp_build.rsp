@@ -1,0 +1,9 @@
+-rootPath
+/home/itsatompc/QTApps/QTApp
+-cmake-output
+-output-file
+/home/itsatompc/QTApps/QTApp/build/Desktop-Release/.qt/qml_imports/QTApp_build.cmake
+-importPath
+/home/itsatompc/QTApps/QTApp/build/Desktop-Release
+-importPath
+/home/itsatompc/Qt/6.10.2/gcc_64/qml

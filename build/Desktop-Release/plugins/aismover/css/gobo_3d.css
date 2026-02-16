@@ -1,0 +1,459 @@
+/* /!\ You need to add vendor prefixes in order to render the CSS properly (or simply use http://leaverou.github.io/prefixfree/) /!\ */ 
+
+#gobo_light {
+  perspective: 1000px;
+  position: absolute;
+  right:15px;
+  bottom:15px;
+  overflow: hidden;
+  width: 200px;
+  height: 200px;
+  background: transparent;
+  font-size: 125%;
+  border:solid transparent 1px;
+  border-radius:20px;
+  box-shadow:inset 0px 0px 4px 4px rgba(45,45,45,0.3);
+  background:rgba(10,10,10,0.8);
+}
+
+
+.face {
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.4);
+}
+.scene, .shape, .face, .face-wrapper, .cr {
+  position: absolute;
+  transform-style: preserve-3d;
+}
+.scene {
+  width: 80em;
+  height: 80em;
+  top: 50%;
+  left: 50%;
+  margin: -40em 0 0 -40em;
+  pointer-events:none;
+  -webkit-transition:0.4s;
+  transition:0.4s;
+  
+}
+.shape {
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  transform-origin: 50%;
+}
+.face, .face-wrapper {
+  overflow: hidden;
+  transform-origin: 0 0;
+  backface-visibility: hidden;
+  /* hidden by default, prevent blinking and other weird rendering glitchs */
+}
+.face {
+  background-size: 100% 100%!important;
+  background-position: center;
+}
+.face-wrapper .face {
+  left: 100%;
+  width: 100%;
+  height: 100%
+}
+.photon-shader {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%
+}
+.side {
+  left: 50%;
+}
+.cr, .cr .side {
+  height: 100%;
+}
+[class*="cuboid"] .ft, [class*="cuboid"] .bk {
+  width: 100%;
+  height: 100%;
+}
+[class*="cuboid"] .bk {
+  left: 100%;
+}
+[class*="cuboid"] .rt {
+  transform: rotateY(-90deg) translateX(-50%);
+}
+[class*="cuboid"] .lt {
+  transform: rotateY(90deg) translateX(-50%);
+}
+[class*="cuboid"] .tp {
+  transform: rotateX(90deg) translateY(-50%);
+}
+[class*="cuboid"] .bm {
+  transform: rotateX(-90deg) translateY(-50%);
+}
+[class*="cuboid"] .lt {
+  left: 100%;
+}
+[class*="cuboid"] .bm {
+  top: 100%;
+}
+[class*="cylinder"] .tp {
+  transform: rotateX(90deg) translateY(-50%);
+}
+[class*="cylinder"] .bm {
+  transform: rotateX(-90deg) translateY(-50%);
+}
+[class*="cylinder"] .tp, [class*="cylinder"] .bm, [class*="cylinder"] .tp .photon-shader, [class*="cylinder"] .bm .photon-shader {
+  border-radius: 50%;
+}
+[class*="cylinder"] .bm {
+  top: 100%;
+}
+/* .base styles */
+.base {
+  transform:translate3D(0em, 0em, 0em) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+  opacity:1;
+  width:10em;
+  height:2em;
+  margin:-1em 0 0 -5em;
+}
+.base .ft {
+  transform:translateZ(5em);
+}
+.base .bk {
+  transform:translateZ(-5em) rotateY(180deg);
+}
+.base .rt, .base .lt {
+  width:10em;
+  height:2em;
+}
+.base .tp, .base .bm {
+  width:10em;
+  height:10em;
+}
+.base .face {
+  background-color:#474747;
+}
+.base .ft {
+  width:5.5em;
+  margin-left:2.25em;
+}
+.base .bk {
+  width:5.5em;
+  margin-left:-2.25em;
+}
+.base .rt, .base .lt {
+  width:5.5em;
+}
+.base .tp, .base .bm, .base .tp .photon-shader, .base .bm .photon-shader {
+  border-radius:2.25em;
+}
+.base .cr {
+  width:2.25em;
+  left:1.125em;
+}
+.base .cr-0 {
+  transform: translate3D(5.5em, 0, 2.75em);
+}
+.base .cr-1 {
+  transform: translate3D(5.5em, 0, -2.75em);
+}
+.base .cr-2 {
+  transform: translate3D(0, 0, -2.75em);
+}
+.base .cr-3 {
+  transform: translate3D(0, 0, 2.75em);
+}
+.base .cr-0 .s0 {
+  transform: rotateY(9deg) translate3D(-50%, 0, 2.225em);
+}
+.base .cr-0 .s1 {
+  transform: rotateY(27deg) translate3D(-50%, 0, 2.225em);
+}
+.base .cr-0 .s2 {
+  transform: rotateY(45deg) translate3D(-50%, 0, 2.225em);
+}
+.base .cr-0 .s3 {
+  transform: rotateY(63deg) translate3D(-50%, 0, 2.225em);
+}
+.base .cr-0 .s4 {
+  transform: rotateY(81deg) translate3D(-50%, 0, 2.225em);
+}
+.base .cr-1 .s0 {
+  transform: rotateY(99deg) translate3D(-50%, 0, 2.225em);
+}
+.base .cr-1 .s1 {
+  transform: rotateY(117deg) translate3D(-50%, 0, 2.225em);
+}
+.base .cr-1 .s2 {
+  transform: rotateY(135deg) translate3D(-50%, 0, 2.225em);
+}
+.base .cr-1 .s3 {
+  transform: rotateY(153deg) translate3D(-50%, 0, 2.225em);
+}
+.base .cr-1 .s4 {
+  transform: rotateY(171deg) translate3D(-50%, 0, 2.225em);
+}
+.base .cr-2 .s0 {
+  transform: rotateY(189deg) translate3D(-50%, 0, 2.225em);
+}
+.base .cr-2 .s1 {
+  transform: rotateY(207deg) translate3D(-50%, 0, 2.225em);
+}
+.base .cr-2 .s2 {
+  transform: rotateY(225deg) translate3D(-50%, 0, 2.225em);
+}
+.base .cr-2 .s3 {
+  transform: rotateY(243deg) translate3D(-50%, 0, 2.225em);
+}
+.base .cr-2 .s4 {
+  transform: rotateY(261deg) translate3D(-50%, 0, 2.225em);
+}
+.base .cr-3 .s0 {
+  transform: rotateY(279deg) translate3D(-50%, 0, 2.225em);
+}
+.base .cr-3 .s1 {
+  transform: rotateY(297deg) translate3D(-50%, 0, 2.225em);
+}
+.base .cr-3 .s2 {
+  transform: rotateY(315deg) translate3D(-50%, 0, 2.225em);
+}
+.base .cr-3 .s3 {
+  transform: rotateY(333deg) translate3D(-50%, 0, 2.225em);
+}
+.base .cr-3 .s4 {
+  transform: rotateY(351deg) translate3D(-50%, 0, 2.225em);
+}
+.base .side {
+  width:0.7377299814604132em;
+}
+/* .cub-1 styles */
+.cub-1 {
+  transform:translate3D(-3.5em, -5em, 0em) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+  opacity:1;
+  width:2em;
+  height:8em;
+  margin:-4em 0 0 -1em;
+}
+.cub-1 .ft {
+  transform:translateZ(1.5em);
+}
+.cub-1 .bk {
+  transform:translateZ(-1.5em) rotateY(180deg);
+}
+.cub-1 .rt, .cub-1 .lt {
+  width:3em;
+  height:8em;
+}
+.cub-1 .tp, .cub-1 .bm {
+  width:2em;
+  height:3em;
+}
+.cub-1 .face {
+  background-color:#545454;
+}
+/* .cub-2 styles */
+.cub-2 {
+  transform:translate3D(3.5em, -5em, 0em) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+  opacity:1;
+  width:2em;
+  height:8em;
+  margin:-4em 0 0 -1em;
+}
+.cub-2 .ft {
+  transform:translateZ(1.5em);
+}
+.cub-2 .bk {
+  transform:translateZ(-1.5em) rotateY(180deg);
+}
+.cub-2 .rt, .cub-2 .lt {
+  width:3em;
+  height:8em;
+}
+.cub-2 .tp, .cub-2 .bm {
+  width:2em;
+  height:3em;
+}
+.cub-2 .face {
+  background-color:#545454;
+}
+/* .pivot styles */
+.pivot {
+  transform:translate3D(0em, -7.5em, 0em) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+  opacity:1;
+  width:5.5em;
+  height:9em;
+  margin:-4.5em 0 0 -2.75em;
+  -webkit-transition:0.25s;
+  transition:0.25s;
+  
+}
+.pivot .ft {
+  transform:translateZ(3em);
+}
+.pivot .bk {
+  transform:translateZ(-3em) rotateY(180deg);
+}
+.pivot .rt, .pivot .lt {
+  width:6em;
+  height:9em;
+}
+.pivot .tp, .pivot .bm {
+  width:5.5em;
+  height:6em;
+}
+.pivot .face {
+  background-color:#424242;
+}
+.pivot .ft {
+  width:0em;
+  margin-left:2.75em;
+}
+.pivot .bk {
+  width:0em;
+  margin-left:-2.75em;
+}
+.pivot .rt, .pivot .lt {
+  width:0.5em;
+}
+.pivot .tp, .pivot .bm, .pivot .tp .photon-shader, .pivot .bm .photon-shader {
+  border-radius:2.75em;
+}
+.pivot .cr {
+  width:2.75em;
+  left:1.375em;
+}
+.pivot .cr-0 {
+  transform: translate3D(0em, 0, 0.25em);
+}
+.pivot .cr-1 {
+  transform: translate3D(0em, 0, -0.25em);
+}
+.pivot .cr-2 {
+  transform: translate3D(0, 0, -0.25em);
+}
+.pivot .cr-3 {
+  transform: translate3D(0, 0, 0.25em);
+}
+.pivot .cr-0 .s0 {
+  transform: rotateY(9deg) translate3D(-50%, 0, 2.725em);
+}
+.pivot .cr-0 .s1 {
+  transform: rotateY(27deg) translate3D(-50%, 0, 2.725em);
+}
+.pivot .cr-0 .s2 {
+  transform: rotateY(45deg) translate3D(-50%, 0, 2.725em);
+}
+.pivot .cr-0 .s3 {
+  transform: rotateY(63deg) translate3D(-50%, 0, 2.725em);
+}
+.pivot .cr-0 .s4 {
+  transform: rotateY(81deg) translate3D(-50%, 0, 2.725em);
+}
+.pivot .cr-1 .s0 {
+  transform: rotateY(99deg) translate3D(-50%, 0, 2.725em);
+}
+.pivot .cr-1 .s1 {
+  transform: rotateY(117deg) translate3D(-50%, 0, 2.725em);
+}
+.pivot .cr-1 .s2 {
+  transform: rotateY(135deg) translate3D(-50%, 0, 2.725em);
+}
+.pivot .cr-1 .s3 {
+  transform: rotateY(153deg) translate3D(-50%, 0, 2.725em);
+}
+.pivot .cr-1 .s4 {
+  transform: rotateY(171deg) translate3D(-50%, 0, 2.725em);
+}
+.pivot .cr-2 .s0 {
+  transform: rotateY(189deg) translate3D(-50%, 0, 2.725em);
+}
+.pivot .cr-2 .s1 {
+  transform: rotateY(207deg) translate3D(-50%, 0, 2.725em);
+}
+.pivot .cr-2 .s2 {
+  transform: rotateY(225deg) translate3D(-50%, 0, 2.725em);
+}
+.pivot .cr-2 .s3 {
+  transform: rotateY(243deg) translate3D(-50%, 0, 2.725em);
+}
+.pivot .cr-2 .s4 {
+  transform: rotateY(261deg) translate3D(-50%, 0, 2.725em);
+}
+.pivot .cr-3 .s0 {
+  transform: rotateY(279deg) translate3D(-50%, 0, 2.725em);
+}
+.pivot .cr-3 .s1 {
+  transform: rotateY(297deg) translate3D(-50%, 0, 2.725em);
+}
+.pivot .cr-3 .s2 {
+  transform: rotateY(315deg) translate3D(-50%, 0, 2.725em);
+}
+.pivot .cr-3 .s3 {
+  transform: rotateY(333deg) translate3D(-50%, 0, 2.725em);
+}
+.pivot .cr-3 .s4 {
+  transform: rotateY(351deg) translate3D(-50%, 0, 2.725em);
+}
+.pivot .side {
+  width:0.8961144217849495em;
+}
+/* .light styles */
+.light {
+  transform:translate3D(0em, -4.5em, 0em) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+  opacity:1;
+  width:5em;
+  height:1em;
+  margin:-0.5em 0 0 -2.5em;
+}
+.light .tp, .light .bm {
+  width:5em;
+  height:5em;
+}
+.light .side {
+  width:1.1662173719507496em;
+  height:1em;
+}
+.light .s0 {
+  transform: rotateY(12.857142857142858deg) translate3D(-50%, 0, 2.475em);
+}
+.light .s1 {
+  transform: rotateY(38.57142857142857deg) translate3D(-50%, 0, 2.475em);
+}
+.light .s2 {
+  transform: rotateY(64.28571428571429deg) translate3D(-50%, 0, 2.475em);
+}
+.light .s3 {
+  transform: rotateY(90deg) translate3D(-50%, 0, 2.475em);
+}
+.light .s4 {
+  transform: rotateY(115.71428571428572deg) translate3D(-50%, 0, 2.475em);
+}
+.light .s5 {
+  transform: rotateY(141.42857142857144deg) translate3D(-50%, 0, 2.475em);
+}
+.light .s6 {
+  transform: rotateY(167.14285714285714deg) translate3D(-50%, 0, 2.475em);
+}
+.light .s7 {
+  transform: rotateY(192.85714285714286deg) translate3D(-50%, 0, 2.475em);
+}
+.light .s8 {
+  transform: rotateY(218.57142857142858deg) translate3D(-50%, 0, 2.475em);
+}
+.light .s9 {
+  transform: rotateY(244.2857142857143deg) translate3D(-50%, 0, 2.475em);
+}
+.light .s10 {
+  transform: rotateY(270deg) translate3D(-50%, 0, 2.475em);
+}
+.light .s11 {
+  transform: rotateY(295.7142857142857deg) translate3D(-50%, 0, 2.475em);
+}
+.light .s12 {
+  transform: rotateY(321.4285714285714deg) translate3D(-50%, 0, 2.475em);
+}
+.light .s13 {
+  transform: rotateY(347.1428571428571deg) translate3D(-50%, 0, 2.475em);
+}
+.light .face, .light .side {
+  background-color:var(--color_light);
+}

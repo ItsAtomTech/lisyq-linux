@@ -1,0 +1,725 @@
+.template_player_main{
+	width:100%;
+	
+	min-height:100px;
+	/* border:solid red 2px; */
+	position:absolute;
+	top:0;
+	bottom:0;
+	left:0;
+	right:0;
+	/* padding-top:20px; */
+	display:flex;
+
+	
+}
+
+
+.v_con_1, .v_con_2{
+	width:50%;
+	height:100%;
+	border:solid 1px white;
+	padding:5px;
+	padding-top:25px;
+	position:relative;
+	overflow-y:auto;
+	padding-bottom:10px;
+	
+}
+
+
+
+.v_con_1{
+	width:40%;
+	border:solid 2px rgba(20,20,20,1);
+	padding-right:8px;
+	display:flex;
+	flex-direction:column;
+	
+}
+
+.v_con_2{
+	width:60%;
+	border:solid 2px rgba(65,56,56,1);
+	border-radius:10px 0 0 10px;
+	padding-left:20px;
+	display:flex;
+	flex-direction:column;
+}
+
+
+
+.v_slide_bar{
+	width:20px;
+	background-color:rgba(50,50,50,1);
+	height:100%;
+	position:absolute;
+	z-index:3;
+	cursor:col-resize;
+	display:flex;
+	align-items:center;
+	justify-content:center;
+	font-weight:bold;
+	user-select:none;
+	left:40%;
+	-webkit-transition:background 0.2s;
+	
+	
+}
+
+.v_slide_bar:hover{
+	background-color:rgba(100,100,100,1);
+	z-index:4;
+	
+	
+}
+
+
+/* Template Contianer */
+
+
+.template_container_main{
+	position:relative;
+	width:100%;
+	min-height:250px;
+	/* border:solid red 1px; */
+	border-radius:15px;
+	box-shadow:0px 0px 2px 2px rgba(10,10,10,0.5) inset;
+	height:100%;
+	overflow-y:auto;
+	
+}
+
+
+.search_bar, .action_bar{
+	width:100%;
+	min-height:30px;
+	padding:3px;
+	
+	
+}
+
+.search_input{
+	
+	box-shadow:0px 0px 2px 2px rgba(10,10,10,0.5) inset;
+	width:100%;
+	border:none;
+	height:100%;
+	border-radius:4px;
+	outline:none;
+	padding-left:10px;
+}
+
+
+
+
+
+/* Trigers Container */
+
+.triggers_con{
+	position:relative;
+	width:100%;
+	min-height:250px;
+	/* border:solid red 1px; */
+	border-radius:5px;
+	box-shadow:0px 0px 2px 2px rgba(10,10,10,0.5) inset;
+	height:100%;
+	overflow-y:auto;
+	padding:5px;
+
+}
+
+.trigger_con{
+	width:100%;
+	min-height:100px;
+	display:flex;
+	
+	border:solid gray 1px;
+	
+	
+}
+
+
+.options_live_open_button{
+	width:20px;
+	height:20px;
+	position:absolute;
+	top:2px;
+	left:2px;
+	/* border:solid red 1px; */
+	background-image:url(../images/config.webp);
+	background-size:100% auto;
+	background-repeat:no-repeat;
+	cursor:pointer;
+	opacity:0.7;
+	user-select:none;
+}
+
+
+.channels_live_open_button{
+	width:20px;
+	height:20px;
+	position:absolute;
+	top:0px;
+	right:25px;
+	/* border:solid red 1px; */
+	background-image:url(../images/channels.webp);
+	background-size:100% auto;
+	background-repeat:no-repeat;
+	cursor:pointer;
+	opacity:0.7;
+	user-select:none;
+}
+
+
+.options_live_open_button:hover, .channels_live_open_button:hover{
+	opacity:1;
+	-webkit-transform:scale(1.2,1.2);
+	transform:scale(1.2,1.2);
+}
+.options_live_open_button:active, .channels_live_open_button:active{
+	opacity:0.5;
+	-webkit-transform:scale(1,1);
+	transform:scale(1,1);
+}
+
+
+
+
+.trigger_option, .trigger_details, .trigger_actions{
+	border:solid gray 1px;
+	border-top:none;
+	border-bottom:none;
+	display:flex;
+	justify-content:center;
+	align-items:center;
+	
+	
+}
+
+
+.trigger_option{
+	width:30%;
+	flex-direction:column;
+	position:relative;
+}
+
+
+
+
+.trigger_details{
+	width:45%;
+	padding:2px;
+	
+}
+
+.trigger_actions{
+	width:25%;
+	flex-direction:column;
+	
+	
+}
+
+
+
+
+.template_details{
+	width:100%;
+	height:100%;
+	border:solid white 1px;
+	font-size:0.8em;
+	padding:2px;
+	user-select:none;
+	border-radius:2px;
+	
+	
+}
+
+.template_details > *{
+	
+	display:block;
+	margin:3px;
+	word-break:break-all;
+	background:rgba(0,0,0,0.2);
+	padding:2px;
+	
+	
+}
+
+
+.option_input{
+	display:flex;
+	font-size:0.7em;
+	padding-top:5px;
+	user-select:none;
+	
+	
+	
+}
+
+
+.seamless_input{
+	width:55%;
+	background:none;
+	outline:none;
+	border:none;
+	
+}
+
+.seamless_input:focus{
+	border-bottom:solid white 2px;
+	
+	
+}
+
+
+
+.seamless_label{
+	width:45%;
+	
+	
+	
+}
+
+
+.hot_key_option{
+	cursor:pointer;
+	padding:5px;
+	
+	
+}
+
+
+.play_stop{
+	padding:5px;
+	border:solid gray 1px;
+	cursor:pointer;
+	
+	
+	
+}
+
+.current_playing{
+	background-color:rgba(100,100,100,0.5);
+	opacity:1 !important;
+	
+	
+}
+
+
+.info_strip{
+	background:none;
+	display:flex;
+	
+	
+}
+
+.data_icon{
+	width:17px;
+	height:17px;
+	border:solid rgba(0,0,0,0) 1px;
+	display:inline-block;
+	background-size:100% 100%;
+	background-repeat:no-repeat;
+	background-position:center;
+	
+	
+}
+
+
+.data_icon_hotkey{
+	display:flex;
+	font-size:0.7em;
+	min-width:20px;
+	min-height:15px;
+	padding:3px;
+	padding-bottom:4px;
+	display:none;
+	
+}
+
+
+.simple_options_pane{
+	background:none;
+	min-height:15px;
+	position:relative;
+	
+}
+.simple_options_pane > .options_live_open_button{
+	top:0;
+	right:0;
+	left:initial;
+	display:none;
+}
+
+.simple_options_pane > .channels_live_open_button{
+
+	display:none;
+}
+
+
+
+/* Icon classess */
+.toggle_icon{
+	background-image:url(../images/toggle.png);
+}
+
+.press_icon{
+	background-image:url(../images/press.png);
+}
+
+
+.play_normal{
+	background-image:url(../images/playmode_normal.png);
+}
+.play_reverse{
+	background-image:url(../images/playmode_stop_reverse.png);
+}
+
+
+
+.repeate_once{
+	background-image:url(../images/repeat_once.png);
+}
+.play_alternate{
+	background-image:url(../images/repeat_alternate.png);
+}
+
+.play_tostart{
+	background-image:url(../images/repeat_tostart.png);
+}
+
+
+
+
+/* ======================= */
+/* Simple View Styles */
+/* ======================= */
+
+.simple > .current_playing{
+	background-color:rgba(100,100,100,0.7);
+	border:dashed gray 1px !important;
+	
+	
+}
+
+.simple > .trigger_con{
+	
+	display:inline-block;
+	max-width:50%;
+	border:dashed rgba(0,0,0,0) 1px ;
+	padding:2px;
+	opacity:0.8;
+	
+}
+
+.simple > .trigger_con > .trigger_option{
+	
+	display:none;
+	
+}
+
+.simple > .trigger_con > .trigger_actions{
+	
+	display:none;
+	
+}
+
+.simple > .trigger_con > .trigger_details{
+	
+	width:100%;
+	min-height:90px;
+	padding:3px;
+	border-radius:5px;
+}
+
+
+.simple > .trigger_con > .trigger_details > .template_details > .simple_options_pane > .options_live_open_button{
+	display:block;
+	
+	
+	
+}
+.simple > .trigger_con > .trigger_details > .template_details > .simple_options_pane > .channels_live_open_button{
+	display:block;
+	
+	
+	
+}
+
+.simple > .trigger_con > .trigger_details > .template_details > .info_strip > .data_icon_hotkey{
+	display:flex;
+	
+	
+	
+}
+
+.simple > .trigger_con > .trigger_details > .template_details{
+	
+	width:100%;
+	min-height:90px;
+	padding:3px;
+	border-radius:5px;
+	cursor:pointer;
+}
+
+
+
+
+
+/* Extra */
+
+
+
+.activate_button{
+	width:100%;
+	max-width:80px;
+	border:solid gray 2px;
+	border-radius:4px;
+	margin-left:3px;
+	font-family:Comfortaa;
+	text-align:left;
+	padding-left:5px;
+	cursor:pointer;
+	min-height:27px;
+	display:flex;
+	align-items:center;
+	user-select:none;
+}
+
+.active_button_icon{
+	width:100%;
+	max-width:30px;
+	display:inline-block;
+	background-image:url(../images/plug-out.png);
+	background-size:100% auto;
+	min-height:27px;
+	
+}
+
+
+.flexed{
+	display:flex;
+	
+	
+}
+
+.tog_active{
+	color:rgba(250,0,20,1);
+	background:rgba(200,0,0,0.2);
+	
+}
+
+
+.tog_active > .active_button_icon{
+	background-image:url(../images/plug-in.png);
+	
+	
+}
+
+
+.actions{
+	margin-left:5px;
+	min-width:35px;
+	text-align:center; 
+	border-right:solid gray 2px;
+	padding-right:5px;
+	user-select:none;
+	font-family:Comfortaa;
+	
+	
+	
+}
+
+.name_live_templ{
+	width:100%;
+	max-width:200px;
+	border-bottom:1px dashed gray;
+	padding-left:5px;
+	
+}
+
+.auto_width{
+	width:auto !important;
+	padding-left:10px;
+	padding-right:10px;
+	
+}
+
+/* Load Record Dia. */
+
+
+.live_player_load_main{
+	width:100%;
+	min-height:200px;
+	padding:10px;
+	
+}
+
+.live_player_load_main > .title_label{
+	width:100%;
+	min-height:30px;
+	/* border:solid red 1px; */
+	font-weight:bold;
+
+}
+
+.live_player_load_main > .saved_tabs_con{
+	width:100%;
+	min-height:180px;
+	/* border:solid red 1px; */
+	/* font-weight:bold; */
+	box-shadow: 0px 0px 2px 2px rgba(10,10,10,0.5) inset;
+	max-height:200px;
+	overflow-y:auto;
+
+}
+
+
+.saved_tabs_con  > .saved_tab{
+	width:100%;
+	min-height:35px;
+	/* border:solid red 1px; */
+	font-weight:bold;
+	background:rgba(0,0,0,0.5);
+	
+	display:flex;
+	align-items:center;
+	justify-content:flex-start;
+	border-bottom:dashed 1px gray;
+	position:relative;
+	padding-right:100px;
+	/* padding:3px; */
+}
+
+.saved_name{
+	padding:5px;
+	
+	
+}
+
+.saved_actions{
+	/* padding:10px; */
+	min-height:30px;
+	min-width:100px;
+	max-width:100px;
+	/* border:solid lime 1px; */
+	position:absolute;
+	
+	right:3px;
+	display:flex;
+	align-items:center;
+	justify-content:center;
+	user-select:none;
+	
+	
+}
+
+.button_xz{
+	padding:4px;
+	border:solid gray 1px;
+	width:45px;
+	cursor:pointer;
+	border-radius:2px;
+}
+
+
+
+
+
+
+/* ================== */
+/* Player Tabs Options */
+/* ================== */
+.tab_player_options_main{
+	padding:5px;
+	width:100%;
+	
+	
+}
+
+.tab_player_options_main > .title_label{
+	width:100%;
+	min-height:30px;
+	/* border:solid red 1px; */
+	font-weight:bold;
+	
+
+}
+
+
+.option_items_con{
+	width:100%;
+	/* border:solid red 1px; */
+	min-height:40px;
+	border-bottom:1px dashed gray;
+	margin-bottom:5px;
+	padding-left:10px;
+}
+
+.option_items_con > .items_header{
+	
+	position:relative;
+	left:-10px;
+	
+}
+
+.option_items_con > .plane_input{
+	
+	min-height:30px !important;
+	border:solid rgba(200,200,200,0.2) 2px ;
+	cursor:pointer;
+	margin:2px;
+	border-radius:2px;
+	min-width:60px;
+}
+.option_items_con > label{
+	min-width:80px;
+	display:inline-block;
+	font-size:0.8em;
+}
+
+.option_items_con > .plane_input:focus{
+	
+	outline:solid white 1px;
+}
+
+
+.layout_view{
+	
+	background-image:url(../images/layout.png);
+	background-size:auto 100%;
+	background-position:center;
+	
+}
+
+
+
+.layout_full_view{
+	background-image:url(../images/full_screen.png);
+	background-size:auto 80%;
+	background-position:center;
+	background-repeat:no-repeat;
+	
+}
+
+
+
+.full_view_live{
+	position:fixed;
+	top:0;
+	bottom:0;
+	left:0;
+	right:0;
+	z-index:51;
+	width:100% !important;
+	
+	
+	
+}
+
+
+
+
+
+

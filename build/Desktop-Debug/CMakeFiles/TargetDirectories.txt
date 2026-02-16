@@ -1,0 +1,10 @@
+/home/itsatompc/QTApps/QTApp/build/Desktop-Debug/CMakeFiles/QTApp.dir
+/home/itsatompc/QTApps/QTApp/build/Desktop-Debug/CMakeFiles/QTApp_qmlimportscan.dir
+/home/itsatompc/QTApps/QTApp/build/Desktop-Debug/CMakeFiles/edit_cache.dir
+/home/itsatompc/QTApps/QTApp/build/Desktop-Debug/CMakeFiles/rebuild_cache.dir
+/home/itsatompc/QTApps/QTApp/build/Desktop-Debug/CMakeFiles/list_install_components.dir
+/home/itsatompc/QTApps/QTApp/build/Desktop-Debug/CMakeFiles/install.dir
+/home/itsatompc/QTApps/QTApp/build/Desktop-Debug/CMakeFiles/install/local.dir
+/home/itsatompc/QTApps/QTApp/build/Desktop-Debug/CMakeFiles/install/strip.dir
+/home/itsatompc/QTApps/QTApp/build/Desktop-Debug/CMakeFiles/QTApp_autogen_timestamp_deps.dir
+/home/itsatompc/QTApps/QTApp/build/Desktop-Debug/CMakeFiles/QTApp_autogen.dir

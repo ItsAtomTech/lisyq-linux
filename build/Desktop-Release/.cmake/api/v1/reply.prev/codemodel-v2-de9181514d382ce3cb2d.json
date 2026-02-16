@@ -1,0 +1,88 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Release-f2f9162ab46dde9ca46f.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3
+					]
+				}
+			],
+			"name" : "Release",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "QTApp",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "QTApp::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-QTApp-Release-c8e8bbb81923134e1dcf.json",
+					"name" : "QTApp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "QTApp_autogen::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-QTApp_autogen-Release-e449de684828e8420dbe.json",
+					"name" : "QTApp_autogen",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "QTApp_autogen_timestamp_deps::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-QTApp_autogen_timestamp_deps-Release-6a3816b753945bab55fb.json",
+					"name" : "QTApp_autogen_timestamp_deps",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "QTApp_qmlimportscan::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-QTApp_qmlimportscan-Release-bf5dd6209287a40d2863.json",
+					"name" : "QTApp_qmlimportscan",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/itsatompc/QTApps/QTApp/build/Desktop-Release",
+		"source" : "/home/itsatompc/QTApps/QTApp"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 7
+	}
+}

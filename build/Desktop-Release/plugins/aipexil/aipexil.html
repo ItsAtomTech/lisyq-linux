@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html> 
+<head> 
+<title>Plugin - Aipexil </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, user-scalable=0">
+	<!-- <link rel="stylesheet" href="font-awesome/css/solid.min.css"> -->
+	<!-- <link rel="stylesheet" href="font-awesome/css/fontawesome.min.css"> -->
+	<link rel="stylesheet" href="css/aipexil_plugin.css">
+	<link rel="stylesheet" id="color" href="css/coloring.css">
+	<!-- <link rel="icon" type="image/png" href="images/favicon.ico"/> -->
+ </head>
+ <body class='primary_color'>
+ 
+	 <div class="plugin_con">
+		<div class="aipexil_plugin_main">
+				<div class="close_button_amb" onclick="sendTo('stop_media_prev');sendTo('close_plugin','')"> &times; </div>
+		
+		
+		<div class="header_timeline_con">
+		
+			<div class="backdrop_image_con" >
+			</div>
+			<div class="backdrop_amb_con" >
+			</div>
+			
+			<div class="backdrop_banner" >
+				<img src="images/ai_banner.png" class="display_banner">
+			
+			</div>
+			
+			
+			
+			
+			<!-- Mini Timeline  -->
+					
+						
+				<div class="panel_con nice_scrool" id="scroll_manner">
+				
+					<div class="keyframe_con" id="keyframe_container" onmousedown="click_on_time_con(this)">
+						<div class="line_key_time" id="line_key_time" onmousedown="click_on_time_bar(this)"  onmousemove="show_time(this);"  onmouseleave="empty_display();">
+							
+						</div>
+						<div class="preview_head" id="preview_head"> </div>
+						
+					</div>
+				
+				
+				</div>
+			
+			
+			<!-- Mini Timeline End  -->
+		
+		
+		</div>
+		
+		
+		<hr class="line2">
+		
+			<div class="number_picker">
+				<span> Length: </span><input type="number" max="60" min="0.1"id="seconds_len" step="0.1" value="1" onchange="change_secs_sacle(this.value)"/> <span>Secs.</span>
+			</div>
+			
+		<div class="effect_selection_con "> 
+			
+			<div class="type_selection_con aibg">
+				
+				
+				<select  value="pallet" class="selection_view primary_color secondary_background" id="type_selector" oninput="generate_type_inputs(this.value)">
+					<option value="premade" > Pre-made effects</option>
+				</select>
+				
+	
+				
+				
+			<div class="panel_con">
+				
+				<div class="key_frame_details" > <input type="text" class="input_name" value="Unnamed Aipexil" id="template_name"/> </div>
+				
+			
+			</div>	
+			<div class="panel_con">
+				
+				<div class="pn_c_p"> <input type="color" id="panel_color">  </div><span class="small_det"> Template Color</span>
+				
+			
+			</div>
+			
+			<div class="panel_con flexed">
+				
+				<div class="my_buttons" onclick="play_template()"> Preview </div>
+									
+				<div class="my_buttons st" onclick="stop_template()">Stop Preview </div>
+				
+				<div class="my_buttons st" onclick="pause_template()">Pause Preview </div>
+				
+			</div>
+				
+				
+			
+			</div>	
+			
+			<div class="type_options_con">
+				<div class="time_selector_con">
+					<input type="number" max="60" min="0" maxlength="5" step="0.1" id="s_start" class="seconds_select" value="0" placeholder="Start"  />
+							 | 
+							<input type="number" max="60" min="0" id="s_end" step="0.1" class="seconds_select" value="0.5" maxlength = "5" placeholder="End" /> | 
+							
+							<label> Duration: </label><input type="number" max="60" min="0" id="duration_" step="0.1" class="seconds_select" value="1" maxlength = "5" placeholder="Duration" />
+							
+							<button class="slick_button tiny" onclick="set_end_at(_('duration_').value)"> Calculate <br> Duration </button> 
+				
+				</div>
+				
+				<div class="effect_secl">
+
+						<select id="pre_efx_selector" class="selection_view primary_color secondary_background" oninput="generate_premade_inputs(this.value)" value="pallet">
+							<option value="pallet" > Pallete Run</option>
+							<option value="fire"> Fire Fx</option>
+							<option value="ocean"> Ocean (Pacifica)</option>
+						</select>
+						
+				</div>
+				
+				
+				
+				<div class="param_inputs" id="param_inputs"> </div>
+				
+					<div class="modal_panel">
+						
+						<div class="my_buttons" id="s_button"onclick="save_key()"> Add </div> 
+						<div class="my_buttons" id="r_button" onclick="remove_key()" style="display:none;"> Remove </div>
+						
+						<div class="my_buttons" id="copy_frame" style="display:none" onclick="copy_frame()"> Copy Keframe</div>
+						
+					</div>
+			
+			</div>
+		
+		
+		</div>
+	
+
+		<div class="panel_con">
+		
+		<!-- <div class="my_buttons"> Apply Changes </div> -->
+			<div class="my_buttons" onclick="generate_template()"> Save / Add </div>
+		
+			
+			<div class="seconds_select preview_container" id="preview_container" title="Preview">Preview pane </div>
+		
+		
+		</div>			
+						
+		
+		</div>
+	 
+	 </div>
+	 
+ 
+ 
+ </body>
+ 
+ 
+	<div class="context_menu primary_color primary_background" id="ct_menu" style='visibility:hidden;'>
+			
+			<div class='context_items small' title="Paste Copied keyframe" onclick="paste_key()"> Paste </div>
+	
+	</div>
+ 
+  
+ <!-- plugins js -->
+ 
+ <script src="js/generator.js"  ></script>
+ <script src="js/aipexil_interface.js"  ></script>
+ 
+ 
+
+ 
+ 
+ </html>
+ 

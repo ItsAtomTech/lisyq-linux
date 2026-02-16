@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html> 
+<head> 
+	<title>LiSyQ - DMX Configurator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, user-scalable=0">
+	<!-- <link rel="stylesheet" href="font-awesome/css/solid.min.css"> -->
+	<!-- <link rel="stylesheet" href="font-awesome/css/fontawesome.min.css"> -->
+		<link rel="stylesheet" href="../css/default.css">
+		<link rel="stylesheet" href="../css/dmxview.css">
+		<link rel="stylesheet" id="color" href="../css/coloring.css">
+		<link rel="stylesheet" href="../css/dailoge.css">
+		<link rel="stylesheet" href="../css/bottom_bar.css">
+		<link rel="stylesheet" href="../css/template_player.css">
+		<link rel="icon" type="image/png" href="../images/favicon.ico"/>
+	
+	<style id='dyna_scaler'>
+		:root {
+			--scale: 1;
+		}
+	</style>
+				
+</head>
+
+<body>
+
+
+  <div class="main_container_dx">
+	  <div class="container_box">
+	  
+	  <!-- Title Section and Close -->
+		<div class="title_bar_section">
+		  <span class="title_text big">Port Channel Manager</span>
+		  <span onclick="closeConfigurator();" class="close_button big">&times;</span>
+		</div>
+	  
+	  
+	  <div class="action_bar flexed">
+		
+		<div class="button_box actions small grad_dark_button auto_width" onclick="CONFIG_WRITER.syncConfig()" title=""> &#8644; Sync  </div>
+		
+		<div class="button_box actions small grad_dark_button auto_width" onclick="CHANNEL_CONF.resetAsNew()" title=""> &star; New  </div>
+		
+		<div class="button_box actions small grad_dark_button auto_width" onclick="CHANNEL_CONF.addToSaves();" title=""> &#128190; Save  </div>
+		
+		<div class="button_box actions small grad_dark_button auto_width" onclick="showLoadList();" title=""> &#128194; Load  </div>
+		
+		<span class="flexed center_separator">   </span>
+		
+		<div class="button_box actions small grad_dark_button hidden auto_width" onclick="" title="">    </div>	
+		
+		<div class="button_box actions small grad_dark_button auto_width" onclick="CHANNEL_CONF.importConfig();" title=""> Import  </div>
+		<div class="button_box actions small grad_dark_button auto_width" onclick="CHANNEL_CONF.exportConfig();" title=""> Export  </div>
+		
+		<span class="flexed center_separator"> </span>
+		
+		<input type="text" class="plane_input save_name_input primary_background primary_color" id="conf_save_name" placeholder="No name">
+		
+	  </div>
+	  
+	  
+	  <div class="configs_tab_section" id="configs_tab_section">
+			
+			
+			
+			
+	  </div>
+	  
+	  
+	  <div class="add_config button_box" onclick="CHANNEL_CONF.openConfigWindow();"> + </div>
+	  
+	  </div>
+  
+  </div>
+
+
+
+<div class="dialogue_con primary_color hidden" id="saves_loader">
+	<div class="dialogue_box primary_background"><span class="close_dia primary_color" onclick="showLoadList(true)">×</span>  
+	
+	<div class="live_player_load_main"> 
+	  <div class="title_label big">Load Local Saves </div> 
+		<div class="saved_tabs_con" id="saved_local_con">
+		
+
+		</div>
+	
+	</div> 
+	
+	</div>
+
+</div>
+
+
+
+
+
+<dialog id="configModal" class="modal_container">
+	<div class="title_bar_section primary_color">
+		  <span class="title_text big">Config Editor</span>
+		  <span class="close_button big" onclick="CHANNEL_CONF.closeModal()">×</span>
+	</div>
+	
+	<div class="input_method_con primary_color">
+		<label class="normal"> Port Channel: </label><input type="number" class="plane_input primary_background primary_color" id="conf_channel" placeholder="Channel Target" value="0" min="0">
+	</div>
+	
+	<div class="input_method_con" id="port_inputs">
+	  <div class="config_div">
+		  <select id="ctype" class="plane_input primary_background primary_color" tag="ctype"onchange="CHANNEL_CONF.change_type(this)">
+			  <option value="com"> COM Port </option>
+			  <option value="ip"> IP Address </option>
+		  </select>
+		  
+		  <input tag="ip_address" type="text" class="plane_input primary_background primary_color ip_input" id="ip_address" placeholder="Channel Target" value="192.168.0.0:22218" style="display:none;">
+		  
+		  <select class="plane_input primary_background primary_color" tag="comports" id="port_listing">
+			  <option value="COMXX"> COMXX </option>
+		  </select>
+		  
+					  
+		</div>
+	
+	</div>
+	
+	<!-- <div class="action_buttons_modal">  -->
+		<!-- <div class="button_box actions auto_width normal primary_color grad_dark_button" onclick="CHANNEL_CONF.addConfigEdit()" title=""> + Add </div> -->
+	<!-- </div> -->
+		
+	<div class="action_buttons_modal bottom"> 
+		<div class="button_box actions auto_width normal primary_color grad_dark_button" onclick="CHANNEL_CONF.save_ConfigEdits()" title=""> Okay </div>
+		<div class="button_box actions auto_width normal primary_color grad_dark_button" onclick="CHANNEL_CONF.closeModal();" title=""> Cancel </div>
+	</div>
+	
+	
+</dialog>
+
+
+
+  <script defer src="../js/dialogue.js"></script>
+  <script defer src="../js/unified.js"></script>
+  <script defer src="../js/comport_configurator.js"></script>
+
+</body>
+
+
+
+<template id="config_tab_template">
+
+		  <div class="dx_tab_container">
+			<div class="channel_text" tag="channel_config"> 0 </div>
+			
+			<div class="dmx_channel_con" onclick="CHANNEL_CONF.openForEdit(this)" tag="port_config"> 
+			</div>
+			
+			<div class="tabs_action"> <span  tag="remove_thistab" class="remove_tab button_box " onclick="CHANNEL_CONF.removeThistab(this)"> - </span> </div>
+		  </div>
+			  
+</template>
+
+<template id="configs_input_template">
+		<div class="config_div">
+			<select class="plane_input primary_background primary_color" tag="ctype" >
+				<option value="c"> Color </option>
+				<option value="p"> Position </option>
+				<option value="f"> Fader </option>
+				<option value="a"> Feature A </option>
+				<option value="b"> Feature B </option>
+				<option value="d"> Feature D </option>
+				<option value="e"> Feature E </option>
+				<option value="g"> Feature G </option>
+				<option value="h"> Feature H </option>
+				<option value="i"> Feature I </option>
+				<option value="j"> Feature J </option>
+				<option value="k"> Feature K </option>
+				<option value="h"> Feature H </option>
+			</select>
+			
+			<input tag="target" type="number" class="plane_input primary_background primary_color" id="conf_save_name" placeholder="Channel Target" value="1" min="1" max="512">
+			
+						
+			<div class="button_box normal primary_color grad_dark_button" onclick="CHANNEL_CONF.removeInputTabSelf(this)" title=""> - </div>
+		</div>
+</template>
+
+<template id="save_tab_template">
+		<div class="saved_tab">
+		  <div class="saved_name" tag="save_name"> No name </div>
+			<div class="saved_actions small" tag="index_refrence"> 
+				<div class="button_box button_xz" onclick="CHANNEL_CONF.loadConfig(this);"> Open </div>
+				<div class="button_box button_xz" onclick="CHANNEL_CONF.removeThisConfig(this);"> Remove </div>
+			</div>
+		</div>
+
+</template>
+
+
+</html>
