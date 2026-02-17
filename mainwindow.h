@@ -6,6 +6,10 @@
 class QWebEngineView;  // Forward declaration
 #include <QFileDialog>
 
+#include <QWebChannel>
+#include <QObject>
+
+
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
@@ -20,12 +24,28 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+
+    QString data_string; //temp store for the data
+
+    // ================
+    // File Management Vars Section
+    // ================
+    QString SavePath;
+    bool FromOpenFile;
+    bool asNew;
+
+
+
+    void Save_File();
+
 protected:
     void keyPressEvent(QKeyEvent *event);
 
 
 private slots:
     void on_actionOpen_triggered();
+    void on_actionSave_triggered();
+
 
 
 
@@ -36,12 +56,6 @@ private:
     QWebEngineView *webView;
 
 
-    // ================
-    // File Management Vars Section
-    // ================
-    QString SavePath;
-    bool FromOpenFile;
-    bool asNew;
 
 
     void openLSYSFile();
@@ -51,5 +65,15 @@ private:
     // File Management Section End
     // ================
 
+    // Bridge Inject
+    void injectWebChannelScript();
+    void initializeWebChannel();
+    void onReady();
+
+
 };
+
+
+
+
 #endif // MAINWINDOW_H

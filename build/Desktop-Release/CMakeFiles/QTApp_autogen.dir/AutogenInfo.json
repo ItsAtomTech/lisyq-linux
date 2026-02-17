@@ -1238,6 +1238,12 @@
 	"HEADERS" : 
 	[
 		[
+			"/home/itsatompc/QTApps/QTApp/Bridge.h",
+			"MU",
+			"EWIEGA46WW/moc_Bridge.cpp",
+			null
+		],
+		[
 			"/home/itsatompc/QTApps/QTApp/mainwindow.h",
 			"MU",
 			"EWIEGA46WW/moc_mainwindow.cpp",
