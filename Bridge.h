@@ -23,6 +23,19 @@ public slots:
 
     void onReady(){}
 
+    // ================================
+    // New PORT Channel Management
+    // ================================
+
+    bool add_comport(int index, const QString &portname);
+    bool add_udpchannel(int index, const QString &address, int port);
+    QString get_udplist_json();
+    void disconnect_udp(int index);
+    QString get_comlist();
+    QString get_comports();
+    void disconnect_com(int index);
+
+
 private:
     MainWindow *mainWindow; // pointer to the MainWindow instance
 };

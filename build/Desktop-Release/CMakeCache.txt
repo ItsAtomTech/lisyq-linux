@@ -421,6 +421,9 @@ Qt6QuickWidgets_DIR:PATH=/home/itsatompc/Qt/6.10.2/gcc_64/lib/cmake/Qt6QuickWidg
 //The directory containing a CMake configuration file for Qt6Quick.
 Qt6Quick_DIR:PATH=/home/itsatompc/Qt/6.10.2/gcc_64/lib/cmake/Qt6Quick
 
+//The directory containing a CMake configuration file for Qt6SerialPort.
+Qt6SerialPort_DIR:PATH=/home/itsatompc/Qt/6.10.2/gcc_64/lib/cmake/Qt6SerialPort
+
 //The directory containing a CMake configuration file for Qt6WebChannel.
 Qt6WebChannel_DIR:PATH=/home/itsatompc/Qt/6.10.2/gcc_64/lib/cmake/Qt6WebChannel
 
@@ -449,10 +452,10 @@ Vulkan_GLSLANG_VALIDATOR_EXECUTABLE:FILEPATH=Vulkan_GLSLANG_VALIDATOR_EXECUTABLE
 Vulkan_GLSLC_EXECUTABLE:FILEPATH=Vulkan_GLSLC_EXECUTABLE-NOTFOUND
 
 //Path to a file.
-Vulkan_INCLUDE_DIR:PATH=Vulkan_INCLUDE_DIR-NOTFOUND
+Vulkan_INCLUDE_DIR:PATH=/usr/include
 
 //Path to a library.
-Vulkan_LIBRARY:FILEPATH=Vulkan_LIBRARY-NOTFOUND
+Vulkan_LIBRARY:FILEPATH=/usr/lib/x86_64-linux-gnu/libvulkan.so
 
 
 ########################
@@ -1114,6 +1117,8 @@ QT_FEATURE_networklistmanager:INTERNAL=OFF
 QT_FEATURE_networkproxy:INTERNAL=ON
 //Qt feature: no_direct_extern_access (from target Qt6::Core)
 QT_FEATURE_no_direct_extern_access:INTERNAL=OFF
+//Qt feature: ntddmodm (from target Qt6::SerialPort)
+QT_FEATURE_ntddmodm:INTERNAL=OFF
 //Qt feature: ocsp (from target Qt6::Network)
 QT_FEATURE_ocsp:INTERNAL=ON
 //Qt feature: opengl (from target Qt6::Gui)

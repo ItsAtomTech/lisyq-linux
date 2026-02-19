@@ -1,4 +1,5 @@
 #include "Bridge.h"
+#include "PortManager.h"
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 #include <QPushButton>
@@ -23,6 +24,8 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    portManager = new PortManager(this);
 
     // Create right-side buttons
     QWidget *rightWidget = new QWidget(this);
@@ -191,6 +194,14 @@ void MainWindow::on_actionSave_triggered(){
     webView->page()->runJavaScript("save_to_file();");
 }
 
+void MainWindow::on_actionPort_Configuration_triggered(){
+    webView->page()->runJavaScript("openPortConfig();");
+}
+
+void MainWindow::on_actionDMX_Config_Patcher_triggered(){
+    webView->page()->runJavaScript("openDMXConfig();");
+}
+
 void MainWindow::onReady(){
     //---
 }
@@ -228,6 +239,7 @@ bool Bridge::AsNewTrigger(){
         return true;
     }
 
+    return false;
 
 }
 
@@ -326,3 +338,96 @@ void MainWindow::openLSYSFile()
     FromOpenFile = false;
     asNew = false;
 }
+
+
+// ================================
+// PORT Channel Management
+// ================================
+
+
+
+void MainWindow::addComPort(int index, const QString &portname)
+{
+    portManager->addSerialPort(index, portname);
+}
+
+void MainWindow::removeComPort(int index)
+{
+    portManager->removeSerialPort(index, true);
+}
+
+void MainWindow::addUdpChannel(int index, const QString &address, int port)
+{
+    portManager->addUdpChannel(index, address, port);
+}
+
+void MainWindow::removeUdpChannel(int index)
+{
+    portManager->removeUdpChannel(index);
+}
+
+QString MainWindow::getSystemComPortsJson()
+{
+    return portManager->getSystemPortsJson();
+}
+
+QString MainWindow::getManagedPortsJson()
+{
+    return portManager->getManagedPortsJson();
+}
+
+QString MainWindow::getUdpListJson()
+{
+    return portManager->getUdpListJson();
+}
+
+
+
+
+
+
+bool Bridge::add_comport(int index, const QString &portname)
+{
+    if (!mainWindow) return false;
+    mainWindow->addComPort(index, portname);
+    return true;
+}
+
+bool Bridge::add_udpchannel(int index, const QString &address, int port)
+{
+    if (!mainWindow) return false;
+    mainWindow->addUdpChannel(index, address, port);
+    return true;
+}
+
+QString Bridge::get_udplist_json()
+{
+    if (!mainWindow) return "{}";
+    return mainWindow->getUdpListJson();
+}
+
+void Bridge::disconnect_udp(int index)
+{
+    if (!mainWindow) return;
+    mainWindow->removeUdpChannel(index);
+}
+
+QString Bridge::get_comlist()
+{
+    if (!mainWindow) return "{}";
+    return mainWindow->getSystemComPortsJson();
+}
+
+QString Bridge::get_comports()
+{
+    if (!mainWindow) return "{}";
+    return mainWindow->getManagedPortsJson();
+}
+
+void Bridge::disconnect_com(int index)
+{
+    if (!mainWindow) return;
+    mainWindow->removeComPort(index);
+}
+
+

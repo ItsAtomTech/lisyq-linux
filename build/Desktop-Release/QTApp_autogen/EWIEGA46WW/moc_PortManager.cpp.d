@@ -1,16 +1,10 @@
-/home/itsatompc/QTApps/QTApp/build/Desktop-Release/QTApp_autogen/EWIEGA46WW/moc_mainwindow.cpp: /home/itsatompc/QTApps/QTApp/mainwindow.h \
+/home/itsatompc/QTApps/QTApp/build/Desktop-Release/QTApp_autogen/EWIEGA46WW/moc_PortManager.cpp: /home/itsatompc/QTApps/QTApp/PortManager.h \
   /home/itsatompc/QTApps/QTApp/build/Desktop-Release/QTApp_autogen/moc_predefs.h \
-  /home/itsatompc/QTApps/QTApp/PortManager.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/QJsonArray \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/QJsonDocument \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/QJsonObject \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/QJsonValue \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/QList \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/QMap \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/QObject \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/QRect \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/QSize \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/QSizeF \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/q17memory.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/q20functional.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/q20iterator.h \
@@ -19,7 +13,6 @@
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/q20utility.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/q23type_traits.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/q23utility.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qabstracteventdispatcher.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qalgorithms.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qalloc.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qanystringview.h \
@@ -30,7 +23,6 @@
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qatomic.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qatomic_cxx11.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qbasicatomic.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qbasictimer.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qbindingstorage.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qbytearray.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qbytearrayalgorithms.h \
@@ -40,7 +32,6 @@
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qcborcommon.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qcborvalue.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qchar.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qcheckedint_impl.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qcompare.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qcompare_impl.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qcomparehelpers.h \
@@ -51,22 +42,12 @@
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qcontainerinfo.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qcontainertools_impl.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qcontiguouscache.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qcoreapplication.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qcoreapplication_platform.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qcoreevent.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qdarwinhelpers.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qdatastream.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qdatetime.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qdeadlinetimer.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qdebug.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qdir.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qdirlisting.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qendian.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qeventloop.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qexceptionhandling.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qfile.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qfiledevice.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qfileinfo.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qflags.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qfloat16.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qforeach.h \
@@ -87,19 +68,16 @@
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qjsonparseerror.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qjsonvalue.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qlatin1stringview.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qline.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qlist.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qlocale.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qlogging.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qmalloc.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qmap.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qmargins.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qmath.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qmetacontainer.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qmetatype.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qminmax.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qnamespace.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qnativeinterface.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qnumeric.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qobject.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qobject_impl.h \
@@ -107,11 +85,9 @@
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qoverload.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qpair.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qpoint.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qprocessordetection.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qproperty.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qpropertyprivate.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qrect.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qrefcount.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qregularexpression.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qscopedpointer.h \
@@ -121,7 +97,6 @@
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qshareddata_impl.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qsharedpointer.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qsharedpointer_impl.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qsize.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qspan.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qstdlibdetection.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qstring.h \
@@ -149,7 +124,6 @@
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qtenvironmentvariables.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qtextstream.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qtformat_impl.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qtimezone.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qtmetamacros.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qtnoop.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qtpreprocessorsupport.h \
@@ -168,44 +142,6 @@
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qversiontagging.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qxptype_traits.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qyieldcpu.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/QKeyEvent \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/QTransform \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qaction.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qbitmap.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qbrush.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qcolor.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qcursor.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qevent.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qeventpoint.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qfont.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qfontinfo.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qfontmetrics.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qfontvariableaxis.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qguiapplication.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qguiapplication_platform.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qicon.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qimage.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qinputdevice.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qinputmethod.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qkeysequence.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qpaintdevice.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qpalette.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qpixelformat.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qpixmap.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qpointingdevice.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qpolygon.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qregion.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qrgb.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qrgba64.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qscreen.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qscreen_platform.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qtgui-config.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qtguiexports.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qtguiglobal.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qtransform.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qvector2d.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qvectornd.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qwindowdefs.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtNetwork/QUdpSocket \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtNetwork/qabstractsocket.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtNetwork/qhostaddress.h \
@@ -219,21 +155,6 @@
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtSerialPort/qserialportglobal.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtSerialPort/qserialportinfo.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtSerialPort/qtserialportexports.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtWebChannel/QWebChannel \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtWebChannel/qtwebchannelexports.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtWebChannel/qwebchannel.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtWebChannel/qwebchannelglobal.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtWidgets/QFileDialog \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtWidgets/QMainWindow \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtWidgets/qdialog.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtWidgets/qfiledialog.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtWidgets/qmainwindow.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtWidgets/qsizepolicy.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtWidgets/qtabwidget.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtWidgets/qtwidgets-config.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtWidgets/qtwidgetsexports.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtWidgets/qwidget.h \
   /usr/include/alloca.h \
   /usr/include/asm-generic/errno-base.h \
   /usr/include/asm-generic/errno.h \
@@ -251,14 +172,11 @@
   /usr/include/c++/13/bits/allocator.h \
   /usr/include/c++/13/bits/atomic_base.h \
   /usr/include/c++/13/bits/atomic_lockfree_defines.h \
-  /usr/include/c++/13/bits/basic_ios.h \
-  /usr/include/c++/13/bits/basic_ios.tcc \
   /usr/include/c++/13/bits/basic_string.h \
   /usr/include/c++/13/bits/basic_string.tcc \
   /usr/include/c++/13/bits/char_traits.h \
   /usr/include/c++/13/bits/charconv.h \
   /usr/include/c++/13/bits/chrono.h \
-  /usr/include/c++/13/bits/codecvt.h \
   /usr/include/c++/13/bits/concept_check.h \
   /usr/include/c++/13/bits/cpp_type_traits.h \
   /usr/include/c++/13/bits/cxxabi_forced.h \
@@ -268,10 +186,6 @@
   /usr/include/c++/13/bits/exception.h \
   /usr/include/c++/13/bits/exception_defines.h \
   /usr/include/c++/13/bits/exception_ptr.h \
-  /usr/include/c++/13/bits/fs_dir.h \
-  /usr/include/c++/13/bits/fs_fwd.h \
-  /usr/include/c++/13/bits/fs_ops.h \
-  /usr/include/c++/13/bits/fs_path.h \
   /usr/include/c++/13/bits/functexcept.h \
   /usr/include/c++/13/bits/functional_hash.h \
   /usr/include/c++/13/bits/hash_bytes.h \
@@ -279,15 +193,9 @@
   /usr/include/c++/13/bits/hashtable_policy.h \
   /usr/include/c++/13/bits/invoke.h \
   /usr/include/c++/13/bits/ios_base.h \
-  /usr/include/c++/13/bits/istream.tcc \
   /usr/include/c++/13/bits/list.tcc \
   /usr/include/c++/13/bits/locale_classes.h \
   /usr/include/c++/13/bits/locale_classes.tcc \
-  /usr/include/c++/13/bits/locale_conv.h \
-  /usr/include/c++/13/bits/locale_facets.h \
-  /usr/include/c++/13/bits/locale_facets.tcc \
-  /usr/include/c++/13/bits/locale_facets_nonio.h \
-  /usr/include/c++/13/bits/locale_facets_nonio.tcc \
   /usr/include/c++/13/bits/localefwd.h \
   /usr/include/c++/13/bits/memory_resource.h \
   /usr/include/c++/13/bits/memoryfwd.h \
@@ -295,13 +203,11 @@
   /usr/include/c++/13/bits/nested_exception.h \
   /usr/include/c++/13/bits/new_allocator.h \
   /usr/include/c++/13/bits/node_handle.h \
-  /usr/include/c++/13/bits/ostream.tcc \
   /usr/include/c++/13/bits/ostream_insert.h \
   /usr/include/c++/13/bits/parse_numbers.h \
   /usr/include/c++/13/bits/postypes.h \
   /usr/include/c++/13/bits/predefined_ops.h \
   /usr/include/c++/13/bits/ptr_traits.h \
-  /usr/include/c++/13/bits/quoted_string.h \
   /usr/include/c++/13/bits/range_access.h \
   /usr/include/c++/13/bits/refwrap.h \
   /usr/include/c++/13/bits/requires_hosted.h \
@@ -309,7 +215,6 @@
   /usr/include/c++/13/bits/shared_ptr_atomic.h \
   /usr/include/c++/13/bits/shared_ptr_base.h \
   /usr/include/c++/13/bits/specfun.h \
-  /usr/include/c++/13/bits/sstream.tcc \
   /usr/include/c++/13/bits/std_abs.h \
   /usr/include/c++/13/bits/std_function.h \
   /usr/include/c++/13/bits/stl_algo.h \
@@ -354,7 +259,6 @@
   /usr/include/c++/13/climits \
   /usr/include/c++/13/clocale \
   /usr/include/c++/13/cmath \
-  /usr/include/c++/13/codecvt \
   /usr/include/c++/13/compare \
   /usr/include/c++/13/cstddef \
   /usr/include/c++/13/cstdint \
@@ -363,7 +267,6 @@
   /usr/include/c++/13/cstring \
   /usr/include/c++/13/ctime \
   /usr/include/c++/13/cwchar \
-  /usr/include/c++/13/cwctype \
   /usr/include/c++/13/debug/assertions.h \
   /usr/include/c++/13/debug/debug.h \
   /usr/include/c++/13/exception \
@@ -375,23 +278,17 @@
   /usr/include/c++/13/ext/numeric_traits.h \
   /usr/include/c++/13/ext/string_conversions.h \
   /usr/include/c++/13/ext/type_traits.h \
-  /usr/include/c++/13/filesystem \
   /usr/include/c++/13/functional \
   /usr/include/c++/13/initializer_list \
-  /usr/include/c++/13/iomanip \
-  /usr/include/c++/13/ios \
   /usr/include/c++/13/iosfwd \
-  /usr/include/c++/13/istream \
   /usr/include/c++/13/iterator \
   /usr/include/c++/13/limits \
   /usr/include/c++/13/list \
-  /usr/include/c++/13/locale \
   /usr/include/c++/13/map \
   /usr/include/c++/13/memory \
   /usr/include/c++/13/new \
   /usr/include/c++/13/numeric \
   /usr/include/c++/13/optional \
-  /usr/include/c++/13/ostream \
   /usr/include/c++/13/pstl/execution_defs.h \
   /usr/include/c++/13/pstl/glue_algorithm_defs.h \
   /usr/include/c++/13/pstl/glue_memory_defs.h \
@@ -399,7 +296,6 @@
   /usr/include/c++/13/pstl/pstl_config.h \
   /usr/include/c++/13/ratio \
   /usr/include/c++/13/set \
-  /usr/include/c++/13/sstream \
   /usr/include/c++/13/stdexcept \
   /usr/include/c++/13/streambuf \
   /usr/include/c++/13/string \
@@ -431,7 +327,6 @@
   /usr/include/errno.h \
   /usr/include/features-time64.h \
   /usr/include/features.h \
-  /usr/include/libintl.h \
   /usr/include/limits.h \
   /usr/include/linux/errno.h \
   /usr/include/linux/limits.h \
@@ -446,7 +341,6 @@
   /usr/include/strings.h \
   /usr/include/time.h \
   /usr/include/wchar.h \
-  /usr/include/wctype.h \
   /usr/include/x86_64-linux-gnu/asm/errno.h \
   /usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h \
   /usr/include/x86_64-linux-gnu/bits/byteswap.h \
@@ -511,7 +405,6 @@
   /usr/include/x86_64-linux-gnu/bits/waitflags.h \
   /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
   /usr/include/x86_64-linux-gnu/bits/wchar.h \
-  /usr/include/x86_64-linux-gnu/bits/wctype-wchar.h \
   /usr/include/x86_64-linux-gnu/bits/wordsize.h \
   /usr/include/x86_64-linux-gnu/bits/xopen_lim.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/atomic_word.h \
@@ -519,14 +412,10 @@
   /usr/include/x86_64-linux-gnu/c++/13/bits/c++config.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/c++locale.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/cpu_defines.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/ctype_base.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/ctype_inline.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/error_constants.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/gthr-default.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/gthr.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/messages_members.h \
   /usr/include/x86_64-linux-gnu/c++/13/bits/os_defines.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/time_members.h \
   /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
   /usr/include/x86_64-linux-gnu/gnu/stubs.h \
   /usr/include/x86_64-linux-gnu/sys/cdefs.h \

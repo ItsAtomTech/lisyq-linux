@@ -9,6 +9,7 @@ class QWebEngineView;  // Forward declaration
 #include <QWebChannel>
 #include <QObject>
 
+#include "PortManager.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -38,6 +39,24 @@ public:
 
     void Save_File();
 
+
+    // ================
+    // Ports and UDP Section
+    // ================
+
+    // Serial ports
+    void addComPort(int index, const QString &portname);
+    void removeComPort(int index);
+
+    // UDP channels
+    void addUdpChannel(int index, const QString &address, int port);
+    void removeUdpChannel(int index);
+
+    // JSON getters
+    QString getSystemComPortsJson();
+    QString getManagedPortsJson();
+    QString getUdpListJson();
+
 protected:
     void keyPressEvent(QKeyEvent *event);
 
@@ -46,6 +65,8 @@ private slots:
     void on_actionOpen_triggered();
     void on_actionSave_triggered();
 
+    void on_actionPort_Configuration_triggered();
+    void on_actionDMX_Config_Patcher_triggered();
 
 
 
@@ -55,7 +76,7 @@ private:
 
     QWebEngineView *webView;
 
-
+    PortManager *portManager;
 
 
     void openLSYSFile();

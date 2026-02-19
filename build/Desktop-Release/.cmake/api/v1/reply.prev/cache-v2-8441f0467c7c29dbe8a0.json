@@ -4574,6 +4574,18 @@
 			"value" : "OFF"
 		},
 		{
+			"name" : "QT_FEATURE_ntddmodm",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Qt feature: ntddmodm (from target Qt6::SerialPort)"
+				}
+			],
+			"type" : "INTERNAL",
+			"value" : "OFF"
+		},
+		{
 			"name" : "QT_FEATURE_ocsp",
 			"properties" : 
 			[
@@ -8294,6 +8306,18 @@
 			"value" : "/home/itsatompc/Qt/6.10.2/gcc_64/lib/cmake/Qt6Quick"
 		},
 		{
+			"name" : "Qt6SerialPort_DIR",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "The directory containing a CMake configuration file for Qt6SerialPort."
+				}
+			],
+			"type" : "PATH",
+			"value" : "/home/itsatompc/Qt/6.10.2/gcc_64/lib/cmake/Qt6SerialPort"
+		},
+		{
 			"name" : "Qt6WebChannel_DIR",
 			"properties" : 
 			[
@@ -8423,7 +8447,7 @@
 				}
 			],
 			"type" : "PATH",
-			"value" : "Vulkan_INCLUDE_DIR-NOTFOUND"
+			"value" : "/usr/include"
 		},
 		{
 			"name" : "Vulkan_LIBRARY",
@@ -8439,7 +8463,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "Vulkan_LIBRARY-NOTFOUND"
+			"value" : "/usr/lib/x86_64-linux-gnu/libvulkan.so"
 		},
 		{
 			"name" : "_CMAKE_LINKER_PUSHPOP_STATE_SUPPORTED",

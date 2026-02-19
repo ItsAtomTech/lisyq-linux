@@ -1,6 +1,8 @@
 QTApp_autogen/timestamp: \
 	/home/itsatompc/QTApps/QTApp/Bridge.h \
 	/home/itsatompc/QTApps/QTApp/CMakeLists.txt \
+	/home/itsatompc/QTApps/QTApp/PortManager.cpp \
+	/home/itsatompc/QTApps/QTApp/PortManager.h \
 	/home/itsatompc/QTApps/QTApp/build/Desktop-Release/.qt/qml_imports/QTApp_conf.cmake \
 	/home/itsatompc/QTApps/QTApp/build/Desktop-Release/.qtc/package-manager/auto-setup.cmake \
 	/home/itsatompc/QTApps/QTApp/build/Desktop-Release/.qtc/package-manager/maintenance_tool_provider.cmake \
@@ -10,8 +12,12 @@ QTApp_autogen/timestamp: \
 	/home/itsatompc/QTApps/QTApp/main.cpp \
 	/home/itsatompc/QTApps/QTApp/mainwindow.cpp \
 	/home/itsatompc/QTApps/QTApp/mainwindow.h \
+	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/QJsonArray \
+	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/QJsonDocument \
+	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/QJsonObject \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/QJsonValue \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/QList \
+	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/QMap \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/QObject \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/QRect \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/QSize \
@@ -86,7 +92,9 @@ QTApp_autogen/timestamp: \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qiodevicebase.h \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qiterable.h \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qiterator.h \
+	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qjsonarray.h \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qjsondocument.h \
+	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qjsonobject.h \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qjsonparseerror.h \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qjsonvalue.h \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qlatin1stringview.h \
@@ -112,6 +120,8 @@ QTApp_autogen/timestamp: \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qpair.h \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qpoint.h \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qprocessordetection.h \
+	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qproperty.h \
+	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qpropertyprivate.h \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qrect.h \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qrefcount.h \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qregularexpression.h \
@@ -207,6 +217,19 @@ QTApp_autogen/timestamp: \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qvector2d.h \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qvectornd.h \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qwindowdefs.h \
+	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtNetwork/QUdpSocket \
+	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtNetwork/qabstractsocket.h \
+	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtNetwork/qhostaddress.h \
+	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtNetwork/qtnetwork-config.h \
+	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtNetwork/qtnetworkexports.h \
+	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtNetwork/qtnetworkglobal.h \
+	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtNetwork/qudpsocket.h \
+	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtSerialPort/QSerialPort \
+	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtSerialPort/QSerialPortInfo \
+	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtSerialPort/qserialport.h \
+	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtSerialPort/qserialportglobal.h \
+	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtSerialPort/qserialportinfo.h \
+	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtSerialPort/qtserialportexports.h \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtWebChannel/QWebChannel \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtWebChannel/qtwebchannelexports.h \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtWebChannel/qwebchannel.h \
@@ -853,6 +876,14 @@ QTApp_autogen/timestamp: \
 	/home/itsatompc/Qt/6.10.2/gcc_64/lib/cmake/Qt6QuickWidgets/Qt6QuickWidgetsTargets-relwithdebinfo.cmake \
 	/home/itsatompc/Qt/6.10.2/gcc_64/lib/cmake/Qt6QuickWidgets/Qt6QuickWidgetsTargets.cmake \
 	/home/itsatompc/Qt/6.10.2/gcc_64/lib/cmake/Qt6QuickWidgets/Qt6QuickWidgetsVersionlessAliasTargets.cmake \
+	/home/itsatompc/Qt/6.10.2/gcc_64/lib/cmake/Qt6SerialPort/Qt6SerialPortAdditionalTargetInfo.cmake \
+	/home/itsatompc/Qt/6.10.2/gcc_64/lib/cmake/Qt6SerialPort/Qt6SerialPortConfig.cmake \
+	/home/itsatompc/Qt/6.10.2/gcc_64/lib/cmake/Qt6SerialPort/Qt6SerialPortConfigVersion.cmake \
+	/home/itsatompc/Qt/6.10.2/gcc_64/lib/cmake/Qt6SerialPort/Qt6SerialPortConfigVersionImpl.cmake \
+	/home/itsatompc/Qt/6.10.2/gcc_64/lib/cmake/Qt6SerialPort/Qt6SerialPortDependencies.cmake \
+	/home/itsatompc/Qt/6.10.2/gcc_64/lib/cmake/Qt6SerialPort/Qt6SerialPortTargets-relwithdebinfo.cmake \
+	/home/itsatompc/Qt/6.10.2/gcc_64/lib/cmake/Qt6SerialPort/Qt6SerialPortTargets.cmake \
+	/home/itsatompc/Qt/6.10.2/gcc_64/lib/cmake/Qt6SerialPort/Qt6SerialPortVersionlessAliasTargets.cmake \
 	/home/itsatompc/Qt/6.10.2/gcc_64/lib/cmake/Qt6WebChannel/Qt6WebChannelAdditionalTargetInfo.cmake \
 	/home/itsatompc/Qt/6.10.2/gcc_64/lib/cmake/Qt6WebChannel/Qt6WebChannelConfig.cmake \
 	/home/itsatompc/Qt/6.10.2/gcc_64/lib/cmake/Qt6WebChannel/Qt6WebChannelConfigVersion.cmake \
@@ -1069,6 +1100,7 @@ QTApp_autogen/timestamp: \
 	/usr/include/c++/13/debug/assertions.h \
 	/usr/include/c++/13/debug/debug.h \
 	/usr/include/c++/13/exception \
+	/usr/include/c++/13/experimental/source_location \
 	/usr/include/c++/13/ext/aligned_buffer.h \
 	/usr/include/c++/13/ext/alloc_traits.h \
 	/usr/include/c++/13/ext/atomicity.h \

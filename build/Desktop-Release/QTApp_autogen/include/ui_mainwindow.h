@@ -29,6 +29,10 @@ public:
     QAction *actionSettings_and_Option;
     QAction *actionSave;
     QAction *actionSave_As;
+    QAction *actionPort_Configuration;
+    QAction *actionDMX_Config_Patcher;
+    QAction *actionImport_Templates;
+    QAction *actionPlugin_Manager;
     QWidget *centralwidget;
     QVBoxLayout *verticalLayout;
     QFrame *mainFrame;
@@ -54,6 +58,14 @@ public:
         actionSave->setObjectName("actionSave");
         actionSave_As = new QAction(MainWindow);
         actionSave_As->setObjectName("actionSave_As");
+        actionPort_Configuration = new QAction(MainWindow);
+        actionPort_Configuration->setObjectName("actionPort_Configuration");
+        actionDMX_Config_Patcher = new QAction(MainWindow);
+        actionDMX_Config_Patcher->setObjectName("actionDMX_Config_Patcher");
+        actionImport_Templates = new QAction(MainWindow);
+        actionImport_Templates->setObjectName("actionImport_Templates");
+        actionPlugin_Manager = new QAction(MainWindow);
+        actionPlugin_Manager->setObjectName("actionPlugin_Manager");
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName("centralwidget");
         verticalLayout = new QVBoxLayout(centralwidget);
@@ -90,6 +102,10 @@ public:
         menuFIle->addAction(actionSettings_and_Option);
         menuFIle->addAction(actionSave);
         menuFIle->addAction(actionSave_As);
+        menuTools->addAction(actionPort_Configuration);
+        menuTools->addAction(actionDMX_Config_Patcher);
+        menuTools->addAction(actionImport_Templates);
+        menuTools->addAction(actionPlugin_Manager);
 
         retranslateUi(MainWindow);
 
@@ -104,6 +120,10 @@ public:
         actionSettings_and_Option->setText(QCoreApplication::translate("MainWindow", "Settings and Option", nullptr));
         actionSave->setText(QCoreApplication::translate("MainWindow", "Save", nullptr));
         actionSave_As->setText(QCoreApplication::translate("MainWindow", "Save As", nullptr));
+        actionPort_Configuration->setText(QCoreApplication::translate("MainWindow", "Port Configuration", nullptr));
+        actionDMX_Config_Patcher->setText(QCoreApplication::translate("MainWindow", "DMX Config Patcher", nullptr));
+        actionImport_Templates->setText(QCoreApplication::translate("MainWindow", "Import Templates", nullptr));
+        actionPlugin_Manager->setText(QCoreApplication::translate("MainWindow", "Plugin Manager", nullptr));
         menuFIle->setTitle(QCoreApplication::translate("MainWindow", "File", nullptr));
         menuTools->setTitle(QCoreApplication::translate("MainWindow", "Tools", nullptr));
         menuTimeline->setTitle(QCoreApplication::translate("MainWindow", "Timeline", nullptr));
