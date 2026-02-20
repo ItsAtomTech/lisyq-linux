@@ -155,3 +155,69 @@ QString PortManager::getUdpListJson()
 
     return QJsonDocument(arr).toJson(QJsonDocument::Compact);
 }
+
+
+void PortManager::setDf(const QString &data)
+{
+    df = data;
+}
+
+
+
+void PortManager::outputs_v2()
+{
+    if (df.isEmpty())
+        return;
+
+    const QStringList parts = df.split("|", Qt::KeepEmptyParts);
+
+    const int maxCount = std::max(serialPorts.size(), udpChannels.size());
+
+    for (int i = 0; i < parts.size() && i < maxCount; ++i)
+    {
+        const QString &strg = parts[i];
+
+        if (strg.trimmed().isEmpty())
+            continue;
+
+        QByteArray data = strg.toLatin1();
+
+        // ======================
+        // SERIAL SECTION
+        // ======================
+        if (i < serialPorts.size())
+        {
+            QSerialPort* port = serialPorts[i];
+
+            if (port && port->isOpen())
+            {
+                if (port->bytesToWrite() <= 1)
+                {
+                    port->write(data);  // async
+                }
+            }
+        }
+
+        // ======================
+        // UDP SECTION
+        // ======================
+        if (i < udpChannels.size())
+        {
+            QUdpSocket* socket = udpChannels[i];
+
+            if (socket)
+            {
+                QByteArray udpData = data;
+                udpData.append('\n');   // <-- append newline
+
+                socket->writeDatagram(
+                    udpData,
+                    socket->peerAddress(),
+                    socket->peerPort()
+                    );
+            }
+        }
+    }
+}
+
+

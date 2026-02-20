@@ -15,6 +15,8 @@
 #include <QDir>
 #include <QTimer>
 
+#include <QFileInfo>
+#include <QUrl>
 #include <QFile>
 #include <QTextStream>
 
@@ -340,6 +342,39 @@ void MainWindow::openLSYSFile()
 }
 
 
+bool Bridge::Open_FileDirectory()
+{
+    if (!mainWindow) return false;
+
+    mainWindow->Open_FileDirectory_Native();
+    return true;
+}
+
+//Opens a Media file picker, which can provide native link info
+void MainWindow::Open_FileDirectory_Native()
+{
+    QString filePath = QFileDialog::getOpenFileName(
+        this,
+        "Select A Media File",
+        "",
+        ""
+        );
+
+    if (!filePath.isEmpty())
+    {
+        // Escape path for JS
+        QString escapedPath = QUrl::fromLocalFile(filePath).toString();
+
+        // Call JS function
+        webView->page()->runJavaScript(
+            QString("setMediaPath('%1');").arg(escapedPath)
+            );
+
+        // To-DO: Optional toast notification
+
+    }
+}
+
 // ================================
 // PORT Channel Management
 // ================================
@@ -381,6 +416,19 @@ QString MainWindow::getUdpListJson()
     return portManager->getUdpListJson();
 }
 
+
+void MainWindow::setDf(const QString &data)
+{
+    if (portManager)
+        portManager->setDf(data);
+}
+
+
+void MainWindow::outputs_v2()
+{
+    if (portManager)
+        portManager->outputs_v2();
+}
 
 
 
@@ -430,4 +478,19 @@ void Bridge::disconnect_com(int index)
     mainWindow->removeComPort(index);
 }
 
+
+//Getting the Data
+void Bridge::set_values(int port, const QString &data)
+{
+    Q_UNUSED(port); // placeholder like VB
+
+    if (!mainWindow)
+        return;
+
+    mainWindow->setDf(data);
+}
+
+void Bridge::outputs(){
+    mainWindow->outputs_v2();
+}
 

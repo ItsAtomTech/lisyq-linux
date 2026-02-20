@@ -17,6 +17,12 @@ class PortManager : public QObject
 public:
     explicit PortManager(QObject *parent = nullptr);
 
+
+    //Data
+    QString df;
+    void outputs_v2();
+    void setDf(const QString &data);
+
     // Serial
     void addSerialPort(int index, const QString &portName);
     void removeSerialPort(int index, bool keep);

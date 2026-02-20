@@ -20,6 +20,7 @@ public slots:
     void put_data(const QString &data);
     void Save_To_File();
     bool AsNewTrigger();
+    bool Open_FileDirectory();
 
     void onReady(){}
 
@@ -35,6 +36,8 @@ public slots:
     QString get_comports();
     void disconnect_com(int index);
 
+    void set_values(int port, const QString &data);
+    void outputs();
 
 private:
     MainWindow *mainWindow; // pointer to the MainWindow instance

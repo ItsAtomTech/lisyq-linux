@@ -44,6 +44,7 @@ template <> constexpr inline auto Bridge::qt_create_metaobjectdata<qt_meta_tag_Z
         "data",
         "Save_To_File",
         "AsNewTrigger",
+        "Open_FileDirectory",
         "onReady",
         "add_comport",
         "index",
@@ -55,7 +56,9 @@ template <> constexpr inline auto Bridge::qt_create_metaobjectdata<qt_meta_tag_Z
         "disconnect_udp",
         "get_comlist",
         "get_comports",
-        "disconnect_com"
+        "disconnect_com",
+        "set_values",
+        "outputs"
     };
 
     QtMocHelpers::UintData qt_methods {
@@ -67,30 +70,38 @@ template <> constexpr inline auto Bridge::qt_create_metaobjectdata<qt_meta_tag_Z
         QtMocHelpers::SlotData<void()>(4, 2, QMC::AccessPublic, QMetaType::Void),
         // Slot 'AsNewTrigger'
         QtMocHelpers::SlotData<bool()>(5, 2, QMC::AccessPublic, QMetaType::Bool),
+        // Slot 'Open_FileDirectory'
+        QtMocHelpers::SlotData<bool()>(6, 2, QMC::AccessPublic, QMetaType::Bool),
         // Slot 'onReady'
-        QtMocHelpers::SlotData<void()>(6, 2, QMC::AccessPublic, QMetaType::Void),
+        QtMocHelpers::SlotData<void()>(7, 2, QMC::AccessPublic, QMetaType::Void),
         // Slot 'add_comport'
-        QtMocHelpers::SlotData<bool(int, const QString &)>(7, 2, QMC::AccessPublic, QMetaType::Bool, {{
-            { QMetaType::Int, 8 }, { QMetaType::QString, 9 },
+        QtMocHelpers::SlotData<bool(int, const QString &)>(8, 2, QMC::AccessPublic, QMetaType::Bool, {{
+            { QMetaType::Int, 9 }, { QMetaType::QString, 10 },
         }}),
         // Slot 'add_udpchannel'
-        QtMocHelpers::SlotData<bool(int, const QString &, int)>(10, 2, QMC::AccessPublic, QMetaType::Bool, {{
-            { QMetaType::Int, 8 }, { QMetaType::QString, 11 }, { QMetaType::Int, 12 },
+        QtMocHelpers::SlotData<bool(int, const QString &, int)>(11, 2, QMC::AccessPublic, QMetaType::Bool, {{
+            { QMetaType::Int, 9 }, { QMetaType::QString, 12 }, { QMetaType::Int, 13 },
         }}),
         // Slot 'get_udplist_json'
-        QtMocHelpers::SlotData<QString()>(13, 2, QMC::AccessPublic, QMetaType::QString),
+        QtMocHelpers::SlotData<QString()>(14, 2, QMC::AccessPublic, QMetaType::QString),
         // Slot 'disconnect_udp'
-        QtMocHelpers::SlotData<void(int)>(14, 2, QMC::AccessPublic, QMetaType::Void, {{
-            { QMetaType::Int, 8 },
+        QtMocHelpers::SlotData<void(int)>(15, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::Int, 9 },
         }}),
         // Slot 'get_comlist'
-        QtMocHelpers::SlotData<QString()>(15, 2, QMC::AccessPublic, QMetaType::QString),
-        // Slot 'get_comports'
         QtMocHelpers::SlotData<QString()>(16, 2, QMC::AccessPublic, QMetaType::QString),
+        // Slot 'get_comports'
+        QtMocHelpers::SlotData<QString()>(17, 2, QMC::AccessPublic, QMetaType::QString),
         // Slot 'disconnect_com'
-        QtMocHelpers::SlotData<void(int)>(17, 2, QMC::AccessPublic, QMetaType::Void, {{
-            { QMetaType::Int, 8 },
+        QtMocHelpers::SlotData<void(int)>(18, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::Int, 9 },
         }}),
+        // Slot 'set_values'
+        QtMocHelpers::SlotData<void(int, const QString &)>(19, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::Int, 13 }, { QMetaType::QString, 3 },
+        }}),
+        // Slot 'outputs'
+        QtMocHelpers::SlotData<void()>(20, 2, QMC::AccessPublic, QMetaType::Void),
     };
     QtMocHelpers::UintData qt_properties {
     };
@@ -118,19 +129,23 @@ void Bridge::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void
         case 1: _t->Save_To_File(); break;
         case 2: { bool _r = _t->AsNewTrigger();
             if (_a[0]) *reinterpret_cast<bool*>(_a[0]) = std::move(_r); }  break;
-        case 3: _t->onReady(); break;
-        case 4: { bool _r = _t->add_comport((*reinterpret_cast<std::add_pointer_t<int>>(_a[1])),(*reinterpret_cast<std::add_pointer_t<QString>>(_a[2])));
+        case 3: { bool _r = _t->Open_FileDirectory();
             if (_a[0]) *reinterpret_cast<bool*>(_a[0]) = std::move(_r); }  break;
-        case 5: { bool _r = _t->add_udpchannel((*reinterpret_cast<std::add_pointer_t<int>>(_a[1])),(*reinterpret_cast<std::add_pointer_t<QString>>(_a[2])),(*reinterpret_cast<std::add_pointer_t<int>>(_a[3])));
+        case 4: _t->onReady(); break;
+        case 5: { bool _r = _t->add_comport((*reinterpret_cast<std::add_pointer_t<int>>(_a[1])),(*reinterpret_cast<std::add_pointer_t<QString>>(_a[2])));
             if (_a[0]) *reinterpret_cast<bool*>(_a[0]) = std::move(_r); }  break;
-        case 6: { QString _r = _t->get_udplist_json();
+        case 6: { bool _r = _t->add_udpchannel((*reinterpret_cast<std::add_pointer_t<int>>(_a[1])),(*reinterpret_cast<std::add_pointer_t<QString>>(_a[2])),(*reinterpret_cast<std::add_pointer_t<int>>(_a[3])));
+            if (_a[0]) *reinterpret_cast<bool*>(_a[0]) = std::move(_r); }  break;
+        case 7: { QString _r = _t->get_udplist_json();
             if (_a[0]) *reinterpret_cast<QString*>(_a[0]) = std::move(_r); }  break;
-        case 7: _t->disconnect_udp((*reinterpret_cast<std::add_pointer_t<int>>(_a[1]))); break;
-        case 8: { QString _r = _t->get_comlist();
+        case 8: _t->disconnect_udp((*reinterpret_cast<std::add_pointer_t<int>>(_a[1]))); break;
+        case 9: { QString _r = _t->get_comlist();
             if (_a[0]) *reinterpret_cast<QString*>(_a[0]) = std::move(_r); }  break;
-        case 9: { QString _r = _t->get_comports();
+        case 10: { QString _r = _t->get_comports();
             if (_a[0]) *reinterpret_cast<QString*>(_a[0]) = std::move(_r); }  break;
-        case 10: _t->disconnect_com((*reinterpret_cast<std::add_pointer_t<int>>(_a[1]))); break;
+        case 11: _t->disconnect_com((*reinterpret_cast<std::add_pointer_t<int>>(_a[1]))); break;
+        case 12: _t->set_values((*reinterpret_cast<std::add_pointer_t<int>>(_a[1])),(*reinterpret_cast<std::add_pointer_t<QString>>(_a[2]))); break;
+        case 13: _t->outputs(); break;
         default: ;
         }
     }
@@ -155,14 +170,14 @@ int Bridge::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 11)
+        if (_id < 14)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 11;
+        _id -= 14;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 11)
+        if (_id < 14)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 11;
+        _id -= 14;
     }
     return _id;
 }

@@ -35,7 +35,7 @@ public:
     bool FromOpenFile;
     bool asNew;
 
-
+    void Open_FileDirectory_Native();
 
     void Save_File();
 
@@ -56,6 +56,10 @@ public:
     QString getSystemComPortsJson();
     QString getManagedPortsJson();
     QString getUdpListJson();
+
+
+    void setDf(const QString &data);
+    void outputs_v2();
 
 protected:
     void keyPressEvent(QKeyEvent *event);
