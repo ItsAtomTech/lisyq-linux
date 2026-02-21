@@ -39,6 +39,14 @@ public slots:
     void set_values(int port, const QString &data);
     void outputs();
 
+
+
+    // Context Menus ===================
+
+    void Show_content_menu();
+
+
+
 private:
     MainWindow *mainWindow; // pointer to the MainWindow instance
 };

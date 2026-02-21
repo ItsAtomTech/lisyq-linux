@@ -103,6 +103,23 @@ MainWindow::MainWindow(QWidget *parent)
     asNew = true;
 
 
+    // ==================
+    //  Context Menus
+    // ==================
+
+    contextMenu_Sub = new QMenu(this);
+
+    QAction *consub_edit = contextMenu_Sub->addAction("Edit");
+    QAction *consub_remove = contextMenu_Sub->addAction("Remove");
+    QAction *consub_copy = contextMenu_Sub->addAction("Copy");
+    QAction *consub_trackoption = contextMenu_Sub->addAction("Track Options");
+    QAction *consub_addtotemplate = contextMenu_Sub->addAction("Add to Templates");
+
+    connect(consub_edit, &QAction::triggered, this, &MainWindow::onContextEdit);
+    connect(consub_remove, &QAction::triggered, this, &MainWindow::onContextRemove);
+    connect(consub_copy, &QAction::triggered, this, &MainWindow::onContextCopy);
+    connect(consub_trackoption, &QAction::triggered, this, &MainWindow::onContextTrackOptions);
+    connect(consub_addtotemplate, &QAction::triggered, this, &MainWindow::onContextAddToTemplate);
 }
 
 
@@ -125,30 +142,13 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 }
 
 
-
+//On window Resize
 void MainWindow::resizeEvent(QResizeEvent *event){
     QMainWindow::resizeEvent(event);  // call base implementation
-
      webView->page()->runJavaScript("gen_ruler();");
 }
 
 
-void MainWindow::changeEvent(QEvent *event)
-{
-    if (event->type() == QEvent::WindowStateChange)
-    {
-        if (isFullScreen())
-        {
-             webView->page()->runJavaScript("gen_ruler();");
-        }
-        else
-        {
-             webView->page()->runJavaScript("gen_ruler();");
-        }
-    }
-
-    QMainWindow::changeEvent(event);
-}
 
  // ==========================
  // Bridge inject       ======
@@ -242,7 +242,7 @@ void MainWindow::onReady(){
 void Bridge::put_data(const QString &data){
     if(mainWindow) {
         mainWindow->data_string = data;
-        qDebug() << "Received from JS:" << mainWindow->data_string;
+
     }
 }
 
@@ -520,4 +520,47 @@ void Bridge::set_values(int port, const QString &data)
 void Bridge::outputs(){
     mainWindow->outputs_v2();
 }
+
+
+
+
+
+
+//Context Menus
+void MainWindow::showContentSubMenu(){
+    QPoint globalPos = QCursor::pos();   // show at mouse position
+    contextMenu_Sub->exec(globalPos);
+}
+
+
+void Bridge::Show_content_menu(){
+    mainWindow->showContentSubMenu();
+}
+
+
+void MainWindow::onContextEdit()
+{
+    webView->page()->runJavaScript("open_edit_for(timeline_data[selected_track_index].sub_tracks[selected_content.getAttribute('content_id')], 'edit')");
+}
+
+void MainWindow::onContextRemove()
+{
+    webView->page()->runJavaScript("remove_content()");
+}
+
+void MainWindow::onContextCopy()
+{
+    webView->page()->runJavaScript("copy_content();");
+}
+
+void MainWindow::onContextTrackOptions()
+{
+    //Open the Track Option Context Menu
+}
+
+void MainWindow::onContextAddToTemplate()
+{
+    webView->page()->runJavaScript("sendToTimelineTemplates();");
+}
+
 

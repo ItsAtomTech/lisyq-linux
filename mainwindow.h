@@ -61,6 +61,10 @@ public:
     void setDf(const QString &data);
     void outputs_v2();
 
+    //Context Menu
+    void showContentSubMenu();
+
+
 protected:
     void keyPressEvent(QKeyEvent *event);
     void resizeEvent(QResizeEvent *event) override;
@@ -73,6 +77,13 @@ private slots:
     void on_actionPort_Configuration_triggered();
     void on_actionDMX_Config_Patcher_triggered();
 
+
+    //Content Context Menu Action
+    void onContextEdit();
+    void onContextRemove();
+    void onContextCopy();
+    void onContextTrackOptions();
+    void onContextAddToTemplate();
 
 
 private:
@@ -95,6 +106,10 @@ private:
     void injectWebChannelScript();
     void initializeWebChannel();
     void onReady();
+
+
+    // Context Menus
+    QMenu *contextMenu_Sub;
 
 
 };
