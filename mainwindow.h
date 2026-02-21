@@ -63,6 +63,7 @@ public:
 
 protected:
     void keyPressEvent(QKeyEvent *event);
+    void resizeEvent(QResizeEvent *event) override;
 
 
 private slots:

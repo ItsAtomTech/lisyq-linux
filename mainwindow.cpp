@@ -123,6 +123,33 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     }
     QMainWindow::keyPressEvent(event); // pass to default
 }
+
+
+
+void MainWindow::resizeEvent(QResizeEvent *event){
+    QMainWindow::resizeEvent(event);  // call base implementation
+
+     webView->page()->runJavaScript("gen_ruler();");
+}
+
+
+void MainWindow::changeEvent(QEvent *event)
+{
+    if (event->type() == QEvent::WindowStateChange)
+    {
+        if (isFullScreen())
+        {
+             webView->page()->runJavaScript("gen_ruler();");
+        }
+        else
+        {
+             webView->page()->runJavaScript("gen_ruler();");
+        }
+    }
+
+    QMainWindow::changeEvent(event);
+}
+
  // ==========================
  // Bridge inject       ======
  // ==========================
