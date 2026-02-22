@@ -8,6 +8,8 @@ class QWebEngineView;  // Forward declaration
 
 #include <QWebChannel>
 #include <QObject>
+#include <QLineEdit>
+#include <QWidgetAction>
 
 #include "PortManager.h"
 
@@ -63,6 +65,7 @@ public:
 
     //Context Menu
     void showContentSubMenu();
+    void showTrackMenu();
 
 
 protected:
@@ -85,6 +88,18 @@ private slots:
     void onContextTrackOptions();
     void onContextAddToTemplate();
 
+
+    //Track Context
+    void handleAddTrack();
+    void handleAddTrackAt();
+    void duplicateAfter();
+    void duplicateBefore();
+    void duplicateAtPosition();
+    void duplicateStart();
+    void duplicateEnd();
+    void editPortChannel();
+    void removeTrack();
+    void pasteContent();
 
 private:
     Ui::MainWindow *ui;
@@ -111,6 +126,20 @@ private:
     // Context Menus
     QMenu *contextMenu_Sub;
 
+    //Track Context
+    QMenu *contextMenu_Track;
+    QMenu *submenu_add_track_at;
+
+    QLineEdit *trackIndexEdit;
+    QWidgetAction *trackIndexWidgetAction;
+
+    QMenu *submenu_duplicate;
+    QMenu *submenu_duplicate_at;
+
+    QLineEdit *duplicateIndexEdit;
+    QWidgetAction *duplicateIndexWidgetAction;
+
+    QMenu *submenu_edit_track;
 
 };
 

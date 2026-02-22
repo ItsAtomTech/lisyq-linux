@@ -7,6 +7,7 @@
 *****************************************************************************/
 
 #include "../../../../mainwindow.h"
+#include <QtGui/qtextcursor.h>
 #include <QtCore/qmetatype.h>
 
 #include <QtCore/qtmochelpers.h>
@@ -48,7 +49,17 @@ template <> constexpr inline auto MainWindow::qt_create_metaobjectdata<qt_meta_t
         "onContextRemove",
         "onContextCopy",
         "onContextTrackOptions",
-        "onContextAddToTemplate"
+        "onContextAddToTemplate",
+        "handleAddTrack",
+        "handleAddTrackAt",
+        "duplicateAfter",
+        "duplicateBefore",
+        "duplicateAtPosition",
+        "duplicateStart",
+        "duplicateEnd",
+        "editPortChannel",
+        "removeTrack",
+        "pasteContent"
     };
 
     QtMocHelpers::UintData qt_methods {
@@ -70,6 +81,26 @@ template <> constexpr inline auto MainWindow::qt_create_metaobjectdata<qt_meta_t
         QtMocHelpers::SlotData<void()>(9, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'onContextAddToTemplate'
         QtMocHelpers::SlotData<void()>(10, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'handleAddTrack'
+        QtMocHelpers::SlotData<void()>(11, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'handleAddTrackAt'
+        QtMocHelpers::SlotData<void()>(12, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'duplicateAfter'
+        QtMocHelpers::SlotData<void()>(13, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'duplicateBefore'
+        QtMocHelpers::SlotData<void()>(14, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'duplicateAtPosition'
+        QtMocHelpers::SlotData<void()>(15, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'duplicateStart'
+        QtMocHelpers::SlotData<void()>(16, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'duplicateEnd'
+        QtMocHelpers::SlotData<void()>(17, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'editPortChannel'
+        QtMocHelpers::SlotData<void()>(18, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'removeTrack'
+        QtMocHelpers::SlotData<void()>(19, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'pasteContent'
+        QtMocHelpers::SlotData<void()>(20, 2, QMC::AccessPrivate, QMetaType::Void),
     };
     QtMocHelpers::UintData qt_properties {
     };
@@ -102,6 +133,16 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 6: _t->onContextCopy(); break;
         case 7: _t->onContextTrackOptions(); break;
         case 8: _t->onContextAddToTemplate(); break;
+        case 9: _t->handleAddTrack(); break;
+        case 10: _t->handleAddTrackAt(); break;
+        case 11: _t->duplicateAfter(); break;
+        case 12: _t->duplicateBefore(); break;
+        case 13: _t->duplicateAtPosition(); break;
+        case 14: _t->duplicateStart(); break;
+        case 15: _t->duplicateEnd(); break;
+        case 16: _t->editPortChannel(); break;
+        case 17: _t->removeTrack(); break;
+        case 18: _t->pasteContent(); break;
         default: ;
         }
     }
@@ -127,14 +168,14 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 9)
+        if (_id < 19)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 9;
+        _id -= 19;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 9)
+        if (_id < 19)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 9;
+        _id -= 19;
     }
     return _id;
 }

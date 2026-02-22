@@ -19,7 +19,7 @@
 #include <QUrl>
 #include <QFile>
 #include <QTextStream>
-
+#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -107,6 +107,8 @@ MainWindow::MainWindow(QWidget *parent)
     //  Context Menus
     // ==================
 
+
+    //content menu
     contextMenu_Sub = new QMenu(this);
 
     QAction *consub_edit = contextMenu_Sub->addAction("Edit");
@@ -120,6 +122,73 @@ MainWindow::MainWindow(QWidget *parent)
     connect(consub_copy, &QAction::triggered, this, &MainWindow::onContextCopy);
     connect(consub_trackoption, &QAction::triggered, this, &MainWindow::onContextTrackOptions);
     connect(consub_addtotemplate, &QAction::triggered, this, &MainWindow::onContextAddToTemplate);
+
+
+    //track_options
+    contextMenu_Track = new QMenu(this);
+
+    QAction *consub_add_track = contextMenu_Track->addAction("Add New Track");
+
+    submenu_add_track_at = new QMenu("Add New Track At:", this);
+        contextMenu_Track->addMenu(submenu_add_track_at);
+
+        trackIndexEdit = new QLineEdit(this);
+        trackIndexEdit->setPlaceholderText("Enter index...");
+        trackIndexEdit->setFixedWidth(120);
+
+        trackIndexWidgetAction = new QWidgetAction(this);
+        trackIndexWidgetAction->setDefaultWidget(trackIndexEdit);
+
+        submenu_add_track_at->addAction(trackIndexWidgetAction);
+        QAction *confirmAction = submenu_add_track_at->addAction("Select");
+        connect(confirmAction, &QAction::triggered, this, &MainWindow::handleAddTrackAt);
+
+    connect(consub_add_track, &QAction::triggered, this, &MainWindow::handleAddTrack);
+
+    submenu_duplicate = new QMenu("Duplicate", this);
+    contextMenu_Track->addMenu(submenu_duplicate);
+
+    QAction *dupAfter = submenu_duplicate->addAction("After");
+    QAction *dupBefore = submenu_duplicate->addAction("Before");
+
+    connect(dupAfter, &QAction::triggered, this, &MainWindow::duplicateAfter);
+    connect(dupBefore, &QAction::triggered, this, &MainWindow::duplicateBefore);
+
+    submenu_duplicate_at = new QMenu("At Position:", this);
+    submenu_duplicate->addMenu(submenu_duplicate_at);
+
+        duplicateIndexEdit = new QLineEdit(this);
+        duplicateIndexEdit->setPlaceholderText("Enter index...");
+        duplicateIndexEdit->setFixedWidth(120);
+
+            duplicateIndexWidgetAction = new QWidgetAction(this);
+            duplicateIndexWidgetAction->setDefaultWidget(duplicateIndexEdit);
+
+            submenu_duplicate_at->addAction(duplicateIndexWidgetAction);
+
+            QAction *dupSelect = submenu_duplicate_at->addAction("Select");
+            connect(dupSelect, &QAction::triggered, this, &MainWindow::duplicateAtPosition);
+        QAction *dupStart = submenu_duplicate->addAction("Start of Timeline");
+        QAction *dupEnd = submenu_duplicate->addAction("End of Timeline");
+
+
+        connect(dupStart, &QAction::triggered, this, &MainWindow::duplicateStart);
+        connect(dupEnd, &QAction::triggered, this, &MainWindow::duplicateEnd);
+
+        submenu_edit_track = new QMenu("Edit Track", this);
+        contextMenu_Track->addMenu(submenu_edit_track);
+            QAction *editPortChannelAction = submenu_edit_track->addAction("Port and Channel");
+
+            connect(editPortChannelAction, &QAction::triggered,
+                    this, &MainWindow::editPortChannel);
+
+        QAction *removeAction = contextMenu_Track->addAction("Remove");
+        connect(removeAction, &QAction::triggered, this, &MainWindow::removeTrack);
+        // ================
+        contextMenu_Track->addSeparator();
+
+        QAction *pasteAction = contextMenu_Track->addAction("Paste (Content)");
+        connect(pasteAction, &QAction::triggered, this, &MainWindow::pasteContent);
 }
 
 
@@ -556,6 +625,8 @@ void MainWindow::onContextCopy()
 void MainWindow::onContextTrackOptions()
 {
     //Open the Track Option Context Menu
+    QPoint globalPos = QCursor::pos();   // show at mouse position
+    contextMenu_Track->exec(globalPos);
 }
 
 void MainWindow::onContextAddToTemplate()
@@ -564,3 +635,102 @@ void MainWindow::onContextAddToTemplate()
 }
 
 
+// Track Context Menu
+void MainWindow::showTrackMenu(){
+    QPoint globalPos = QCursor::pos();   // show at mouse position
+    contextMenu_Track->exec(globalPos);
+}
+
+
+void Bridge::Show_track_menu(){
+    mainWindow->showTrackMenu();
+}
+
+
+void MainWindow::handleAddTrack()
+{
+    webView->page()->runJavaScript("add_track()");
+}
+
+void MainWindow::handleAddTrackAt()
+{
+    bool ok;
+    int index = trackIndexEdit->text().toInt(&ok);
+
+    if (ok){
+
+        QString script;
+        if (index < 0) {
+            script = "add_track();";
+        } else {
+            script = QString("add_track(%1);").arg(index);
+        }
+        webView->page()->runJavaScript(script);
+
+
+        qDebug() << "Add track at index:" << index;
+    }
+
+}
+
+
+void MainWindow::duplicateAfter()
+{
+    webView->page()->runJavaScript("duplicateTrack('after');");
+}
+
+void MainWindow::duplicateBefore()
+{
+    webView->page()->runJavaScript("duplicateTrack('before');");
+}
+
+void MainWindow::duplicateAtPosition()
+{
+    bool ok;
+    int index = duplicateIndexEdit->text().toInt(&ok);
+
+    if(ok && index >= 0)
+        webView->page()->runJavaScript(
+            QString("duplicateTrack(%1);").arg(index)
+            );
+}
+
+void MainWindow::duplicateStart()
+{
+    webView->page()->runJavaScript("duplicateTrack(0);");
+}
+
+void MainWindow::duplicateEnd()
+{
+    webView->page()->runJavaScript("duplicateTrack();");
+}
+
+void MainWindow::editPortChannel()
+{
+    webView->page()->runJavaScript("edit_track_option();");
+}
+
+
+void MainWindow::removeTrack()
+{
+    QMessageBox::StandardButton reply;
+
+    reply = QMessageBox::question(
+        this,
+        "Remove Track",
+        "You are about to remove this track.\nAll contents of it will be removed as well.",
+        QMessageBox::Yes | QMessageBox::No
+        );
+
+    if (reply == QMessageBox::Yes)
+    {
+        webView->page()->runJavaScript("remove_track();");
+    }
+}
+
+
+
+void MainWindow::pasteContent()
+{
+    webView->page()->runJavaScript("paste_content();");
+}

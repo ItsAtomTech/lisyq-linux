@@ -44,6 +44,7 @@ public slots:
     // Context Menus ===================
 
     void Show_content_menu();
+    void Show_track_menu();
 
 
 

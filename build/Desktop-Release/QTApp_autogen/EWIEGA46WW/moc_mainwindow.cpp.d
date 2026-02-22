@@ -190,6 +190,7 @@
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qkeysequence.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qpaintdevice.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qpalette.h \
+  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qpen.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qpixelformat.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qpixmap.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qpointingdevice.h \
@@ -199,6 +200,10 @@
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qrgba64.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qscreen.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qscreen_platform.h \
+  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qtextcursor.h \
+  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qtextdocument.h \
+  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qtextformat.h \
+  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qtextoption.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qtgui-config.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qtguiexports.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qtguiglobal.h \
@@ -224,9 +229,13 @@
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtWebChannel/qwebchannel.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtWebChannel/qwebchannelglobal.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtWidgets/QFileDialog \
+  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtWidgets/QLineEdit \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtWidgets/QMainWindow \
+  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtWidgets/QWidgetAction \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtWidgets/qdialog.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtWidgets/qfiledialog.h \
+  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtWidgets/qframe.h \
+  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtWidgets/qlineedit.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtWidgets/qmainwindow.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtWidgets/qsizepolicy.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtWidgets/qtabwidget.h \
@@ -234,6 +243,7 @@
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtWidgets/qtwidgetsexports.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtWidgets/qwidget.h \
+  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtWidgets/qwidgetaction.h \
   /usr/include/alloca.h \
   /usr/include/asm-generic/errno-base.h \
   /usr/include/asm-generic/errno.h \
