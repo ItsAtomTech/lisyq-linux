@@ -33,6 +33,7 @@ public:
     QAction *actionDMX_Config_Patcher;
     QAction *actionImport_Templates;
     QAction *actionPlugin_Manager;
+    QAction *actionAdd_New_Track;
     QWidget *centralwidget;
     QVBoxLayout *verticalLayout;
     QFrame *mainFrame;
@@ -66,6 +67,8 @@ public:
         actionImport_Templates->setObjectName("actionImport_Templates");
         actionPlugin_Manager = new QAction(MainWindow);
         actionPlugin_Manager->setObjectName("actionPlugin_Manager");
+        actionAdd_New_Track = new QAction(MainWindow);
+        actionAdd_New_Track->setObjectName("actionAdd_New_Track");
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName("centralwidget");
         verticalLayout = new QVBoxLayout(centralwidget);
@@ -106,6 +109,7 @@ public:
         menuTools->addAction(actionDMX_Config_Patcher);
         menuTools->addAction(actionImport_Templates);
         menuTools->addAction(actionPlugin_Manager);
+        menuTimeline->addAction(actionAdd_New_Track);
 
         retranslateUi(MainWindow);
 
@@ -124,6 +128,7 @@ public:
         actionDMX_Config_Patcher->setText(QCoreApplication::translate("MainWindow", "DMX Config Patcher", nullptr));
         actionImport_Templates->setText(QCoreApplication::translate("MainWindow", "Import Templates", nullptr));
         actionPlugin_Manager->setText(QCoreApplication::translate("MainWindow", "Plugin Manager", nullptr));
+        actionAdd_New_Track->setText(QCoreApplication::translate("MainWindow", "Add New Track", nullptr));
         menuFIle->setTitle(QCoreApplication::translate("MainWindow", "File", nullptr));
         menuTools->setTitle(QCoreApplication::translate("MainWindow", "Tools", nullptr));
         menuTimeline->setTitle(QCoreApplication::translate("MainWindow", "Timeline", nullptr));

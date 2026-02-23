@@ -189,6 +189,31 @@ MainWindow::MainWindow(QWidget *parent)
 
         QAction *pasteAction = contextMenu_Track->addAction("Paste (Content)");
         connect(pasteAction, &QAction::triggered, this, &MainWindow::pasteContent);
+
+    // Template Menu ==============
+    template_menu = new QMenu(this);
+
+    QAction *editAction = template_menu->addAction("Edit Template");
+    QAction *removeActionTemplate = template_menu->addAction("Remove");
+    QAction *cancelAction = template_menu->addAction("Cancel");
+
+    template_menu->addSeparator();
+
+    QAction *sendManualAction = template_menu->addAction("Send to Manual Templ.");
+
+    connect(editAction, &QAction::triggered,
+            this, &MainWindow::editTemplate);
+
+    connect(removeActionTemplate, &QAction::triggered,
+            this, &MainWindow::removeTemplate);
+
+    connect(cancelAction, &QAction::triggered,
+            this, &MainWindow::cancelTemplate);
+
+    connect(sendManualAction, &QAction::triggered,
+            this, &MainWindow::sendToManualTemplate);
+
+
 }
 
 
@@ -302,6 +327,11 @@ void MainWindow::on_actionDMX_Config_Patcher_triggered(){
 
 void MainWindow::onReady(){
     //---
+}
+
+
+void MainWindow::on_actionAdd_New_Track_triggered(){
+    webView->page()->runJavaScript("add_track();");
 }
 
 
@@ -734,3 +764,56 @@ void MainWindow::pasteContent()
 {
     webView->page()->runJavaScript("paste_content();");
 }
+
+
+
+
+//Template Menus
+
+
+void MainWindow::showTemplateMenu(){
+    QPoint globalPos = QCursor::pos();   // show at mouse position
+    template_menu->exec(globalPos);
+}
+
+void Bridge::Show_template_menu(){
+    mainWindow->showTemplateMenu();
+}
+
+// To-Do: Fix DOM context menu on js adds a lot of context event listener every call
+
+
+void MainWindow::editTemplate()
+{
+    webView->page()->runJavaScript("edit_template();");
+}
+
+void MainWindow::removeTemplate()
+{
+    QMessageBox::StandardButton reply;
+
+    reply = QMessageBox::question(
+        this,
+        "Remove Template",
+        "You are about to remove this template.",
+        QMessageBox::Yes | QMessageBox::No
+        );
+
+    if (reply == QMessageBox::Yes)
+    {
+        webView->page()->runJavaScript("remove_template();");
+    }
+}
+
+
+void MainWindow::cancelTemplate()
+{
+    // Just close menu if needed
+}
+
+void MainWindow::sendToManualTemplate()
+{
+    webView->page()->runJavaScript("sendToManualTemplates();");
+}
+
+

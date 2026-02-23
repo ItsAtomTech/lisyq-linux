@@ -92,6 +92,7 @@
     <property name="title">
      <string>Timeline</string>
     </property>
+    <addaction name="actionAdd_New_Track"/>
    </widget>
    <addaction name="menuFIle"/>
    <addaction name="menuTools"/>
@@ -140,6 +141,11 @@
   <action name="actionPlugin_Manager">
    <property name="text">
     <string>Plugin Manager</string>
+   </property>
+  </action>
+  <action name="actionAdd_New_Track">
+   <property name="text">
+    <string>Add New Track</string>
    </property>
   </action>
  </widget>

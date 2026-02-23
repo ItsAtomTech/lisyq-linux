@@ -66,6 +66,7 @@ public:
     //Context Menu
     void showContentSubMenu();
     void showTrackMenu();
+    void showTemplateMenu();
 
 
 protected:
@@ -79,7 +80,7 @@ private slots:
 
     void on_actionPort_Configuration_triggered();
     void on_actionDMX_Config_Patcher_triggered();
-
+    void on_actionAdd_New_Track_triggered();
 
     //Content Context Menu Action
     void onContextEdit();
@@ -100,6 +101,12 @@ private slots:
     void editPortChannel();
     void removeTrack();
     void pasteContent();
+
+    //Template Menu
+    void editTemplate();
+    void removeTemplate();
+    void cancelTemplate();
+    void sendToManualTemplate();
 
 private:
     Ui::MainWindow *ui;
@@ -140,6 +147,12 @@ private:
     QWidgetAction *duplicateIndexWidgetAction;
 
     QMenu *submenu_edit_track;
+
+
+    //Template Menu
+    QMenu *template_menu;
+
+
 
 };
 

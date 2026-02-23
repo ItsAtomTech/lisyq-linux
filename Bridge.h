@@ -45,7 +45,7 @@ public slots:
 
     void Show_content_menu();
     void Show_track_menu();
-
+    void Show_template_menu();
 
 
 private:
