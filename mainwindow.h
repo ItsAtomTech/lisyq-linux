@@ -67,6 +67,7 @@ public:
     void showContentSubMenu();
     void showTrackMenu();
     void showTemplateMenu();
+    void showManualTemplateMenu();
 
 
 protected:
@@ -81,6 +82,12 @@ private slots:
     void on_actionPort_Configuration_triggered();
     void on_actionDMX_Config_Patcher_triggered();
     void on_actionAdd_New_Track_triggered();
+
+    //TAB Buttons on Top
+    void onTimelineClicked();
+    void onManualClicked();
+    void setActiveButton(QPushButton *active);
+
 
     //Content Context Menu Action
     void onContextEdit();
@@ -108,9 +115,22 @@ private slots:
     void cancelTemplate();
     void sendToManualTemplate();
 
+
+    //Manual Template Menu
+    void onTemplateEdit();
+    void onTemplateRemove();
+    void onTemplateCancel();
+    void onTemplateAddToTimeline();
+
+
+
 private:
     Ui::MainWindow *ui;
     QWebEngineView *devTools; // Make devTools a member so it doesn’t go out of scope
+
+    //Tab Buttons
+    QPushButton *btnTimeline;
+    QPushButton *btnManual;
 
     QWebEngineView *webView;
 
@@ -152,6 +172,8 @@ private:
     //Template Menu
     QMenu *template_menu;
 
+    //Manual Template Menu
+    QMenu *template_menu_manual;
 
 
 };

@@ -35,14 +35,21 @@ MainWindow::MainWindow(QWidget *parent)
     buttonLayout->setContentsMargins(0, 0, 0, 0);
     buttonLayout->setSpacing(5);
 
+
+    //Top Buttons
     QPushButton *btn1 = new QPushButton("Nest.in", rightWidget);
-    QPushButton *btn2 = new QPushButton("Timeline Panel", rightWidget);
-    QPushButton *btn3 = new QPushButton("Manual Panel", rightWidget);
+    btnTimeline = new QPushButton("Timeline Panel", rightWidget);
+    btnManual   = new QPushButton("Manual Panel", rightWidget);
+
+
+    connect(btnTimeline, &QPushButton::clicked, this, &MainWindow::onTimelineClicked);
+    connect(btnManual, &QPushButton::clicked, this, &MainWindow::onManualClicked);
 
 
     buttonLayout->addWidget(btn1);
-    buttonLayout->addWidget(btn2);
-    buttonLayout->addWidget(btn3);
+    buttonLayout->addWidget(btnTimeline);
+    buttonLayout->addWidget(btnManual);
+
 
     menuBar()->setCornerWidget(rightWidget, Qt::TopRightCorner);
 
@@ -214,6 +221,23 @@ MainWindow::MainWindow(QWidget *parent)
             this, &MainWindow::sendToManualTemplate);
 
 
+
+    //Manual Template Menu ===========
+    template_menu_manual = new QMenu(this);
+
+    QAction *tmpl_edit   = template_menu_manual->addAction("Edit Template");
+    QAction *tmpl_remove = template_menu_manual->addAction("Remove");
+    QAction *tmpl_cancel = template_menu_manual->addAction("Cancel");
+    QAction *tmpl_add    = template_menu_manual->addAction("Add to Timeline Templ.");
+
+    connect(tmpl_edit,   &QAction::triggered, this, &MainWindow::onTemplateEdit);
+    connect(tmpl_remove, &QAction::triggered, this, &MainWindow::onTemplateRemove);
+    connect(tmpl_cancel, &QAction::triggered, this, &MainWindow::onTemplateCancel);
+    connect(tmpl_add,    &QAction::triggered, this, &MainWindow::onTemplateAddToTimeline);
+
+
+
+
 }
 
 
@@ -307,6 +331,36 @@ void MainWindow::initializeWebChannel()
 // ==========================
 
 
+void MainWindow::setActiveButton(QPushButton *active)
+{
+    QString activeStyle =
+        "background-color: gray;"
+        "color: white;";
+
+    QString normalStyle = "";
+
+    btnTimeline->setStyleSheet(normalStyle);
+    btnManual->setStyleSheet(normalStyle);
+
+    active->setStyleSheet(activeStyle);
+}
+
+
+void MainWindow::onTimelineClicked()
+{
+    setActiveButton(btnTimeline);
+    webView->page()->runJavaScript("modeSelect('timeline');");
+}
+
+void MainWindow::onManualClicked()
+{
+    setActiveButton(btnManual);
+    webView->page()->runJavaScript("modeSelect('manual');");
+}
+
+
+
+// Tool Strips and Others
 
 void MainWindow::on_actionOpen_triggered(){
     openLSYSFile();
@@ -816,4 +870,51 @@ void MainWindow::sendToManualTemplate()
     webView->page()->runJavaScript("sendToManualTemplates();");
 }
 
+
+
+// Manual Template Menus ==============================
+
+void MainWindow::showManualTemplateMenu(){
+    QPoint globalPos = QCursor::pos();   // show at mouse position
+    template_menu_manual->exec(globalPos);
+}
+
+
+void Bridge::Show_manual_template_menu(){
+    mainWindow->showManualTemplateMenu();
+}
+
+void MainWindow::onTemplateEdit()
+{
+    webView->page()->runJavaScript("edit_template();");
+}
+
+void MainWindow::onTemplateRemove()
+{
+    QMessageBox::StandardButton reply;
+
+    reply = QMessageBox::question(
+        this,
+        "Remove Template",
+        "You are about to remove this template.",
+        QMessageBox::Yes | QMessageBox::No
+        );
+
+    if (reply == QMessageBox::Yes)
+    {
+        webView->page()->runJavaScript("remove_template();");
+    }
+
+}
+
+void MainWindow::onTemplateCancel()
+{
+    // If you just want to close menu, do nothing
+    // Or call JS if needed
+}
+
+void MainWindow::onTemplateAddToTimeline()
+{
+    webView->page()->runJavaScript("sendToTimeTemplates();");
+}
 
