@@ -13,6 +13,9 @@ class QWebEngineView;  // Forward declaration
 
 #include "PortManager.h"
 
+class NestWindow;
+
+
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
@@ -87,6 +90,8 @@ private slots:
     void onTimelineClicked();
     void onManualClicked();
     void setActiveButton(QPushButton *active);
+    void openNestWindow();
+
 
 
     //Content Context Menu Action
@@ -131,6 +136,7 @@ private:
     //Tab Buttons
     QPushButton *btnTimeline;
     QPushButton *btnManual;
+    QPushButton *btnNest;
 
     QWebEngineView *webView;
 
@@ -148,6 +154,9 @@ private:
     void injectWebChannelScript();
     void initializeWebChannel();
     void onReady();
+
+    NestWindow *nestWindow;
+
 
 
     // Context Menus

@@ -63,7 +63,7 @@
 			{
 				"command" : 3,
 				"file" : 1,
-				"line" : 28,
+				"line" : 31,
 				"parent" : 0
 			},
 			{
@@ -87,19 +87,19 @@
 			{
 				"command" : 4,
 				"file" : 1,
-				"line" : 73,
+				"line" : 80,
 				"parent" : 0
 			},
 			{
 				"command" : 5,
 				"file" : 1,
-				"line" : 54,
+				"line" : 61,
 				"parent" : 0
 			},
 			{
 				"command" : 5,
 				"file" : 1,
-				"line" : 55,
+				"line" : 62,
 				"parent" : 0
 			},
 			{
@@ -191,7 +191,7 @@
 			{
 				"command" : 5,
 				"file" : 1,
-				"line" : 53,
+				"line" : 60,
 				"parent" : 0
 			},
 			{
@@ -393,7 +393,7 @@
 			{
 				"command" : 19,
 				"file" : 1,
-				"line" : 80,
+				"line" : 87,
 				"parent" : 0
 			},
 			{
@@ -612,7 +612,8 @@
 				0,
 				1,
 				2,
-				7
+				7,
+				10
 			]
 		}
 	],
@@ -623,11 +624,11 @@
 			"id" : "QTApp_qmlimportscan::@6890427a1f51a3e7e1df"
 		},
 		{
-			"backtrace" : 0,
-			"id" : "QTApp_autogen::@6890427a1f51a3e7e1df"
+			"id" : "QTApp_autogen_timestamp_deps::@6890427a1f51a3e7e1df"
 		},
 		{
-			"id" : "QTApp_autogen_timestamp_deps::@6890427a1f51a3e7e1df"
+			"backtrace" : 0,
+			"id" : "QTApp_autogen::@6890427a1f51a3e7e1df"
 		}
 	],
 	"id" : "QTApp::@6890427a1f51a3e7e1df",
@@ -759,7 +760,8 @@
 				0,
 				1,
 				2,
-				7
+				7,
+				10
 			]
 		},
 		{
@@ -768,29 +770,33 @@
 			[
 				3,
 				5,
-				6,
-				8
+				8,
+				9,
+				11,
+				12,
+				13
 			]
 		},
 		{
 			"name" : "Forms",
 			"sourceIndexes" : 
 			[
-				4
+				4,
+				6
 			]
 		},
 		{
 			"name" : "",
 			"sourceIndexes" : 
 			[
-				9
+				14
 			]
 		},
 		{
 			"name" : "CMake Rules",
 			"sourceIndexes" : 
 			[
-				10
+				15
 			]
 		}
 	],
@@ -827,6 +833,22 @@
 		},
 		{
 			"backtrace" : 4,
+			"path" : "nestwindow.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 4,
+			"path" : "nestwindow.ui",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "nestwindow.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
 			"path" : "Bridge.h",
 			"sourceGroupIndex" : 1
 		},
@@ -842,9 +864,20 @@
 			"sourceGroupIndex" : 0
 		},
 		{
+			"backtrace" : 4,
+			"path" : "Bridge_Nest.h",
+			"sourceGroupIndex" : 1
+		},
+		{
 			"backtrace" : 0,
 			"isGenerated" : true,
 			"path" : "build/Desktop-Release/QTApp_autogen/include/ui_mainwindow.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/Desktop-Release/QTApp_autogen/include/ui_nestwindow.h",
 			"sourceGroupIndex" : 1
 		},
 		{

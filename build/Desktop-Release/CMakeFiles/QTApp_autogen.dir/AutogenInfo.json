@@ -1280,6 +1280,12 @@
 			null
 		],
 		[
+			"/home/itsatompc/QTApps/QTApp/Bridge_Nest.h",
+			"MU",
+			"EWIEGA46WW/moc_Bridge_Nest.cpp",
+			null
+		],
+		[
 			"/home/itsatompc/QTApps/QTApp/PortManager.h",
 			"MU",
 			"EWIEGA46WW/moc_PortManager.cpp",
@@ -1289,6 +1295,12 @@
 			"/home/itsatompc/QTApps/QTApp/mainwindow.h",
 			"MU",
 			"EWIEGA46WW/moc_mainwindow.cpp",
+			null
+		],
+		[
+			"/home/itsatompc/QTApps/QTApp/nestwindow.h",
+			"MU",
+			"EWIEGA46WW/moc_nestwindow.cpp",
 			null
 		]
 	],
@@ -1381,7 +1393,8 @@
 	[
 		[ "/home/itsatompc/QTApps/QTApp/PortManager.cpp", "MU", null ],
 		[ "/home/itsatompc/QTApps/QTApp/main.cpp", "MU", null ],
-		[ "/home/itsatompc/QTApps/QTApp/mainwindow.cpp", "MU", null ]
+		[ "/home/itsatompc/QTApps/QTApp/mainwindow.cpp", "MU", null ],
+		[ "/home/itsatompc/QTApps/QTApp/nestwindow.cpp", "MU", null ]
 	],
 	"UIC_OPTIONS" : [],
 	"UIC_SEARCH_PATHS" : [],

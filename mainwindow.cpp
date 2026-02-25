@@ -1,6 +1,7 @@
 #include "Bridge.h"
 #include "PortManager.h"
 #include "mainwindow.h"
+#include "nestwindow.h"
 #include "./ui_mainwindow.h"
 #include <QPushButton>
 #include <QHBoxLayout>
@@ -28,6 +29,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     portManager = new PortManager(this);
+    nestWindow = new NestWindow(this);
+
 
     // Create right-side buttons
     QWidget *rightWidget = new QWidget(this);
@@ -37,16 +40,17 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     //Top Buttons
-    QPushButton *btn1 = new QPushButton("Nest.in", rightWidget);
+    btnNest = new QPushButton("Nest.in", rightWidget);
     btnTimeline = new QPushButton("Timeline Panel", rightWidget);
     btnManual   = new QPushButton("Manual Panel", rightWidget);
 
 
     connect(btnTimeline, &QPushButton::clicked, this, &MainWindow::onTimelineClicked);
     connect(btnManual, &QPushButton::clicked, this, &MainWindow::onManualClicked);
+    connect(btnNest, &QPushButton::clicked, this, &MainWindow::openNestWindow);
 
 
-    buttonLayout->addWidget(btn1);
+    buttonLayout->addWidget(btnNest);
     buttonLayout->addWidget(btnTimeline);
     buttonLayout->addWidget(btnManual);
 
@@ -357,6 +361,16 @@ void MainWindow::onManualClicked()
     setActiveButton(btnManual);
     webView->page()->runJavaScript("modeSelect('manual');");
 }
+
+void MainWindow::openNestWindow()
+{
+    nestWindow->show();
+    nestWindow->raise();
+    nestWindow->activateWindow();
+
+    this->showMinimized();
+}
+
 
 
 

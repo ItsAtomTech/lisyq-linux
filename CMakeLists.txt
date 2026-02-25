@@ -22,6 +22,9 @@ set(PROJECT_SOURCES
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
+        nestwindow.h
+        nestwindow.ui
+        nestwindow.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -31,6 +34,10 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         Bridge.h
         PortManager.h
         PortManager.cpp
+        nestwindow.ui
+        nestwindow.h
+        nestwindow.cpp
+        Bridge_Nest.h
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET QTApp APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

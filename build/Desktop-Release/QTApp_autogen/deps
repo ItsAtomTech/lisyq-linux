@@ -1,5 +1,6 @@
 QTApp_autogen/timestamp: \
 	/home/itsatompc/QTApps/QTApp/Bridge.h \
+	/home/itsatompc/QTApps/QTApp/Bridge_Nest.h \
 	/home/itsatompc/QTApps/QTApp/CMakeLists.txt \
 	/home/itsatompc/QTApps/QTApp/PortManager.cpp \
 	/home/itsatompc/QTApps/QTApp/PortManager.h \
@@ -12,6 +13,8 @@ QTApp_autogen/timestamp: \
 	/home/itsatompc/QTApps/QTApp/main.cpp \
 	/home/itsatompc/QTApps/QTApp/mainwindow.cpp \
 	/home/itsatompc/QTApps/QTApp/mainwindow.h \
+	/home/itsatompc/QTApps/QTApp/nestwindow.cpp \
+	/home/itsatompc/QTApps/QTApp/nestwindow.h \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/QJsonArray \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/QJsonDocument \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/QJsonObject \
@@ -1280,4 +1283,5 @@ QTApp_autogen/timestamp: \
 	/usr/lib/gcc/x86_64-linux-gnu/13/include/stdbool.h \
 	/usr/lib/gcc/x86_64-linux-gnu/13/include/stddef.h \
 	/home/itsatompc/QTApps/QTApp/mainwindow.ui \
+	/home/itsatompc/QTApps/QTApp/nestwindow.ui \
 	/home/itsatompc/Qt/Tools/CMake/bin/cmake
