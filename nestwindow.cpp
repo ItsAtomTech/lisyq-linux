@@ -111,6 +111,17 @@ NestWindow::NestWindow(QWidget *parent)
     // ==================
 
 
+    //Timeline Scripts Goes here
+    template_menu = new QMenu(this);
+
+    QAction *tmpl_edit   = template_menu->addAction("Edit on Timeline Editor");
+    QAction *tmpl_remove = template_menu->addAction("Remove");
+    QAction *tmpl_cancel = template_menu->addAction("Cancel");
+
+    connect(tmpl_edit,   &QAction::triggered, this, &NestWindow::onTemplateEditTimeline);
+    connect(tmpl_remove, &QAction::triggered, this, &NestWindow::onTemplateRemove);
+    connect(tmpl_cancel, &QAction::triggered, this, &NestWindow::onTemplateCancel);
+
 
 }
 
@@ -247,7 +258,56 @@ void NestWindow::onReady(){
 
 
 
- // Saving Files goes here ===========
+ // Opening Saving Files goes here ===========
+void NestWindow::openFile()
+{
+    QString fileName = QFileDialog::getOpenFileName(
+        this,
+        "Open LSYS File",
+        QDir::homePath(),
+        "LSYS Files (*.lsys)"
+        );
+
+    if (fileName.isEmpty())
+        return;
+
+    QFile file(fileName);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+        return;
+
+    QTextStream in(&file);
+    QString fileContent = in.readAll();
+    file.close();
+
+    // Escape content safely for JavaScript
+    QString safeContent = fileContent;
+    safeContent.replace("\\", "\\\\")
+        .replace("'", "\\'")
+        .replace("\n", "\\n")
+        .replace("\r", "");
+
+    QString safePath = fileName;
+    safePath.replace("\\", "\\\\");
+
+    QString js = QString("load_from_file('%1', \"%2\");")
+                     .arg(safeContent)
+                     .arg(safePath);
+
+    webView->page()->runJavaScript(js);
+
+    QMessageBox::information(
+        this,
+        "Loading",
+        "File: " + fileName + " is now loading."
+        );
+}
+
+
+void Bridge_Nest::Open_File(){
+    if(nestWindow) {
+        nestWindow->openFile();
+    }
+}
 
 
 
@@ -383,5 +443,29 @@ void Bridge_Nest::outputs(){
 
 //Context Menus
 
+// Script Template Menu
+void NestWindow::Show_template_scriptmenu(){
+    QPoint globalPos = QCursor::pos();   // show at mouse position
+    template_menu->exec(globalPos);
+}
+
+void Bridge_Nest::Show_template_scriptmenu(){
+    nestWindow->Show_template_scriptmenu();
+}
+
+void NestWindow::onTemplateEditTimeline()
+{
+    // webView->page()->runJavaScript("editTemplateOnTimeline();");
+}
+
+void NestWindow::onTemplateRemove()
+{
+   //  webView->page()->runJavaScript("removeTemplate();");
+}
+
+void NestWindow::onTemplateCancel()
+{
+    // Usually do nothing — menu closes automatically
+}
 
 

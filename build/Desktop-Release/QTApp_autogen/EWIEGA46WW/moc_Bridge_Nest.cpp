@@ -54,7 +54,9 @@ template <> constexpr inline auto Bridge_Nest::qt_create_metaobjectdata<qt_meta_
         "disconnect_com",
         "set_values",
         "data",
-        "outputs"
+        "outputs",
+        "Show_template_scriptmenu",
+        "Open_File"
     };
 
     QtMocHelpers::UintData qt_methods {
@@ -88,6 +90,10 @@ template <> constexpr inline auto Bridge_Nest::qt_create_metaobjectdata<qt_meta_
         }}),
         // Slot 'outputs'
         QtMocHelpers::SlotData<void()>(16, 2, QMC::AccessPublic, QMetaType::Void),
+        // Slot 'Show_template_scriptmenu'
+        QtMocHelpers::SlotData<void()>(17, 2, QMC::AccessPublic, QMetaType::Void),
+        // Slot 'Open_File'
+        QtMocHelpers::SlotData<void()>(18, 2, QMC::AccessPublic, QMetaType::Void),
     };
     QtMocHelpers::UintData qt_properties {
     };
@@ -126,6 +132,8 @@ void Bridge_Nest::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
         case 7: _t->disconnect_com((*reinterpret_cast<std::add_pointer_t<int>>(_a[1]))); break;
         case 8: _t->set_values((*reinterpret_cast<std::add_pointer_t<int>>(_a[1])),(*reinterpret_cast<std::add_pointer_t<QString>>(_a[2]))); break;
         case 9: _t->outputs(); break;
+        case 10: _t->Show_template_scriptmenu(); break;
+        case 11: _t->Open_File(); break;
         default: ;
         }
     }
@@ -150,14 +158,14 @@ int Bridge_Nest::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 10)
+        if (_id < 12)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 10;
+        _id -= 12;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 10)
+        if (_id < 12)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 10;
+        _id -= 12;
     }
     return _id;
 }

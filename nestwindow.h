@@ -14,6 +14,7 @@ class QWebEngineView;  // Forward declaration
 #include "PortManager.h"
 
 
+
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class NestWindow;
@@ -42,6 +43,8 @@ public:
 
     void Save_File();
 
+    void openFile();
+
 
     // ================
     // Ports and UDP Section
@@ -64,6 +67,9 @@ public:
     void setDf(const QString &data);
     void outputs_v2();
 
+    //Context Menus
+    void Show_template_scriptmenu();
+
 
 
 protected:
@@ -78,6 +84,10 @@ private slots:
     void setActiveButton(QPushButton *active);
 
 
+    //Timeline Scrips Menu
+    void onTemplateEditTimeline();
+    void onTemplateRemove();
+    void onTemplateCancel();
 
 
 
@@ -92,7 +102,6 @@ private:
     PortManager *portManager;
 
 
-
     // ================
     // File Management Section End
     // ================
@@ -104,7 +113,7 @@ private:
 
 
     // Context Menus
-
+    QMenu *template_menu;
 
 
 };

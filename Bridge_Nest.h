@@ -5,7 +5,6 @@
 #include <QWebChannel>
 #include <QObject>
 
-
 class NestWindow; // forward declaration
 
 class Bridge_Nest : public QObject
@@ -36,13 +35,21 @@ public slots:
     void set_values(int port, const QString &data);
     void outputs();
 
+    void Show_template_scriptmenu();
+
+    // Files
+    void Open_File();
 
 
     // Context Menus ===================
 
 
+
 private:
     NestWindow *nestWindow; // pointer to the NestWindow instance
+
+
+
 };
 
 
