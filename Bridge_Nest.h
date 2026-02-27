@@ -15,6 +15,8 @@ public:
     explicit Bridge_Nest(NestWindow *mw = nullptr, QObject *parent = nullptr)
         : QObject(parent), nestWindow(mw) {}
 
+     QString data_string_nt;
+
 public slots:
     // void put_data(const QString &data);
 
@@ -40,7 +42,8 @@ public slots:
     // Files
     void Open_File();
 
-
+    void put_data_nt(const QString &data);
+    void Save_File_NT();
     // Context Menus ===================
 
 

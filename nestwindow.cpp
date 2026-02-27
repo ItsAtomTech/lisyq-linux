@@ -21,6 +21,9 @@
 #include <QTextStream>
 #include <QMessageBox>
 
+#include "mainwindow.h"
+
+
 NestWindow::NestWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::NestWindow)
@@ -233,13 +236,19 @@ void NestWindow::setActiveButton(QPushButton *active)
 
 void NestWindow::onTimelineClicked()
 {
-    setActiveButton(btnTimeline);
-    webView->page()->runJavaScript("modeSelect('timeline');");
+
+    // minimize NestWindow
+    this->setWindowState(Qt::WindowMinimized);
+
+    if(mainWindow)
+    {
+        // This does not do anything yet
+        mainWindow->show();
+        mainWindow->raise();
+        mainWindow->activateWindow();
+    }
+
 }
-
-
-
-
 
 // Tool Strips and Others
 
@@ -310,7 +319,84 @@ void Bridge_Nest::Open_File(){
 }
 
 
+void Bridge_Nest::put_data_nt(const QString &data)
+{
+    if (nestWindow)
+        nestWindow->data_string_nt = data;
+}
 
+
+void Bridge_Nest::Save_File_NT()
+{
+    nestWindow->saveFileNT();
+}
+
+
+
+void NestWindow::on_actionSave_triggered(){
+    webView->page()->runJavaScript("save_to_file_nt();");
+}
+
+
+void NestWindow::saveFileNT()
+{
+    QString fileName;
+
+    if (SaveNestedTLPath.isEmpty() || NTAsnew)
+    {
+        fileName = QFileDialog::getSaveFileName(
+            this,
+            "Save Nested Project Timeline File",
+            QDir::homePath(),
+            "Lisyq Nested Project Timeline Files (*.ntlis)"
+            );
+
+        if (!fileName.isEmpty())
+        {
+            // Ensure the file has the .ntlis extension
+            if (!fileName.endsWith(".ntlis", Qt::CaseInsensitive))
+                fileName += ".ntlis";
+
+            QFile file(fileName);
+            if (file.open(QIODevice::WriteOnly | QIODevice::Text))
+            {
+                QTextStream out(&file);
+                out << data_string_nt;
+                file.close();
+
+                SaveNestedTLPath = fileName;
+                NTAsnew = false;
+
+                QMessageBox::information(
+                    this,
+                    "Saved",
+                    "File saved to: " + SaveNestedTLPath
+                    );
+            }
+        }
+        else
+        {
+            if (SaveNestedTLPath.isEmpty())
+                NTAsnew = true;
+        }
+    }
+    else
+    {
+        QFile file(SaveNestedTLPath);
+        if (file.open(QIODevice::WriteOnly | QIODevice::Text))
+        {
+            QTextStream out(&file);
+            out << data_string_nt;
+            file.close();
+
+            QMessageBox::information(
+                this,
+                "Saved",
+                "Saving File: " + SaveNestedTLPath
+                );
+        }
+    }
+}
 // Saving Files end        ===========
 
 

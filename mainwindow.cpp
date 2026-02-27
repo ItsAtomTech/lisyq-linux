@@ -23,14 +23,13 @@
 #include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
+    : QMainWindow(nullptr)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
 
     portManager = new PortManager(this);
-    nestWindow = new NestWindow(this);
-
+    this->setObjectName("MainWindow");
 
     // Create right-side buttons
     QWidget *rightWidget = new QWidget(this);
@@ -240,9 +239,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(tmpl_add,    &QAction::triggered, this, &MainWindow::onTemplateAddToTimeline);
 
 
-
-
+    nestWindow = new NestWindow(this);
 }
+
+
 
 
 
@@ -368,7 +368,7 @@ void MainWindow::openNestWindow()
     nestWindow->raise();
     nestWindow->activateWindow();
 
-    this->showMinimized();
+    //this->showMinimized();
 }
 
 

@@ -56,7 +56,9 @@ template <> constexpr inline auto Bridge_Nest::qt_create_metaobjectdata<qt_meta_
         "data",
         "outputs",
         "Show_template_scriptmenu",
-        "Open_File"
+        "Open_File",
+        "put_data_nt",
+        "Save_File_NT"
     };
 
     QtMocHelpers::UintData qt_methods {
@@ -94,6 +96,12 @@ template <> constexpr inline auto Bridge_Nest::qt_create_metaobjectdata<qt_meta_
         QtMocHelpers::SlotData<void()>(17, 2, QMC::AccessPublic, QMetaType::Void),
         // Slot 'Open_File'
         QtMocHelpers::SlotData<void()>(18, 2, QMC::AccessPublic, QMetaType::Void),
+        // Slot 'put_data_nt'
+        QtMocHelpers::SlotData<void(const QString &)>(19, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::QString, 15 },
+        }}),
+        // Slot 'Save_File_NT'
+        QtMocHelpers::SlotData<void()>(20, 2, QMC::AccessPublic, QMetaType::Void),
     };
     QtMocHelpers::UintData qt_properties {
     };
@@ -134,6 +142,8 @@ void Bridge_Nest::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
         case 9: _t->outputs(); break;
         case 10: _t->Show_template_scriptmenu(); break;
         case 11: _t->Open_File(); break;
+        case 12: _t->put_data_nt((*reinterpret_cast<std::add_pointer_t<QString>>(_a[1]))); break;
+        case 13: _t->Save_File_NT(); break;
         default: ;
         }
     }
@@ -158,14 +168,14 @@ int Bridge_Nest::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 12)
+        if (_id < 14)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 12;
+        _id -= 14;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 12)
+        if (_id < 14)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 12;
+        _id -= 14;
     }
     return _id;
 }

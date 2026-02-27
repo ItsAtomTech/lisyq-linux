@@ -21,6 +21,9 @@ class NestWindow;
 }
 QT_END_NAMESPACE
 
+class MainWindow;
+
+
 class NestWindow : public QMainWindow
 {
     Q_OBJECT
@@ -31,6 +34,9 @@ public:
 
 
     QString data_string; //temp store for the data
+    QString data_string_nt;
+    QString SaveNestedTLPath;     // Stores last save path
+    bool NTAsnew = true;          // Tracks if this is a new file
 
     // ================
     // File Management Vars Section
@@ -67,6 +73,9 @@ public:
     void setDf(const QString &data);
     void outputs_v2();
 
+    void saveFileNT();
+
+
     //Context Menus
     void Show_template_scriptmenu();
 
@@ -83,13 +92,15 @@ private slots:
     void onTimelineClicked();
     void setActiveButton(QPushButton *active);
 
+    void on_actionSave_triggered();
+
+    //
+
 
     //Timeline Scrips Menu
     void onTemplateEditTimeline();
     void onTemplateRemove();
     void onTemplateCancel();
-
-
 
 private:
     Ui::NestWindow *ui;
@@ -100,6 +111,8 @@ private:
 
     QWebEngineView *webView;
     PortManager *portManager;
+
+    MainWindow* mainWindow;
 
 
     // ================
