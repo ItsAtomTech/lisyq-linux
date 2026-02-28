@@ -38,6 +38,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         nestwindow.h
         nestwindow.cpp
         Bridge_Nest.h
+        Toast.h
+        Toast.cpp
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET QTApp APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

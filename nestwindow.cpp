@@ -20,9 +20,10 @@
 #include <QFile>
 #include <QTextStream>
 #include <QMessageBox>
+#include <QProgressDialog>
 
 #include "mainwindow.h"
-
+#include "Toast.h"
 
 NestWindow::NestWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -108,6 +109,7 @@ NestWindow::NestWindow(QWidget *parent)
     FromOpenFile = false;
     asNew = true;
 
+    webView->setContextMenuPolicy(Qt::NoContextMenu);
 
     // ==================
     //  Context Menus
@@ -124,6 +126,23 @@ NestWindow::NestWindow(QWidget *parent)
     connect(tmpl_edit,   &QAction::triggered, this, &NestWindow::onTemplateEditTimeline);
     connect(tmpl_remove, &QAction::triggered, this, &NestWindow::onTemplateRemove);
     connect(tmpl_cancel, &QAction::triggered, this, &NestWindow::onTemplateCancel);
+
+
+    //Timeline sub script menu
+    nestMainMenu = new QMenu(this);
+
+    QAction *removeAction = nestMainMenu->addAction("Remove");
+    QAction *detailsAction = nestMainMenu->addAction("Details");
+    QAction *trackOptionsAction = nestMainMenu->addAction("Track Options");
+    QAction *cancelAction = nestMainMenu->addAction("Cancel");
+
+    connect(removeAction, &QAction::triggered, this, &NestWindow::nestRemove);
+
+    connect(detailsAction, &QAction::triggered,this, &NestWindow::nestDetails);
+
+    connect(trackOptionsAction, &QAction::triggered, this, &NestWindow::nestTrackOptions);
+
+    connect(cancelAction, &QAction::triggered, this, &NestWindow::nestCancel);
 
 
 }
@@ -238,14 +257,14 @@ void NestWindow::onTimelineClicked()
 {
 
     // minimize NestWindow
-    this->setWindowState(Qt::WindowMinimized);
+    this->showMinimized();
 
     if(mainWindow)
     {
-        // This does not do anything yet
-        mainWindow->show();
-        mainWindow->raise();
-        mainWindow->activateWindow();
+        // This does not do anything yet, cuases crash for some reason
+        //mainWindow->showNormal();
+        //mainWindow->raise();
+       // mainWindow->activateWindow();
     }
 
 }
@@ -263,8 +282,15 @@ void NestWindow::onReady(){
     //---
 }
 
-\
 
+void NestWindow::on_actionSequence_File_triggered(){
+    webView->page()->runJavaScript("openLsysFileNS();");
+}
+
+
+void NestWindow::on_actionOpen_triggered(){
+    this->Open_File_NT();
+}
 
 
  // Opening Saving Files goes here ===========
@@ -304,11 +330,12 @@ void NestWindow::openFile()
 
     webView->page()->runJavaScript(js);
 
-    QMessageBox::information(
-        this,
-        "Loading",
-        "File: " + fileName + " is now loading."
-        );
+
+    Toast *toast = new Toast(this);
+    toast->showMessage("File: " + fileName + " is now loading.",
+                       QColor("green"),
+                       QColor("white"),2000);
+
 }
 
 
@@ -389,18 +416,84 @@ void NestWindow::saveFileNT()
             out << data_string_nt;
             file.close();
 
-            QMessageBox::information(
-                this,
-                "Saved",
-                "Saving File: " + SaveNestedTLPath
-                );
+
+            Toast *toast = new Toast(this);
+            toast->showMessage("Saving File: " + SaveNestedTLPath,
+                               QColor("green"),
+                               QColor("white"),
+                               5000);
+
+
         }
     }
 }
 // Saving Files end        ===========
 
 
+void NestWindow::Open_File_NT()
+{
+    QString fileName;
 
+    // If a file is already open
+    if (!SaveNestedTLPath.isEmpty())
+    {
+        QMessageBox::StandardButton reply;
+
+        reply = QMessageBox::question(
+            this,
+            "Open New",
+            "You are about to load a file and close currently open file.\n"
+            "Save changes first.\n\nContinue to Load?",
+            QMessageBox::Yes | QMessageBox::No,
+            QMessageBox::No
+            );
+
+        if (reply != QMessageBox::Yes)
+            return;
+    }
+
+    // Open dialog
+    fileName = QFileDialog::getOpenFileName(
+        this,
+        "Open Nested Timeline File",
+        QDir::homePath(),
+        "Lisyq Nested Project Timeline Files (*.ntlis)"
+        );
+
+    if (fileName.isEmpty())
+        return;
+
+    // Optional progress dialog (simple version)
+    QProgressDialog progress("Loading file...", QString(), 0, 0, this);
+    progress.setWindowModality(Qt::WindowModal);
+    progress.show();
+
+    // Read file
+    QFile file(fileName);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+        return;
+
+    QTextStream in(&file);
+    QString fileContent = in.readAll();
+    file.close();
+
+    // Escape content safely for JS
+    fileContent.replace("\\", "\\\\");
+    fileContent.replace("'", "\\'");
+    fileContent.replace("\n", "\\n");
+    fileContent.replace("\r", "");
+
+    // Send to WebView
+    webView->page()->runJavaScript(
+        QString("load_from_file_nt('%1');").arg(fileContent)
+        );
+
+    // Save path
+    SaveNestedTLPath = fileName;
+    NTAsnew = false;
+    progress.close();
+
+}
 
 
 // ================================
@@ -458,7 +551,14 @@ void NestWindow::outputs_v2()
         portManager->outputs_v2();
 }
 
-
+void NestWindow::ComingSoon()
+{
+    Toast *toast = new Toast(this);
+    toast->showMessage("This Feature is coming soon...",
+                       QColor("gold"),
+                       QColor("black"),
+                       2000);
+}
 
 
 
@@ -523,8 +623,25 @@ void Bridge_Nest::outputs(){
 }
 
 
+//get file content using a filepath
+QString Bridge_Nest::open_filePath(const QString &filePath)
+{
+    QFile file(filePath);
 
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        QMessageBox::warning(nullptr,
+                             "Failed Loading",
+                             "Failed Loading: " + filePath);
+        return "";
+    }
 
+    QTextStream in(&file);
+    QString fileContent = in.readAll();
+    file.close();
+
+    return fileContent;
+}
 
 
 //Context Menus
@@ -542,16 +659,53 @@ void Bridge_Nest::Show_template_scriptmenu(){
 void NestWindow::onTemplateEditTimeline()
 {
     // webView->page()->runJavaScript("editTemplateOnTimeline();");
+    this->ComingSoon();
 }
 
 void NestWindow::onTemplateRemove()
 {
-   //  webView->page()->runJavaScript("removeTemplate();");
+     webView->page()->runJavaScript("remove_scriptstub();");
 }
 
 void NestWindow::onTemplateCancel()
 {
     // Usually do nothing — menu closes automatically
+}
+
+
+
+
+
+// Script Sub Template Menu
+void NestWindow::Show_content_scriptmenu(){
+    QPoint globalPos = QCursor::pos();   // show at mouse position
+    nestMainMenu->exec(globalPos);
+}
+
+void Bridge_Nest::Show_content_menu(){
+    nestWindow->Show_content_scriptmenu();
+}
+
+
+void NestWindow::nestRemove()
+{
+    webView->page()->runJavaScript("remove_subtrack();");
+}
+
+void NestWindow::nestDetails()
+{
+    this->ComingSoon();
+    webView->page()->runJavaScript("nest_details();");
+}
+
+void NestWindow::nestTrackOptions()
+{
+    webView->page()->runJavaScript("nest_track_options();");
+}
+
+void NestWindow::nestCancel()
+{
+    // Menu auto-closes — usually no code needed
 }
 
 

@@ -7,7 +7,7 @@
 				{
 					"build" : ".",
 					"hasInstallRule" : true,
-					"jsonFile" : "directory-.-Release-349c2718b3e4d076d118.json",
+					"jsonFile" : "directory-.-Release-4d6c495779e3cb94a819.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.16"
@@ -46,7 +46,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "QTApp::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-QTApp-Release-e9717a9edf3a29907865.json",
+					"jsonFile" : "target-QTApp-Release-c717fa291f6c9e52c5f6.json",
 					"name" : "QTApp",
 					"projectIndex" : 0
 				},
@@ -67,7 +67,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "QTApp_qmlimportscan::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-QTApp_qmlimportscan-Release-5b224406ff443adf759e.json",
+					"jsonFile" : "target-QTApp_qmlimportscan-Release-0f1d845b8e3f353c79ea.json",
 					"name" : "QTApp_qmlimportscan",
 					"projectIndex" : 0
 				}

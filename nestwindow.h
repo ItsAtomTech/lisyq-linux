@@ -72,13 +72,15 @@ public:
 
     void setDf(const QString &data);
     void outputs_v2();
+    void ComingSoon();
+
 
     void saveFileNT();
-
+    void Open_File_NT();
 
     //Context Menus
     void Show_template_scriptmenu();
-
+    void Show_content_scriptmenu();
 
 
 protected:
@@ -93,7 +95,8 @@ private slots:
     void setActiveButton(QPushButton *active);
 
     void on_actionSave_triggered();
-
+    void on_actionSequence_File_triggered();
+    void on_actionOpen_triggered();
     //
 
 
@@ -101,6 +104,12 @@ private slots:
     void onTemplateEditTimeline();
     void onTemplateRemove();
     void onTemplateCancel();
+
+    //Timeline Content Context Menu
+    void nestRemove();
+    void nestDetails();
+    void nestTrackOptions();
+    void nestCancel();
 
 private:
     Ui::NestWindow *ui;
@@ -127,7 +136,7 @@ private:
 
     // Context Menus
     QMenu *template_menu;
-
+    QMenu *nestMainMenu;
 
 };
 

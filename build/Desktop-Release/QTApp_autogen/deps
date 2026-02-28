@@ -4,6 +4,8 @@ QTApp_autogen/timestamp: \
 	/home/itsatompc/QTApps/QTApp/CMakeLists.txt \
 	/home/itsatompc/QTApps/QTApp/PortManager.cpp \
 	/home/itsatompc/QTApps/QTApp/PortManager.h \
+	/home/itsatompc/QTApps/QTApp/Toast.cpp \
+	/home/itsatompc/QTApps/QTApp/Toast.h \
 	/home/itsatompc/QTApps/QTApp/build/Desktop-Release/.qt/qml_imports/QTApp_conf.cmake \
 	/home/itsatompc/QTApps/QTApp/build/Desktop-Release/.qtc/package-manager/auto-setup.cmake \
 	/home/itsatompc/QTApps/QTApp/build/Desktop-Release/.qtc/package-manager/maintenance_tool_provider.cmake \
@@ -22,9 +24,11 @@ QTApp_autogen/timestamp: \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/QList \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/QMap \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/QObject \
+	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/QPropertyAnimation \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/QRect \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/QSize \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/QSizeF \
+	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/QTimer \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/q17memory.h \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/q20functional.h \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/q20iterator.h \
@@ -33,6 +37,7 @@ QTApp_autogen/timestamp: \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/q20utility.h \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/q23type_traits.h \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/q23utility.h \
+	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qabstractanimation.h \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qabstracteventdispatcher.h \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qalgorithms.h \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qalloc.h \
@@ -75,6 +80,7 @@ QTApp_autogen/timestamp: \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qdebug.h \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qdir.h \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qdirlisting.h \
+	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qeasingcurve.h \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qendian.h \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qeventloop.h \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qexceptionhandling.h \
@@ -124,6 +130,7 @@ QTApp_autogen/timestamp: \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qpoint.h \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qprocessordetection.h \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qproperty.h \
+	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qpropertyanimation.h \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qpropertyprivate.h \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qrect.h \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qrefcount.h \
@@ -163,6 +170,7 @@ QTApp_autogen/timestamp: \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qtenvironmentvariables.h \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qtextstream.h \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qtformat_impl.h \
+	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qtimer.h \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qtimezone.h \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qtmetamacros.h \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qtnoop.h \
@@ -178,6 +186,7 @@ QTApp_autogen/timestamp: \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qutf8stringview.h \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/quuid.h \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qvariant.h \
+	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qvariantanimation.h \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qvarlengtharray.h \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qversiontagging.h \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qxptype_traits.h \
@@ -205,6 +214,7 @@ QTApp_autogen/timestamp: \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qpaintdevice.h \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qpalette.h \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qpen.h \
+	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qpicture.h \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qpixelformat.h \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qpixmap.h \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qpointingdevice.h \
@@ -243,12 +253,18 @@ QTApp_autogen/timestamp: \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtWebChannel/qwebchannel.h \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtWebChannel/qwebchannelglobal.h \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtWidgets/QFileDialog \
+	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtWidgets/QGraphicsDropShadowEffect \
+	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtWidgets/QGraphicsOpacityEffect \
+	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtWidgets/QLabel \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtWidgets/QLineEdit \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtWidgets/QMainWindow \
+	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtWidgets/QWidget \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtWidgets/QWidgetAction \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtWidgets/qdialog.h \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtWidgets/qfiledialog.h \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtWidgets/qframe.h \
+	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtWidgets/qgraphicseffect.h \
+	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtWidgets/qlabel.h \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtWidgets/qlineedit.h \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtWidgets/qmainwindow.h \
 	/home/itsatompc/Qt/6.10.2/gcc_64/include/QtWidgets/qsizepolicy.h \

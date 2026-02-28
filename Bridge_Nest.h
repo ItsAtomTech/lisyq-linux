@@ -38,9 +38,13 @@ public slots:
     void outputs();
 
     void Show_template_scriptmenu();
+    void Show_content_menu();
 
     // Files
     void Open_File();
+
+    QString open_filePath(const QString &filePath);
+
 
     void put_data_nt(const QString &data);
     void Save_File_NT();

@@ -47,9 +47,15 @@ template <> constexpr inline auto NestWindow::qt_create_metaobjectdata<qt_meta_t
         "QPushButton*",
         "active",
         "on_actionSave_triggered",
+        "on_actionSequence_File_triggered",
+        "on_actionOpen_triggered",
         "onTemplateEditTimeline",
         "onTemplateRemove",
-        "onTemplateCancel"
+        "onTemplateCancel",
+        "nestRemove",
+        "nestDetails",
+        "nestTrackOptions",
+        "nestCancel"
     };
 
     QtMocHelpers::UintData qt_methods {
@@ -63,12 +69,24 @@ template <> constexpr inline auto NestWindow::qt_create_metaobjectdata<qt_meta_t
         }}),
         // Slot 'on_actionSave_triggered'
         QtMocHelpers::SlotData<void()>(7, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onTemplateEditTimeline'
+        // Slot 'on_actionSequence_File_triggered'
         QtMocHelpers::SlotData<void()>(8, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onTemplateRemove'
+        // Slot 'on_actionOpen_triggered'
         QtMocHelpers::SlotData<void()>(9, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onTemplateCancel'
+        // Slot 'onTemplateEditTimeline'
         QtMocHelpers::SlotData<void()>(10, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'onTemplateRemove'
+        QtMocHelpers::SlotData<void()>(11, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'onTemplateCancel'
+        QtMocHelpers::SlotData<void()>(12, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'nestRemove'
+        QtMocHelpers::SlotData<void()>(13, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'nestDetails'
+        QtMocHelpers::SlotData<void()>(14, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'nestTrackOptions'
+        QtMocHelpers::SlotData<void()>(15, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'nestCancel'
+        QtMocHelpers::SlotData<void()>(16, 2, QMC::AccessPrivate, QMetaType::Void),
     };
     QtMocHelpers::UintData qt_properties {
     };
@@ -96,9 +114,15 @@ void NestWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 1: _t->onTimelineClicked(); break;
         case 2: _t->setActiveButton((*reinterpret_cast<std::add_pointer_t<QPushButton*>>(_a[1]))); break;
         case 3: _t->on_actionSave_triggered(); break;
-        case 4: _t->onTemplateEditTimeline(); break;
-        case 5: _t->onTemplateRemove(); break;
-        case 6: _t->onTemplateCancel(); break;
+        case 4: _t->on_actionSequence_File_triggered(); break;
+        case 5: _t->on_actionOpen_triggered(); break;
+        case 6: _t->onTemplateEditTimeline(); break;
+        case 7: _t->onTemplateRemove(); break;
+        case 8: _t->onTemplateCancel(); break;
+        case 9: _t->nestRemove(); break;
+        case 10: _t->nestDetails(); break;
+        case 11: _t->nestTrackOptions(); break;
+        case 12: _t->nestCancel(); break;
         default: ;
         }
     }
@@ -123,14 +147,14 @@ int NestWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 7)
+        if (_id < 13)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 7;
+        _id -= 13;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 7)
+        if (_id < 13)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 7;
+        _id -= 13;
     }
     return _id;
 }

@@ -1292,6 +1292,12 @@
 			null
 		],
 		[
+			"/home/itsatompc/QTApps/QTApp/Toast.h",
+			"MU",
+			"EWIEGA46WW/moc_Toast.cpp",
+			null
+		],
+		[
 			"/home/itsatompc/QTApps/QTApp/mainwindow.h",
 			"MU",
 			"EWIEGA46WW/moc_mainwindow.cpp",
@@ -1392,6 +1398,7 @@
 	"SOURCES" : 
 	[
 		[ "/home/itsatompc/QTApps/QTApp/PortManager.cpp", "MU", null ],
+		[ "/home/itsatompc/QTApps/QTApp/Toast.cpp", "MU", null ],
 		[ "/home/itsatompc/QTApps/QTApp/main.cpp", "MU", null ],
 		[ "/home/itsatompc/QTApps/QTApp/mainwindow.cpp", "MU", null ],
 		[ "/home/itsatompc/QTApps/QTApp/nestwindow.cpp", "MU", null ]

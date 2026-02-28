@@ -2,5 +2,6 @@
 #include "EWIEGA46WW/moc_Bridge.cpp"
 #include "EWIEGA46WW/moc_Bridge_Nest.cpp"
 #include "EWIEGA46WW/moc_PortManager.cpp"
+#include "EWIEGA46WW/moc_Toast.cpp"
 #include "EWIEGA46WW/moc_mainwindow.cpp"
 #include "EWIEGA46WW/moc_nestwindow.cpp"
