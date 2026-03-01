@@ -36,7 +36,12 @@ public:
     QString data_string; //temp store for the data
     QString data_string_nt;
     QString SaveNestedTLPath;     // Stores last save path
+    QString SavePlayListPath;
     bool NTAsnew = true;          // Tracks if this is a new file
+
+    QString data_string_pl;
+    bool Asnew = true;           // Tracks "Save As" for Playlist
+
 
     // ================
     // File Management Vars Section
@@ -77,6 +82,9 @@ public:
 
     void saveFileNT();
     void Open_File_NT();
+
+    void openFilePL();
+    void saveFilePL();
 
     //Context Menus
     void Show_template_scriptmenu();

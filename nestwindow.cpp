@@ -496,6 +496,144 @@ void NestWindow::Open_File_NT()
 }
 
 
+
+void NestWindow::openFilePL()
+{
+    // If a playlist is already loaded
+    if (!SavePlayListPath.isEmpty())
+    {
+        QMessageBox::StandardButton reply;
+        reply = QMessageBox::question(
+            this,
+            "Open New",
+            "You are about to load a file and close the currently open file.\n"
+            "Save changes first. Continue to Load?",
+            QMessageBox::Yes | QMessageBox::No
+            );
+
+        if (reply != QMessageBox::Yes)
+            return;
+    }
+
+    QString fileName = QFileDialog::getOpenFileName(
+        this,
+        "Open Playlist File",
+        QDir::homePath(),
+        "Lisyq playlist Files (*.lips)"
+        );
+
+    if (fileName.isEmpty())
+        return;
+
+    QFile file(fileName);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+        return;
+
+    QTextStream in(&file);
+    QString fileContent = in.readAll();
+    file.close();
+
+    // Escape for JavaScript safety
+    fileContent.replace("\\", "\\\\")
+        .replace("'", "\\'")
+        .replace("\n", "\\n")
+        .replace("\r", "");
+
+    QString js = QString("load_pl_from_file('%1');")
+                     .arg(fileContent);
+
+    webView->page()->runJavaScript(js);
+
+    SavePlayListPath = fileName;
+
+
+    Toast *toast = new Toast(this);
+    toast->showMessage( "File: " + SavePlayListPath + " is now loading.",
+                       QColor("green"),
+                       QColor("white"),
+                       5000);
+
+}
+
+
+void Bridge_Nest::Open_File_PL(){
+    if (!nestWindow) return;
+    nestWindow->openFilePL();
+}
+
+void NestWindow::saveFilePL()
+{
+    QString fileName;
+
+    if (SavePlayListPath.isEmpty() || Asnew)
+    {
+        fileName = QFileDialog::getSaveFileName(
+            this,
+            "Save Playlist File",
+            QDir::homePath(),
+            "Lisyq Playlist Files (*.lips)"
+            );
+
+        if (!fileName.isEmpty())
+        {
+            // Ensure .lips extension
+            if (!fileName.endsWith(".lips", Qt::CaseInsensitive))
+                fileName += ".lips";
+
+            QFile file(fileName);
+            if (file.open(QIODevice::WriteOnly | QIODevice::Text))
+            {
+                QTextStream out(&file);
+                out << data_string_pl;
+                file.close();
+
+                SavePlayListPath = fileName;
+                Asnew = false;
+                Toast *toast = new Toast(this);
+                toast->showMessage( "File saved to: " + SavePlayListPath,
+                                   QColor("green"),
+                                   QColor("white"),
+                                   5000);
+
+            }
+        }
+        else
+        {
+            if (SavePlayListPath.isEmpty())
+                Asnew = true;
+        }
+    }
+    else
+    {
+        QFile file(SavePlayListPath);
+        if (file.open(QIODevice::WriteOnly | QIODevice::Text))
+        {
+            QTextStream out(&file);
+            out << data_string_pl;
+            file.close();
+            Toast *toast = new Toast(this);
+            toast->showMessage("Saving File: " + SavePlayListPath,
+                               QColor("green"),
+                               QColor("white"),
+                               5000);
+        }
+        return;
+    }
+}
+
+
+void Bridge_Nest::Save_File_PL(){
+    if (!nestWindow) return;
+    nestWindow->saveFilePL();
+}
+
+
+void Bridge_Nest::put_pl_data(const QString &data){
+    if (!nestWindow) return;
+    nestWindow->data_string_pl = data;
+}
+
+
 // ================================
 // PORT Channel Management
 // ================================

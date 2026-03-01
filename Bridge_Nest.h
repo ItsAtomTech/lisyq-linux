@@ -42,11 +42,15 @@ public slots:
 
     // Files
     void Open_File();
+    void Open_File_PL();
+    void Save_File_PL();
 
     QString open_filePath(const QString &filePath);
 
 
     void put_data_nt(const QString &data);
+    void put_pl_data(const QString &data);
+
     void Save_File_NT();
     // Context Menus ===================
 
