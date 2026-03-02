@@ -81,6 +81,7 @@ protected:
 private slots:
     void on_actionOpen_triggered();
     void on_actionSave_triggered();
+    void on_actionSave_As_triggered();
 
     void on_actionPort_Configuration_triggered();
     void on_actionDMX_Config_Patcher_triggered();

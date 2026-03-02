@@ -385,6 +385,14 @@ void MainWindow::on_actionSave_triggered(){
     webView->page()->runJavaScript("save_to_file();");
 }
 
+
+void MainWindow::on_actionSave_As_triggered(){
+    asNew = true;
+    webView->page()->runJavaScript("save_to_file();");
+}
+
+
+
 void MainWindow::on_actionPort_Configuration_triggered(){
     webView->page()->runJavaScript("openPortConfig();");
 }

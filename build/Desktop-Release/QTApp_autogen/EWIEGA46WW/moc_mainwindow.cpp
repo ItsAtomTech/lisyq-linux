@@ -43,6 +43,7 @@ template <> constexpr inline auto MainWindow::qt_create_metaobjectdata<qt_meta_t
         "on_actionOpen_triggered",
         "",
         "on_actionSave_triggered",
+        "on_actionSave_As_triggered",
         "on_actionPort_Configuration_triggered",
         "on_actionDMX_Config_Patcher_triggered",
         "on_actionAdd_New_Track_triggered",
@@ -82,68 +83,70 @@ template <> constexpr inline auto MainWindow::qt_create_metaobjectdata<qt_meta_t
         QtMocHelpers::SlotData<void()>(1, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'on_actionSave_triggered'
         QtMocHelpers::SlotData<void()>(3, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'on_actionPort_Configuration_triggered'
+        // Slot 'on_actionSave_As_triggered'
         QtMocHelpers::SlotData<void()>(4, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'on_actionDMX_Config_Patcher_triggered'
+        // Slot 'on_actionPort_Configuration_triggered'
         QtMocHelpers::SlotData<void()>(5, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'on_actionAdd_New_Track_triggered'
+        // Slot 'on_actionDMX_Config_Patcher_triggered'
         QtMocHelpers::SlotData<void()>(6, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onTimelineClicked'
+        // Slot 'on_actionAdd_New_Track_triggered'
         QtMocHelpers::SlotData<void()>(7, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onManualClicked'
+        // Slot 'onTimelineClicked'
         QtMocHelpers::SlotData<void()>(8, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'onManualClicked'
+        QtMocHelpers::SlotData<void()>(9, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'setActiveButton'
-        QtMocHelpers::SlotData<void(QPushButton *)>(9, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { 0x80000000 | 10, 11 },
+        QtMocHelpers::SlotData<void(QPushButton *)>(10, 2, QMC::AccessPrivate, QMetaType::Void, {{
+            { 0x80000000 | 11, 12 },
         }}),
         // Slot 'openNestWindow'
-        QtMocHelpers::SlotData<void()>(12, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onContextEdit'
         QtMocHelpers::SlotData<void()>(13, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onContextRemove'
+        // Slot 'onContextEdit'
         QtMocHelpers::SlotData<void()>(14, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onContextCopy'
+        // Slot 'onContextRemove'
         QtMocHelpers::SlotData<void()>(15, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onContextTrackOptions'
+        // Slot 'onContextCopy'
         QtMocHelpers::SlotData<void()>(16, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onContextAddToTemplate'
+        // Slot 'onContextTrackOptions'
         QtMocHelpers::SlotData<void()>(17, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'handleAddTrack'
+        // Slot 'onContextAddToTemplate'
         QtMocHelpers::SlotData<void()>(18, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'handleAddTrackAt'
+        // Slot 'handleAddTrack'
         QtMocHelpers::SlotData<void()>(19, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'duplicateAfter'
+        // Slot 'handleAddTrackAt'
         QtMocHelpers::SlotData<void()>(20, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'duplicateBefore'
+        // Slot 'duplicateAfter'
         QtMocHelpers::SlotData<void()>(21, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'duplicateAtPosition'
+        // Slot 'duplicateBefore'
         QtMocHelpers::SlotData<void()>(22, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'duplicateStart'
+        // Slot 'duplicateAtPosition'
         QtMocHelpers::SlotData<void()>(23, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'duplicateEnd'
+        // Slot 'duplicateStart'
         QtMocHelpers::SlotData<void()>(24, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'editPortChannel'
+        // Slot 'duplicateEnd'
         QtMocHelpers::SlotData<void()>(25, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'removeTrack'
+        // Slot 'editPortChannel'
         QtMocHelpers::SlotData<void()>(26, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'pasteContent'
+        // Slot 'removeTrack'
         QtMocHelpers::SlotData<void()>(27, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'editTemplate'
+        // Slot 'pasteContent'
         QtMocHelpers::SlotData<void()>(28, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'removeTemplate'
+        // Slot 'editTemplate'
         QtMocHelpers::SlotData<void()>(29, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'cancelTemplate'
+        // Slot 'removeTemplate'
         QtMocHelpers::SlotData<void()>(30, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'sendToManualTemplate'
+        // Slot 'cancelTemplate'
         QtMocHelpers::SlotData<void()>(31, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onTemplateEdit'
+        // Slot 'sendToManualTemplate'
         QtMocHelpers::SlotData<void()>(32, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onTemplateRemove'
+        // Slot 'onTemplateEdit'
         QtMocHelpers::SlotData<void()>(33, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onTemplateCancel'
+        // Slot 'onTemplateRemove'
         QtMocHelpers::SlotData<void()>(34, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onTemplateAddToTimeline'
+        // Slot 'onTemplateCancel'
         QtMocHelpers::SlotData<void()>(35, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'onTemplateAddToTimeline'
+        QtMocHelpers::SlotData<void()>(36, 2, QMC::AccessPrivate, QMetaType::Void),
     };
     QtMocHelpers::UintData qt_properties {
     };
@@ -169,36 +172,37 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         switch (_id) {
         case 0: _t->on_actionOpen_triggered(); break;
         case 1: _t->on_actionSave_triggered(); break;
-        case 2: _t->on_actionPort_Configuration_triggered(); break;
-        case 3: _t->on_actionDMX_Config_Patcher_triggered(); break;
-        case 4: _t->on_actionAdd_New_Track_triggered(); break;
-        case 5: _t->onTimelineClicked(); break;
-        case 6: _t->onManualClicked(); break;
-        case 7: _t->setActiveButton((*reinterpret_cast<std::add_pointer_t<QPushButton*>>(_a[1]))); break;
-        case 8: _t->openNestWindow(); break;
-        case 9: _t->onContextEdit(); break;
-        case 10: _t->onContextRemove(); break;
-        case 11: _t->onContextCopy(); break;
-        case 12: _t->onContextTrackOptions(); break;
-        case 13: _t->onContextAddToTemplate(); break;
-        case 14: _t->handleAddTrack(); break;
-        case 15: _t->handleAddTrackAt(); break;
-        case 16: _t->duplicateAfter(); break;
-        case 17: _t->duplicateBefore(); break;
-        case 18: _t->duplicateAtPosition(); break;
-        case 19: _t->duplicateStart(); break;
-        case 20: _t->duplicateEnd(); break;
-        case 21: _t->editPortChannel(); break;
-        case 22: _t->removeTrack(); break;
-        case 23: _t->pasteContent(); break;
-        case 24: _t->editTemplate(); break;
-        case 25: _t->removeTemplate(); break;
-        case 26: _t->cancelTemplate(); break;
-        case 27: _t->sendToManualTemplate(); break;
-        case 28: _t->onTemplateEdit(); break;
-        case 29: _t->onTemplateRemove(); break;
-        case 30: _t->onTemplateCancel(); break;
-        case 31: _t->onTemplateAddToTimeline(); break;
+        case 2: _t->on_actionSave_As_triggered(); break;
+        case 3: _t->on_actionPort_Configuration_triggered(); break;
+        case 4: _t->on_actionDMX_Config_Patcher_triggered(); break;
+        case 5: _t->on_actionAdd_New_Track_triggered(); break;
+        case 6: _t->onTimelineClicked(); break;
+        case 7: _t->onManualClicked(); break;
+        case 8: _t->setActiveButton((*reinterpret_cast<std::add_pointer_t<QPushButton*>>(_a[1]))); break;
+        case 9: _t->openNestWindow(); break;
+        case 10: _t->onContextEdit(); break;
+        case 11: _t->onContextRemove(); break;
+        case 12: _t->onContextCopy(); break;
+        case 13: _t->onContextTrackOptions(); break;
+        case 14: _t->onContextAddToTemplate(); break;
+        case 15: _t->handleAddTrack(); break;
+        case 16: _t->handleAddTrackAt(); break;
+        case 17: _t->duplicateAfter(); break;
+        case 18: _t->duplicateBefore(); break;
+        case 19: _t->duplicateAtPosition(); break;
+        case 20: _t->duplicateStart(); break;
+        case 21: _t->duplicateEnd(); break;
+        case 22: _t->editPortChannel(); break;
+        case 23: _t->removeTrack(); break;
+        case 24: _t->pasteContent(); break;
+        case 25: _t->editTemplate(); break;
+        case 26: _t->removeTemplate(); break;
+        case 27: _t->cancelTemplate(); break;
+        case 28: _t->sendToManualTemplate(); break;
+        case 29: _t->onTemplateEdit(); break;
+        case 30: _t->onTemplateRemove(); break;
+        case 31: _t->onTemplateCancel(); break;
+        case 32: _t->onTemplateAddToTimeline(); break;
         default: ;
         }
     }
@@ -223,14 +227,14 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 32)
+        if (_id < 33)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 32;
+        _id -= 33;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 32)
+        if (_id < 33)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 32;
+        _id -= 33;
     }
     return _id;
 }
