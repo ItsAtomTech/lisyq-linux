@@ -86,6 +86,9 @@ private slots:
     void on_actionPort_Configuration_triggered();
     void on_actionDMX_Config_Patcher_triggered();
     void on_actionAdd_New_Track_triggered();
+    void on_actionSettings_and_Option_triggered();
+    void on_actionImport_Templates_triggered();
+    void on_actionNew_triggered();
 
     //TAB Buttons on Top
     void onTimelineClicked();

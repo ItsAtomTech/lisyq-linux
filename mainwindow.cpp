@@ -22,6 +22,8 @@
 #include <QTextStream>
 #include <QMessageBox>
 
+#include "Toast.h"
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(nullptr)
     , ui(new Ui::MainWindow)
@@ -392,6 +394,41 @@ void MainWindow::on_actionSave_As_triggered(){
 }
 
 
+void MainWindow::on_actionSettings_and_Option_triggered(){
+    webView->page()->runJavaScript("createDialogue('settings','')");
+}
+
+
+
+void MainWindow::on_actionNew_triggered()
+{
+    if (SavePath.isEmpty()){
+        Toast *toast = new Toast(this);
+        toast->showMessage("No Currently Opened File!",
+                           QColor("yellow"),
+                           QColor("black"), 1500);
+        return;
+    }
+
+    QMessageBox::StandardButton reply = QMessageBox::question(
+        this,
+        "New Project",
+        "Are you sure to start a new Project File? This will clear your current work so make sure to save it.",
+        QMessageBox::Yes | QMessageBox::No
+        );
+
+    if (reply == QMessageBox::Yes) {
+        SavePath = "";
+        asNew = true;
+        webView->page()->runJavaScript("new_refresh(true)");
+    } else {
+        Toast *toast = new Toast(this);
+        toast->showMessage("Action Canceled",
+                           QColor("yellow"),
+                           QColor("black"), 1500);
+    }
+}
+
 
 void MainWindow::on_actionPort_Configuration_triggered(){
     webView->page()->runJavaScript("openPortConfig();");
@@ -400,6 +437,11 @@ void MainWindow::on_actionPort_Configuration_triggered(){
 void MainWindow::on_actionDMX_Config_Patcher_triggered(){
     webView->page()->runJavaScript("openDMXConfig();");
 }
+
+void MainWindow::on_actionImport_Templates_triggered(){
+    webView->page()->runJavaScript("openImportTemplates();");
+}
+
 
 void MainWindow::onReady(){
     //---
