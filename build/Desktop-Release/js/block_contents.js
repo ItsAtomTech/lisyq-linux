@@ -420,32 +420,30 @@ function load_all_templates(){
 		// console.log(plg);
 	}
 	
-	_("content_con").addEventListener("contextmenu", function context_menu_templates (e) {
-		
-		e.preventDefault();
-		e.stopPropagation();
-		
-		if(e.target.classList[0] == "template_thumb"){
-			
-			selected_template = e.target.getAttribute('template_id');
-			
-			current_mode = "edit_template";
-			editFrom = "timeline";
-			
-			console.log("Open Context Menu for Template");
-	
-			
-			set_coords_context(e.screenX,e.screenY);
-			
-			window.chrome.webview.hostObjects.NativeObject.Show_template_menu();
-			
-		}
-		
-	},
-	
-	false
-	
-	)
+    if (!_("content_con")._contextMenuAdded) {
+        _("content_con")._contextMenuAdded = true;
+
+        _("content_con").addEventListener("contextmenu", function context_menu_templates(e) {
+
+            e.preventDefault();
+            e.stopPropagation();
+
+            if (e.target.classList[0] == "template_thumb") {
+
+                selected_template = e.target.getAttribute('template_id');
+
+                current_mode = "edit_template";
+                editFrom = "timeline";
+
+                console.log("Open Context Menu for Template");
+
+                set_coords_context(e.screenX, e.screenY);
+
+                window.chrome.webview.hostObjects.NativeObject.Show_template_menu();
+            }
+
+        }, false);
+    }
 	
 	
 }
