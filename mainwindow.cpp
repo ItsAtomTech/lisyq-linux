@@ -261,9 +261,57 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             devTools->hide();
         else
             devTools->show();
+
+    }else{
+        QString key = event->text();
+        QString code = "";
+        bool ctrlKey = event->modifiers() & Qt::ControlModifier;
+        bool shiftKey = event->modifiers() & Qt::ShiftModifier;
+
+        // Map Qt keys to JS `code` strings
+        switch(event->key())
+        {
+        case Qt::Key_S: code = "KeyS"; break;
+        case Qt::Key_O: code = "KeyO"; break;
+        case Qt::Key_Q: code = "KeyQ"; break;
+        case Qt::Key_V: code = "KeyV"; break;
+        case Qt::Key_C: code = "KeyC"; break;
+        case Qt::Key_Z: code = "KeyZ"; break;
+        case Qt::Key_Y: code = "KeyY"; break;
+        case Qt::Key_T: code = "KeyT"; break;
+        case Qt::Key_P: code = "KeyP"; break;
+        case Qt::Key_M: code = "KeyM"; break;
+        case Qt::Key_Space: code = "Space"; break;
+        case Qt::Key_Plus:
+        case Qt::Key_Equal: code = "Equal"; break;
+        case Qt::Key_Minus: code = "Minus"; break;
+        default: break;
+        }
+
+        if(!code.isEmpty())
+        {
+            QString js = QString(
+                             "shortcuts({"
+                             "   key: '%1',"
+                             "   code: '%2',"
+                             "   ctrlKey: %3,"
+                             "   shiftKey: %4,"
+                             "   target: { tagName: '', getAttribute: function(){ return null; } },"
+                             "   preventDefault: function(){}"
+                             "});"
+                             )
+                             .arg(key.isEmpty() ? code : key)
+                             .arg(code)
+                             .arg(ctrlKey ? "true" : "false")
+                             .arg(shiftKey ? "true" : "false");
+
+            webView->page()->runJavaScript(js);
+        }
     }
     QMainWindow::keyPressEvent(event); // pass to default
 }
+
+
 
 
 //On window Resize
@@ -536,8 +584,11 @@ void MainWindow::Save_File()
             QTextStream out(&file);
             out << data_string;
             file.close();
+            Toast *toast = new Toast(this);
+            toast->showMessage("Saving File: " + SavePath,
+                               QColor("green"),
+                               QColor("white"),2000);
 
-            qDebug() << "Saving File:" << SavePath;
         }
     }
 
