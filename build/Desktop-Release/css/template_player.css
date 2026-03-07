@@ -625,6 +625,22 @@
 
 
 
+.button_xz.refresh{
+	border:none;
+	border:solid var(--primary_color_faded) 1px;
+	border-radius:6px;
+	line-height:10px;
+	
+}
+
+.button_xz.refresh:hover{
+	opacity:0.8;
+}
+
+.button_xz.refresh:active,{
+.button_xz.refresh:focus{
+	opacity:0.2;
+}
 
 
 

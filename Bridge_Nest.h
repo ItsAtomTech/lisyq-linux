@@ -37,6 +37,8 @@ public slots:
     void set_values(int port, const QString &data);
     void outputs();
 
+
+
     void Show_template_scriptmenu();
     void Show_content_menu();
 

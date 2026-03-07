@@ -583,6 +583,22 @@ function disconnectComport(index){
 	
 }
 
+//Disconnent a Comport
+function SendToComPort(name, data){
+	
+	if(name == null || name == undefined){
+		return console.error("Comport name is invalid");
+	}
+	try{
+		parent.window.chrome.webview.hostObjects.NativeObject.SendToComPort(name,data);
+		// window.chrome.webview.hostObjects.NativeObject. 
+	}catch(e){
+	//
+	}
+	
+	
+}
+
 
 
 //Disconnect UDP

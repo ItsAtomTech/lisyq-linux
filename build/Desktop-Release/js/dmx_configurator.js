@@ -1,6 +1,6 @@
 // DMX Configurator JS 
-// Writen by Atomtech @ 2025
-// v0.1
+// Writen by Atomtech @ 2025 - 2026
+// v0.2
 
 // =================
 // Utilities
@@ -473,6 +473,38 @@ const DMX_CONF = {
 	},
 	
 	
+		//Fallback Functions Goes here
+	
+	genComList: function(){
+		let listElm = _('comports_list');
+		console.log('Fallback Triggered');
+		
+		try{
+			getComList(this.updatePortList);
+		}catch(e){
+			console.error(e);
+		}
+	},
+	
+	
+	updatePortList: function(data){
+		if(typeof(data) != "object"){
+			return false;
+		};
+		_("comports_list").innerHTML = "";
+		
+		for(each of data){
+			let com_tab_template = _("com_tab_template").cloneNode(true).content;
+				let com_name = (com_tab_template.querySelector('[tag="com_name"]'));
+				com_name.innerText = each.portName;
+				let com_reference = (com_tab_template.querySelector('[tag="com_reference"]'));
+				com_reference.setAttribute("com", each.portName);
+			_("comports_list").appendChild(com_tab_template);
+				
+		}
+	},
+	
+	
 	
 }
 
@@ -485,6 +517,7 @@ const CONFIG_WRITER = {
 	writer: undefined, // <- store the writer
 	encoder: undefined, // <- store encoder for reuse
 	isUploading: false,
+	comPortSelected: "",
 	
   connectPort: async function (elm) {
 	if (!("serial" in navigator)) {
@@ -535,17 +568,27 @@ const CONFIG_WRITER = {
 	  reader.releaseLock();
 	} catch (err) {
 	  console.error("Error:", err);
+	  showComList(false);
+	  
 	}
   },
 
 
   sendData: async function (data) {
-	if (!this.writer) {
+	if (!this.writer && !this.comPortSelected) {
 	  console.error("Writer not available! Connect to the port first.");
 	  return;
 	}
 
-	await this.writer.write(data + "\n");
+	try{
+		await this.writer.write(data + "\n");
+	}catch(e){
+		console.log("Using Fallback!");
+		SendToComPort(this.comPortSelected, data);
+	}
+	
+	//alert("Data have been Sent");
+	
 	console.log("->:", data);
   },
   
@@ -607,7 +650,24 @@ const CONFIG_WRITER = {
 
 		const dxString = `DX-${channelList.join(',')}:${configStrings.join(',')}:${configCounts}`;
 		return dxString;
-	}	
+	},	
+	
+	selectComport: function(elm){
+		console.log(elm);
+		let selectedPort = elm.parentNode.getAttribute("com");
+		this.comPortSelected = selectedPort;
+		
+		_("comport_disp").innerText = "Port: "+ selectedPort;
+		_("comport_disp").title = "Selected Port: " + selectedPort;
+		
+		
+		
+		
+		
+		
+	},
+
+	
 };
 
 
@@ -620,6 +680,19 @@ function showLoadList(hide = false){
 		_("saves_loader").classList.add("hidden");
 	}else{
 		_("saves_loader").classList.remove("hidden");
+		
+	}
+}
+
+
+function showComList(hide = false){
+	
+	if(hide){
+		
+		_("coms_loader").classList.add("hidden");
+	}else{
+		DMX_CONF.genComList();
+		_("coms_loader").classList.remove("hidden");
 		
 	}
 }
@@ -660,7 +733,6 @@ DMX_CONF.loadAllSaved();
 
 // DMX_CONF.openConfigWindow();
 DMX_CONF.addConfigEdit();
-
 
 
 

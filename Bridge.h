@@ -39,7 +39,7 @@ public slots:
     void set_values(int port, const QString &data);
     void outputs();
 
-
+    void SendToComPort(const QString &portName, const QString &data);
 
     // Context Menus ===================
 

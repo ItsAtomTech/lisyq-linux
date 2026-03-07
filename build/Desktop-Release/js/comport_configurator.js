@@ -437,8 +437,7 @@ const CHANNEL_CONF = {
 				comName.innerText = each.portName;
 			_("port_listing").appendChild(comName);
 		}
-		
-		
+	
 	},
 	
 	// ===========================

@@ -96,6 +96,36 @@
 
 
 
+<div class="dialogue_con primary_color hidden" id="coms_loader">
+	<div class="dialogue_box primary_background"><span class="close_dia primary_color" onclick="showComList(true)">×</span>  
+	
+	<div class="live_player_load_main"> 
+	  <div class="title_label big">Select COM <span class="big button_xz refresh" title="Refresh List" onclick="DMX_CONF.genComList()"> &#8634; </span> </div> 
+	  
+	  
+		<div class="saved_tabs_con" id="comports_list">
+		
+		<div class="saved_tab">
+		  <div class="saved_name" tag="com_name"> No name </div>
+			<div class="saved_actions small" tag="com_reference"> 
+				<div class="button_box button_xz" onclick="CONFIG_WRITER.selectComport(this);"> Select </div>
+
+			</div>
+		</div>
+		
+		
+
+		</div>
+	
+	</div> 
+	
+	</div>
+
+</div>
+
+
+
+
 
 <dialog id="configModal" class="modal_container">
 	<div class="title_bar_section primary_color">
@@ -128,6 +158,7 @@
 
 
   <script defer src="../js/dialogue.js"></script>
+  <script defer src="../js/unified.js"></script>
   <script defer src="../js/dmx_configurator.js"></script>
 
 </body>
@@ -180,6 +211,20 @@
 				<div class="button_box button_xz" onclick="DMX_CONF.removeThisConfig(this);"> Remove </div>
 			</div>
 		</div>
+
+</template>
+
+
+<template id="com_tab_template">
+		
+		<div class="saved_tab">
+		  <div class="saved_name" tag="com_name"> No name </div>
+			<div class="saved_actions small" tag="com_reference"> 
+				<div class="button_box button_xz" onclick="CONFIG_WRITER.selectComport(this);"> Select </div>
+
+			</div>
+		</div>
+		
 
 </template>
 

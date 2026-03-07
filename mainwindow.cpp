@@ -739,7 +739,48 @@ void Bridge::outputs(){
 }
 
 
+void MainWindow::sendToComPort(const QString &portName, const QString &data)
+{
+    if (_serialPort == nullptr) {
+        _serialPort = new QSerialPort(this);
+        _serialPort->setPortName(portName);
+        _serialPort->setBaudRate(QSerialPort::Baud115200);
+        _serialPort->setDataBits(QSerialPort::Data8);
+        _serialPort->setParity(QSerialPort::NoParity);
+        _serialPort->setStopBits(QSerialPort::OneStop);
+    }
 
+    if (!_serialPort->isOpen()) {
+        if (!_serialPort->open(QIODevice::ReadWrite)) {
+            Toast *toast = new Toast(this);
+            toast->showMessage("Failed to open " + portName, QColor("red"), QColor("white"), 3000);
+            return;
+        }
+        _serialPort->setDataTerminalReady(false);
+        Toast *toast = new Toast(this);
+        toast->showMessage("Opened " + portName, QColor("green"), QColor("white"), 2000);
+    }
+
+    qint64 bytesWritten = _serialPort->write((data + "\n").toUtf8());
+
+    if (bytesWritten == -1) {
+        Toast *toast = new Toast(this);
+        toast->showMessage("Write failed: " + _serialPort->errorString(), QColor("red"), QColor("white"), 3000);
+    }else{
+        Toast *toast = new Toast(this);
+        toast->showMessage("Written to " + portName, QColor("green"), QColor("white"), 2000);
+    }
+
+    _serialPort->flush();
+    _serialPort->close();
+
+}
+
+
+
+void Bridge::SendToComPort(const QString &portName, const QString &data){
+     mainWindow->sendToComPort(portName,data);
+}
 
 
 

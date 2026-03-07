@@ -53,6 +53,10 @@ public:
     void addComPort(int index, const QString &portname);
     void removeComPort(int index);
 
+    // Other Port
+    QSerialPort *_serialPort = nullptr;
+    void sendToComPort(const QString &portName, const QString &data);
+
     // UDP channels
     void addUdpChannel(int index, const QString &address, int port);
     void removeUdpChannel(int index);
