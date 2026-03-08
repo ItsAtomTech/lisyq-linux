@@ -637,7 +637,7 @@
 	opacity:0.8;
 }
 
-.button_xz.refresh:active,{
+.button_xz.refresh:active,
 .button_xz.refresh:focus{
 	opacity:0.2;
 }
