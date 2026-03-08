@@ -10,6 +10,7 @@
 #include <QWebEnginePage>
 #include <QKeyEvent>
 #include <QWebChannel>
+#include <QWebEngineSettings>
 
 #include <QWebEngineProfile>
 #include <QStandardPaths>
@@ -31,7 +32,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     portManager = new PortManager(this);
-    this->setObjectName("MainWindow");
+    //this->setObjectName("MainWindow");
 
     // Create right-side buttons
     QWidget *rightWidget = new QWidget(this);
@@ -61,16 +62,23 @@ MainWindow::MainWindow(QWidget *parent)
     // Add WebEngineView to mainFrame
     webView = new QWebEngineView(ui->mainFrame);
 
-    // Create or get the default profile
-    QWebEngineProfile *profile = new QWebEngineProfile("lisyqProfile", this);
-
+    // In constructor
     QString storagePath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/webengine";
     QDir().mkpath(storagePath);
-    profile->setPersistentStoragePath(storagePath);
-    profile->setPersistentCookiesPolicy(QWebEngineProfile::ForcePersistentCookies);
 
-    // Optional: also use this profile for the WebView
-    webView->setPage(new QWebEnginePage(profile, webView));
+    profile = new QWebEngineProfile("lisyqProfile");
+    profile->setPersistentStoragePath(storagePath);
+    profile->setCachePath(storagePath + "/cache");
+    profile->setPersistentCookiesPolicy(QWebEngineProfile::ForcePersistentCookies);
+    profile->setHttpCacheType(QWebEngineProfile::DiskHttpCache);
+
+    page = new QWebEnginePage(profile);
+    webView->setPage(page);
+
+    // Enable local storage and persistent data
+    QWebEngineSettings *settings = page->settings();
+    settings->setAttribute(QWebEngineSettings::LocalStorageEnabled, true);
+
 
     // Adds the Bridge ===========
     Bridge *bridge = new Bridge(this);
@@ -84,8 +92,10 @@ MainWindow::MainWindow(QWidget *parent)
     frameLayout->setContentsMargins(0, 0, 0, 0);
     frameLayout->addWidget(webView);
 
-    QString path = QCoreApplication::applicationDirPath() + "/main.html";
-    webView->load(QUrl::fromLocalFile(path));
+    QTimer::singleShot(500, this, [this]() {
+        QString path = QCoreApplication::applicationDirPath() + "/main.html";
+        webView->load(QUrl::fromLocalFile(path));
+    });
 
 
     connect(webView, &QWebEngineView::loadFinished, this,
@@ -241,7 +251,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(tmpl_add,    &QAction::triggered, this, &MainWindow::onTemplateAddToTimeline);
 
 
-    nestWindow = new NestWindow(this);
+    // nestWindow = new NestWindow(this);
 }
 
 
@@ -250,7 +260,11 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
-    delete ui;
+    webView->setPage(nullptr);
+    delete page;
+    page = nullptr;
+    delete profile;
+    profile = nullptr;
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
@@ -414,6 +428,10 @@ void MainWindow::onManualClicked()
 
 void MainWindow::openNestWindow()
 {
+    if (nestWindow == nullptr) {
+        nestWindow = new NestWindow(this);
+    }
+
     nestWindow->show();
     nestWindow->raise();
     nestWindow->activateWindow();

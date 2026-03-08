@@ -12,6 +12,9 @@ class QWebEngineView;  // Forward declaration
 #include <QWidgetAction>
 
 #include "PortManager.h"
+#include <QWebEngineProfile>
+#include <QWebEnginePage>
+
 
 class NestWindow;
 
@@ -141,6 +144,9 @@ private:
     Ui::MainWindow *ui;
     QWebEngineView *devTools; // Make devTools a member so it doesn’t go out of scope
 
+    QWebEngineProfile *profile;
+    QWebEnginePage *page;
+
     //Tab Buttons
     QPushButton *btnTimeline;
     QPushButton *btnManual;
@@ -149,6 +155,8 @@ private:
     QWebEngineView *webView;
 
     PortManager *portManager;
+
+    NestWindow *nestWindow = nullptr; // add here~
 
 
     void openLSYSFile();
@@ -163,7 +171,6 @@ private:
     void initializeWebChannel();
     void onReady();
 
-    NestWindow *nestWindow;
 
 
 

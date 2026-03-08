@@ -57,7 +57,7 @@ NestWindow::NestWindow(QWidget *parent)
     webView = new QWebEngineView(ui->mainFrame);
 
     // Create or get the default profile
-    QWebEngineProfile *profile = new QWebEngineProfile("lisyqProfile", this);
+    QWebEngineProfile *profile = new QWebEngineProfile("lisyqProfileNest", this);
 
     QString storagePath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/webengine";
     QDir().mkpath(storagePath);
