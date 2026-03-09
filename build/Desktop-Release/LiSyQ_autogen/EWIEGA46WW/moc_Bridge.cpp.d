@@ -1,5 +1,5 @@
-/home/itsatompc/QTApps/QTApp/build/Desktop-Release/QTApp_autogen/EWIEGA46WW/moc_Bridge.cpp: /home/itsatompc/QTApps/QTApp/Bridge.h \
-  /home/itsatompc/QTApps/QTApp/build/Desktop-Release/QTApp_autogen/moc_predefs.h \
+/home/itsatompc/QTApps/LiSyQ/build/Desktop-Release/LiSyQ_autogen/EWIEGA46WW/moc_Bridge.cpp: /home/itsatompc/QTApps/LiSyQ/Bridge.h \
+  /home/itsatompc/QTApps/LiSyQ/build/Desktop-Release/LiSyQ_autogen/moc_predefs.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/QJsonValue \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/QObject \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/q17memory.h \

@@ -1,6 +1,7 @@
-/home/itsatompc/QTApps/QTApp/build/Desktop-Release/QTApp_autogen/EWIEGA46WW/moc_nestwindow.cpp: /home/itsatompc/QTApps/QTApp/nestwindow.h \
-  /home/itsatompc/QTApps/QTApp/build/Desktop-Release/QTApp_autogen/moc_predefs.h \
-  /home/itsatompc/QTApps/QTApp/PortManager.h \
+/home/itsatompc/QTApps/LiSyQ/build/Desktop-Release/LiSyQ_autogen/EWIEGA46WW/moc_mainwindow.cpp: /home/itsatompc/QTApps/LiSyQ/mainwindow.h \
+  /home/itsatompc/QTApps/LiSyQ/build/Desktop-Release/LiSyQ_autogen/moc_predefs.h \
+  /home/itsatompc/QTApps/LiSyQ/PortManager.h \
+  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/QFlags \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/QJsonArray \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/QJsonDocument \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/QJsonObject \
@@ -11,6 +12,9 @@
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/QRect \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/QSize \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/QSizeF \
+  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/QString \
+  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/QUrl \
+  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/QWeakPointer \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/q17memory.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/q20functional.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/q20iterator.h \
@@ -54,6 +58,7 @@
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qcoreapplication.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qcoreapplication_platform.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qcoreevent.h \
+  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qcryptographichash.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qdarwinhelpers.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qdatastream.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qdatetime.h \
@@ -188,6 +193,9 @@
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qinputdevice.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qinputmethod.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qkeysequence.h \
+  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qpagelayout.h \
+  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qpageranges.h \
+  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qpagesize.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qpaintdevice.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qpalette.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtGui/qpen.h \
@@ -214,6 +222,8 @@
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtNetwork/QUdpSocket \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtNetwork/qabstractsocket.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtNetwork/qhostaddress.h \
+  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtNetwork/qssl.h \
+  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtNetwork/qsslcertificate.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtNetwork/qtnetwork-config.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtNetwork/qtnetworkexports.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtNetwork/qtnetworkglobal.h \
@@ -228,6 +238,17 @@
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtWebChannel/qtwebchannelexports.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtWebChannel/qwebchannel.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtWebChannel/qwebchannelglobal.h \
+  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtWebEngineCore/QWebEnginePage \
+  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtWebEngineCore/QWebEngineProfile \
+  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtWebEngineCore/qtwebenginecore-config.h \
+  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtWebEngineCore/qtwebenginecoreglobal.h \
+  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtWebEngineCore/qwebengineclientcertificateselection.h \
+  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtWebEngineCore/qwebenginedownloadrequest.h \
+  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtWebEngineCore/qwebengineframe.h \
+  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtWebEngineCore/qwebenginepage.h \
+  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtWebEngineCore/qwebenginepermission.h \
+  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtWebEngineCore/qwebengineprofile.h \
+  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtWebEngineCore/qwebenginequotarequest.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtWidgets/QFileDialog \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtWidgets/QLineEdit \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtWidgets/QMainWindow \

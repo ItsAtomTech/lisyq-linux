@@ -1,0 +1,9 @@
+-rootPath
+/home/itsatompc/QTApps/LiSyQ
+-cmake-output
+-output-file
+/home/itsatompc/QTApps/LiSyQ/build/Desktop-Release/.qt/qml_imports/LiSyQ_conf.cmake
+-importPath
+/home/itsatompc/QTApps/LiSyQ/build/Desktop-Release
+-importPath
+/home/itsatompc/Qt/6.10.2/gcc_64/qml

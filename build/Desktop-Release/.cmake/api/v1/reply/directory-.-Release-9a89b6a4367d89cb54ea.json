@@ -30,9 +30,9 @@
 			"destination" : "bin",
 			"paths" : 
 			[
-				"QTApp"
+				"LiSyQ"
 			],
-			"targetId" : "QTApp::@6890427a1f51a3e7e1df",
+			"targetId" : "LiSyQ::@6890427a1f51a3e7e1df",
 			"targetIndex" : 0,
 			"type" : "target"
 		}

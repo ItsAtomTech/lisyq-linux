@@ -1,2 +1,2 @@
-set(__QT_DEPLOY_TARGET_QTApp_FILE /home/itsatompc/QTApps/QTApp/build/Desktop-Release/QTApp)
-set(__QT_DEPLOY_TARGET_QTApp_TYPE EXECUTABLE)
+set(__QT_DEPLOY_TARGET_LiSyQ_FILE /home/itsatompc/QTApps/LiSyQ/build/Desktop-Release/LiSyQ)
+set(__QT_DEPLOY_TARGET_LiSyQ_TYPE EXECUTABLE)

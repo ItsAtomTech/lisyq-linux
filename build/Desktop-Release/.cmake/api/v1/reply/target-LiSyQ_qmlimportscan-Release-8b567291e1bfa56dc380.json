@@ -67,8 +67,8 @@
 			}
 		]
 	},
-	"id" : "QTApp_qmlimportscan::@6890427a1f51a3e7e1df",
-	"name" : "QTApp_qmlimportscan",
+	"id" : "LiSyQ_qmlimportscan::@6890427a1f51a3e7e1df",
+	"name" : "LiSyQ_qmlimportscan",
 	"paths" : 
 	{
 		"build" : ".",
@@ -97,19 +97,19 @@
 		{
 			"backtrace" : 7,
 			"isGenerated" : true,
-			"path" : "build/Desktop-Release/CMakeFiles/QTApp_qmlimportscan",
+			"path" : "build/Desktop-Release/CMakeFiles/LiSyQ_qmlimportscan",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 0,
 			"isGenerated" : true,
-			"path" : "build/Desktop-Release/CMakeFiles/QTApp_qmlimportscan.rule",
+			"path" : "build/Desktop-Release/CMakeFiles/LiSyQ_qmlimportscan.rule",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 0,
 			"isGenerated" : true,
-			"path" : "build/Desktop-Release/.qt/qml_imports/QTApp_build.cmake.rule",
+			"path" : "build/Desktop-Release/.qt/qml_imports/LiSyQ_build.cmake.rule",
 			"sourceGroupIndex" : 1
 		}
 	],

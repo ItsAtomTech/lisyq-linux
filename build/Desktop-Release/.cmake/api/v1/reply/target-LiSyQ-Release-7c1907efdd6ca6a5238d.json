@@ -2,7 +2,7 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "QTApp"
+			"path" : "LiSyQ"
 		}
 	],
 	"backtrace" : 4,
@@ -514,7 +514,7 @@
 			[
 				{
 					"backtrace" : 0,
-					"path" : "/home/itsatompc/QTApps/QTApp/build/Desktop-Release/QTApp_autogen/include"
+					"path" : "/home/itsatompc/QTApps/LiSyQ/build/Desktop-Release/LiSyQ_autogen/include"
 				},
 				{
 					"backtrace" : 60,
@@ -622,17 +622,17 @@
 	[
 		{
 			"backtrace" : 67,
-			"id" : "QTApp_qmlimportscan::@6890427a1f51a3e7e1df"
-		},
-		{
-			"id" : "QTApp_autogen_timestamp_deps::@6890427a1f51a3e7e1df"
+			"id" : "LiSyQ_qmlimportscan::@6890427a1f51a3e7e1df"
 		},
 		{
 			"backtrace" : 0,
-			"id" : "QTApp_autogen::@6890427a1f51a3e7e1df"
+			"id" : "LiSyQ_autogen::@6890427a1f51a3e7e1df"
+		},
+		{
+			"id" : "LiSyQ_autogen_timestamp_deps::@6890427a1f51a3e7e1df"
 		}
 	],
-	"id" : "QTApp::@6890427a1f51a3e7e1df",
+	"id" : "LiSyQ::@6890427a1f51a3e7e1df",
 	"install" : 
 	{
 		"destinations" : 
@@ -745,8 +745,8 @@
 		],
 		"language" : "CXX"
 	},
-	"name" : "QTApp",
-	"nameOnDisk" : "QTApp",
+	"name" : "LiSyQ",
+	"nameOnDisk" : "LiSyQ",
 	"paths" : 
 	{
 		"build" : ".",
@@ -809,7 +809,7 @@
 			"backtrace" : 0,
 			"compileGroupIndex" : 0,
 			"isGenerated" : true,
-			"path" : "build/Desktop-Release/QTApp_autogen/mocs_compilation.cpp",
+			"path" : "build/Desktop-Release/LiSyQ_autogen/mocs_compilation.cpp",
 			"sourceGroupIndex" : 0
 		},
 		{
@@ -885,25 +885,25 @@
 		{
 			"backtrace" : 0,
 			"isGenerated" : true,
-			"path" : "build/Desktop-Release/QTApp_autogen/include/ui_mainwindow.h",
+			"path" : "build/Desktop-Release/LiSyQ_autogen/include/ui_mainwindow.h",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 0,
 			"isGenerated" : true,
-			"path" : "build/Desktop-Release/QTApp_autogen/include/ui_nestwindow.h",
+			"path" : "build/Desktop-Release/LiSyQ_autogen/include/ui_nestwindow.h",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 0,
 			"isGenerated" : true,
-			"path" : "build/Desktop-Release/QTApp_autogen/timestamp",
+			"path" : "build/Desktop-Release/LiSyQ_autogen/timestamp",
 			"sourceGroupIndex" : 3
 		},
 		{
 			"backtrace" : 0,
 			"isGenerated" : true,
-			"path" : "build/Desktop-Release/QTApp_autogen/timestamp.rule",
+			"path" : "build/Desktop-Release/LiSyQ_autogen/timestamp.rule",
 			"sourceGroupIndex" : 4
 		}
 	],

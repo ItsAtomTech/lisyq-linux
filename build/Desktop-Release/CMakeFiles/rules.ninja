@@ -6,7 +6,7 @@
 # It is included in the main 'build.ninja'.
 
 # =============================================================================
-# Project: QTApp
+# Project: LiSyQ
 # Configurations: Release
 # =============================================================================
 # =============================================================================
@@ -14,7 +14,7 @@
 #############################################
 # Rule for compiling CXX files.
 
-rule CXX_COMPILER__QTApp_unscanned_Release
+rule CXX_COMPILER__LiSyQ_unscanned_Release
   depfile = $DEP_FILE
   deps = gcc
   command = ${LAUNCHER}${CODE_CHECK}/bin/g++ $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
@@ -24,7 +24,7 @@ rule CXX_COMPILER__QTApp_unscanned_Release
 #############################################
 # Rule for linking CXX executable.
 
-rule CXX_EXECUTABLE_LINKER__QTApp_Release
+rule CXX_EXECUTABLE_LINKER__LiSyQ_Release
   command = $PRE_LINK && /bin/g++ $FLAGS $LINK_FLAGS $in -o $TARGET_FILE $LINK_PATH $LINK_LIBRARIES && $POST_BUILD
   description = Linking CXX executable $TARGET_FILE
   restat = $RESTAT
@@ -42,7 +42,7 @@ rule CUSTOM_COMMAND
 # Rule for re-running cmake.
 
 rule RERUN_CMAKE
-  command = /home/itsatompc/Qt/Tools/CMake/bin/cmake --regenerate-during-build -S/home/itsatompc/QTApps/QTApp -B/home/itsatompc/QTApps/QTApp/build/Desktop-Release
+  command = /home/itsatompc/Qt/Tools/CMake/bin/cmake --regenerate-during-build -S/home/itsatompc/QTApps/LiSyQ -B/home/itsatompc/QTApps/LiSyQ/build/Desktop-Release
   description = Re-running CMake...
   generator = 1
 

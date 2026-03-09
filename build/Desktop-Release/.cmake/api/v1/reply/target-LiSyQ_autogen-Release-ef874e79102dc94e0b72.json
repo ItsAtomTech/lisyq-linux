@@ -17,12 +17,12 @@
 	"dependencies" : 
 	[
 		{
-			"id" : "QTApp_autogen_timestamp_deps::@6890427a1f51a3e7e1df"
+			"id" : "LiSyQ_autogen_timestamp_deps::@6890427a1f51a3e7e1df"
 		}
 	],
-	"id" : "QTApp_autogen::@6890427a1f51a3e7e1df",
+	"id" : "LiSyQ_autogen::@6890427a1f51a3e7e1df",
 	"isGeneratorProvided" : true,
-	"name" : "QTApp_autogen",
+	"name" : "LiSyQ_autogen",
 	"paths" : 
 	{
 		"build" : ".",
@@ -51,19 +51,19 @@
 		{
 			"backtrace" : 0,
 			"isGenerated" : true,
-			"path" : "build/Desktop-Release/CMakeFiles/QTApp_autogen",
+			"path" : "build/Desktop-Release/CMakeFiles/LiSyQ_autogen",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 0,
 			"isGenerated" : true,
-			"path" : "build/Desktop-Release/CMakeFiles/QTApp_autogen.rule",
+			"path" : "build/Desktop-Release/CMakeFiles/LiSyQ_autogen.rule",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 0,
 			"isGenerated" : true,
-			"path" : "build/Desktop-Release/QTApp_autogen/timestamp.rule",
+			"path" : "build/Desktop-Release/LiSyQ_autogen/timestamp.rule",
 			"sourceGroupIndex" : 1
 		}
 	],

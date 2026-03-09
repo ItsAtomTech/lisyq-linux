@@ -1,13 +1,9 @@
-/home/itsatompc/QTApps/QTApp/build/Desktop-Release/QTApp_autogen/EWIEGA46WW/moc_PortManager.cpp: /home/itsatompc/QTApps/QTApp/PortManager.h \
-  /home/itsatompc/QTApps/QTApp/build/Desktop-Release/QTApp_autogen/moc_predefs.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/QJsonArray \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/QJsonDocument \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/QJsonObject \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/QMap \
+/home/itsatompc/QTApps/LiSyQ/build/Desktop-Release/LiSyQ_autogen/EWIEGA46WW/moc_Bridge_Nest.cpp: /home/itsatompc/QTApps/LiSyQ/Bridge_Nest.h \
+  /home/itsatompc/QTApps/LiSyQ/build/Desktop-Release/LiSyQ_autogen/moc_predefs.h \
+  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/QJsonValue \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/QObject \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/q17memory.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/q20functional.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/q20iterator.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/q20memory.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/q20type_traits.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/q20utility.h \
@@ -58,13 +54,10 @@
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qglobalstatic.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qhash.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qhashfunctions.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qiodevice.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qiodevicebase.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qiterable.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qiterator.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qjsonarray.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qjsondocument.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qjsonobject.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qjsonparseerror.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qjsonvalue.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qlatin1stringview.h \
@@ -86,8 +79,6 @@
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qoverload.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qpair.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qprocessordetection.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qproperty.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qpropertyprivate.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qrefcount.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qregularexpression.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qscopedpointer.h \
@@ -97,7 +88,6 @@
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qshareddata_impl.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qsharedpointer.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qsharedpointer_impl.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qspan.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qstdlibdetection.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qstring.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qstringalgorithms.h \
@@ -142,19 +132,10 @@
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qversiontagging.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qxptype_traits.h \
   /home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore/qyieldcpu.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtNetwork/QUdpSocket \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtNetwork/qabstractsocket.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtNetwork/qhostaddress.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtNetwork/qtnetwork-config.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtNetwork/qtnetworkexports.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtNetwork/qtnetworkglobal.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtNetwork/qudpsocket.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtSerialPort/QSerialPort \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtSerialPort/QSerialPortInfo \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtSerialPort/qserialport.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtSerialPort/qserialportglobal.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtSerialPort/qserialportinfo.h \
-  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtSerialPort/qtserialportexports.h \
+  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtWebChannel/QWebChannel \
+  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtWebChannel/qtwebchannelexports.h \
+  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtWebChannel/qwebchannel.h \
+  /home/itsatompc/Qt/6.10.2/gcc_64/include/QtWebChannel/qwebchannelglobal.h \
   /usr/include/alloca.h \
   /usr/include/asm-generic/errno-base.h \
   /usr/include/asm-generic/errno.h \
@@ -252,7 +233,6 @@
   /usr/include/c++/13/bits/uses_allocator_args.h \
   /usr/include/c++/13/bits/utility.h \
   /usr/include/c++/13/bits/vector.tcc \
-  /usr/include/c++/13/cassert \
   /usr/include/c++/13/cctype \
   /usr/include/c++/13/cerrno \
   /usr/include/c++/13/chrono \
@@ -270,7 +250,6 @@
   /usr/include/c++/13/debug/assertions.h \
   /usr/include/c++/13/debug/debug.h \
   /usr/include/c++/13/exception \
-  /usr/include/c++/13/experimental/source_location \
   /usr/include/c++/13/ext/aligned_buffer.h \
   /usr/include/c++/13/ext/alloc_traits.h \
   /usr/include/c++/13/ext/atomicity.h \

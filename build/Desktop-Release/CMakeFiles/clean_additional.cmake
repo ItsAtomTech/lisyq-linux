@@ -3,8 +3,8 @@ cmake_minimum_required(VERSION 3.16)
 
 if("${CONFIG}" STREQUAL "" OR "${CONFIG}" STREQUAL "Release")
   file(REMOVE_RECURSE
-  "CMakeFiles/QTApp_autogen.dir/AutogenUsed.txt"
-  "CMakeFiles/QTApp_autogen.dir/ParseCache.txt"
-  "QTApp_autogen"
+  "CMakeFiles/LiSyQ_autogen.dir/AutogenUsed.txt"
+  "CMakeFiles/LiSyQ_autogen.dir/ParseCache.txt"
+  "LiSyQ_autogen"
   )
 endif()

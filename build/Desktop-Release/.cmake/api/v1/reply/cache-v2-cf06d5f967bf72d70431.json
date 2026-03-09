@@ -55,7 +55,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/home/itsatompc/QTApps/QTApp/build/Desktop-Release"
+			"value" : "/home/itsatompc/QTApps/LiSyQ/build/Desktop-Release"
 		},
 		{
 			"name" : "CMAKE_CACHE_MAJOR_VERSION",
@@ -463,7 +463,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/home/itsatompc/QTApps/QTApp/build/Desktop-Release/CMakeFiles/pkgRedirects"
+			"value" : "/home/itsatompc/QTApps/LiSyQ/build/Desktop-Release/CMakeFiles/pkgRedirects"
 		},
 		{
 			"name" : "CMAKE_GENERATOR",
@@ -535,7 +535,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/home/itsatompc/QTApps/QTApp"
+			"value" : "/home/itsatompc/QTApps/LiSyQ"
 		},
 		{
 			"name" : "CMAKE_INSTALL_BINDIR",
@@ -1047,7 +1047,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/home/itsatompc/QTApps/QTApp/build/Desktop-Release/.qtc/package-manager/auto-setup.cmake"
+			"value" : "/home/itsatompc/QTApps/LiSyQ/build/Desktop-Release/.qtc/package-manager/auto-setup.cmake"
 		},
 		{
 			"name" : "CMAKE_PROJECT_NAME",
@@ -1059,7 +1059,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "QTApp"
+			"value" : "LiSyQ"
 		},
 		{
 			"name" : "CMAKE_PROJECT_VERSION",
@@ -1486,6 +1486,42 @@
 			"value" : "1"
 		},
 		{
+			"name" : "LiSyQ_BINARY_DIR",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Value Computed by CMake"
+				}
+			],
+			"type" : "STATIC",
+			"value" : "/home/itsatompc/QTApps/LiSyQ/build/Desktop-Release"
+		},
+		{
+			"name" : "LiSyQ_IS_TOP_LEVEL",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Value Computed by CMake"
+				}
+			],
+			"type" : "STATIC",
+			"value" : "ON"
+		},
+		{
+			"name" : "LiSyQ_SOURCE_DIR",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Value Computed by CMake"
+				}
+			],
+			"type" : "STATIC",
+			"value" : "/home/itsatompc/QTApps/LiSyQ"
+		},
+		{
 			"name" : "OPENGL_EGL_INCLUDE_DIR",
 			"properties" : 
 			[
@@ -1692,42 +1728,6 @@
 			],
 			"type" : "PATH",
 			"value" : "OPENGL_xmesa_INCLUDE_DIR-NOTFOUND"
-		},
-		{
-			"name" : "QTApp_BINARY_DIR",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "Value Computed by CMake"
-				}
-			],
-			"type" : "STATIC",
-			"value" : "/home/itsatompc/QTApps/QTApp/build/Desktop-Release"
-		},
-		{
-			"name" : "QTApp_IS_TOP_LEVEL",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "Value Computed by CMake"
-				}
-			],
-			"type" : "STATIC",
-			"value" : "ON"
-		},
-		{
-			"name" : "QTApp_SOURCE_DIR",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "Value Computed by CMake"
-				}
-			],
-			"type" : "STATIC",
-			"value" : "/home/itsatompc/QTApps/QTApp"
 		},
 		{
 			"name" : "QT_ADDITIONAL_HOST_PACKAGES_PREFIX_PATH",
@@ -8487,7 +8487,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/tmp"
+			"value" : "/usr/local"
 		},
 		{
 			"name" : "__qt_qml_macros_module_base_dir",
