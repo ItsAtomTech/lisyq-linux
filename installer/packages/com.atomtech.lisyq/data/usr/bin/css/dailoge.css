@@ -1,0 +1,204 @@
+
+.dialogue_con{
+	position:fixed;
+	z-index:102;
+	background:rgba(0,0,0,0.4);
+	width:100%;
+	height:100%;
+	box-sizing:border-box;
+	top:0;
+	left:0;
+	right:0;
+	display:flex;
+	justify-content:center;
+	align-items:center;
+	font-family:Comfortaa;
+	
+}
+.dialogue_con > *{
+	box-sizing:border-box;
+	
+}
+
+
+.dialogue_box{
+	width:100%;
+
+	min-height:100px;
+	border-radius:5px;
+	position:relative;
+	/* color:rgba(50,50,50,1); */
+	overflow:hidden;
+
+}
+
+
+.dialogue_box {
+	width:100%;
+	max-width:400px;
+	border:solid gray 2px;
+	
+	
+}
+
+
+.close_dia {
+	width:30px;
+	height:30px;
+	display:flex;
+	align-items:center;
+	justify-content:center;
+	font-size:2em;
+	cursor:pointer;
+	z-index:99;
+	position:absolute;
+	right:5px;
+	
+}
+
+
+hr.dashed{
+	width:auto;
+	height:1px;
+	border:0px;
+	border-bottom:2px dashed gray;
+	
+}
+
+
+.dai_title{
+	width:100%;
+	padding:5px;
+	font-size:1.1em;
+	
+}
+
+
+.confirm_message_info{
+	padding:10px;
+	
+	
+}
+
+
+.confirm_buttons_box{
+	width:100%;
+	display:flex;
+	align-items:center;
+	padding:5px;
+	justify-content:center;
+	
+}
+
+
+/* Time Jump styles */
+
+.input_bar_con{
+	width:100%;
+	min-height:50px;
+	/* border:solid white 1px; */
+	margin-top:15px;
+	display:flex;
+	align-items:center;
+	justify-content:center;
+	
+}
+
+
+.time_input{
+	min-width:40px;
+	width:100%;
+	max-width:80px;
+	text-align:center;
+	background:rgba(20,20,20,20.5);
+	border:none;
+	border-bottom:2px solid gray;
+	color:inherit;
+	min-height:40px;
+	font-size:1.4em;
+	margin-left:10px;
+	margin-right:10px;
+	outline:none;
+	
+	
+	
+}
+
+
+/* Track Options */
+
+.option_item_con{
+	width:100%;
+	display:block;
+	min-height:40px;
+	/* border:solid red 1px; */
+	padding:5px;
+	
+	
+}
+
+
+/*Settings and Options */
+.option_row{
+	width:100%;
+	min-height:45px;
+	/* border:solid white 1px; */
+	padding:3px;
+	display:flex;
+	align-items:flex-start;
+	flex-direction:column;
+	justify-content:center;
+	margin-bottom:5px;
+	
+	
+}
+
+
+.chk{
+	margin-left:10px;
+	min-width:20px;
+	min-height:20px;
+	cursor:pointer;
+	background:none;
+	float:right;
+}
+
+
+
+.clr{
+	margin-left:10px;
+	min-width:100px;
+	min-height:20px;
+	cursor:pointer;
+	background:none;
+	float:right;
+	border-radius:6px;
+}
+
+
+
+.option_title{
+	display:inline;
+	
+	
+	
+	
+}
+
+.option_info{
+	display:inline;
+	border-top:solid rgba(100,100,100,0.5) 1px;
+	
+	
+	
+}
+
+
+.warn_background{
+	
+	background-color:rgba(240,140,0, 0.8);
+	
+}
+
+
+

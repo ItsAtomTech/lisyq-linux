@@ -1,0 +1,22 @@
+
+.primary_color{
+	color:rgba(240,240,240,1);
+	
+	
+}
+
+
+
+
+.secondary_background{
+	background-color:rgba(54,54,54,1);
+	
+	
+	
+}
+
+
+.aibg {
+    -webkit-background: linear-gradient(to left, rgba(100,0,50,1), #f20c5a);
+    background: linear-gradient(to left, rgb(30 30 30), #820d34);
+}

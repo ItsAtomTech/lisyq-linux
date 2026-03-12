@@ -1,0 +1,201 @@
+var aismover_time_line = [];
+var colors_array = []; // store generated data temp
+var aismover_pixel_length;
+
+// Effects Vars
+var aismover_pulse_effect = false;
+var aismover_strobe_effect = false;
+var other_effect;
+
+var aismover_fade_counter = 1;
+var aismover_fade_amount = 1;
+var aismover_effect_len = 1;
+
+var keyframe_aismover_fade_counter = 1;
+var keyframe_aismover_fade_amount = 1;
+var keyframe_aismover_effect_len = 1;
+
+// Called by the timeline for regeneration
+function aismover_main(data) {
+    var delinked = JSON.parse(data);
+    return aismover_generate_data(delinked);
+}
+
+// Regeneration function
+function aismover_generate_data(data) {
+    aismover_fade_amount = 1;
+    aismover_fade_counter = 1;
+    beating_aismover_effect.reset_clk();
+
+    keyframe_aismover_fade_counter = 1;
+    keyframe_aismover_fade_amount = 1;
+
+    aismover_time_line = JSON.parse(data.raw_data_points);
+    aismover_pixel_length = data.seconds_length * 33;
+    aismover_effect_len = data.effect_len;
+    aismover_activate_effect(data.effect);
+
+    colors_array.length = 0;
+
+    aismover_calculate_data();
+
+    return colors_array;
+}
+
+function aismover_calculate_data() {
+    for (let sd = 0; sd <= aismover_pixel_length; sd++) {
+        colors_array[sd] = "000000";
+		let keyframe_aismover_effect = "none";
+		
+		
+        for (let tl = 0; tl < aismover_time_line.length; tl++) {
+            if (aismover_time_line[tl].start_at * 33 <= sd && sd <= aismover_time_line[tl].end_at * 33) {
+                let start_color_array = aismover_split_solor(aismover_time_line[tl].color_start);
+                let end_color_array = aismover_split_solor(aismover_time_line[tl].color_end);
+					
+					keyframe_aismover_effect = "none";
+                
+                let calculated_color = [];
+
+                for (let cind = 0; cind < start_color_array.length; cind++) {
+                    let x = parseInt(start_color_array[cind], 16);
+                    let y = parseInt(end_color_array[cind], 16);
+                    let w = sd - aismover_time_line[tl].start_at * 33;
+                    let z = parseInt(aismover_time_line[tl].end_at * 33) - aismover_time_line[tl].start_at * 33;
+
+                    calculated_color[cind] = normalize_ambient(linear_flow(x, y, z, w));
+
+                    try {
+                        keyframe_aismover_effect = aismover_time_line[tl].keyframe_aismover_effect;
+                        keyframe_aismover_effect_len = parseFloat(aismover_time_line[tl].keyframe_aismover_effect_len);
+
+                        if (keyframe_aismover_effect === "pulse") {
+                            calculated_color[cind] = normalize_ambient(
+                                parseInt(calculated_color[cind] * pulsed_ambient(keyframe_aismover_effect_len, true))
+                            );
+                        } else if (keyframe_aismover_effect === "strobe") {
+                            calculated_color[cind] = parseInt(
+                                calculated_color[cind] * strobed_ambient(keyframe_aismover_effect_len, true)
+                            );
+                        }
+                    } catch (e) {
+                        console.log(e);
+                    }
+
+                    let bypass_global_effect = aismover_time_line[tl].bypass_global_effect;
+                    if (bypass_global_effect !== true) {
+                        if (aismover_pulse_effect) {
+                            calculated_color[cind] = normalize_ambient(
+                                parseInt(calculated_color[cind] * pulsed_ambient(aismover_effect_len))
+                            );
+                        } else if (aismover_strobe_effect) {
+                            calculated_color[cind] = parseInt(
+                                calculated_color[cind] * strobed_ambient(aismover_effect_len)
+                            );
+                        } else if (other_effect === "beating") {
+                            calculated_color[cind] = parseInt(
+                                calculated_color[cind] * beating_aismover_effect.get_beat(aismover_effect_len / 33)
+                            );
+                        }
+                    }
+                }
+
+                colors_array[sd] = aismover_combined_hex(calculated_color);
+            }
+        }
+
+        if (["pulse", "strobe"].includes(keyframe_aismover_effect)) {
+            if (
+                keyframe_aismover_fade_counter < 1 ||
+                keyframe_aismover_fade_counter > keyframe_aismover_effect_len
+            ) {
+                keyframe_aismover_fade_amount = -keyframe_aismover_fade_amount;
+            }
+            keyframe_aismover_fade_counter += keyframe_aismover_fade_amount;
+        }
+
+        if (aismover_pulse_effect || aismover_strobe_effect) {
+            if (aismover_fade_counter < 1 || aismover_fade_counter > aismover_effect_len) {
+                aismover_fade_amount = -aismover_fade_amount;
+            }
+        }
+
+        if (other_effect === "beating") {
+            beating_aismover_effect.beat(aismover_effect_len / 33);
+        }
+
+        aismover_fade_counter += aismover_fade_amount;
+    }
+}
+
+function linear_flow(x, y, z, w) {
+    return x + ((y - x) * (w / z));
+}
+
+function aismover_combined_hex(fg) {
+    return fg.map(val => aismover_format_zero(parseInt(val).toString(16))).join("");
+}
+
+function aismover_split_solor(cl) {
+    try {
+        return [cl.slice(0, 2), cl.slice(2, 4), cl.slice(4, 6)];
+    } catch (e) {
+        return ["00", "00", "00"];
+    }
+}
+
+function aismover_format_zero(st) {
+    return st.length < 2 ? "0" + st : st;
+}
+
+function normalize_ambient(num) {
+    return Math.max(0, Math.min(255, parseInt(num)));
+}
+
+// Effects
+function pulsed_ambient(fade_length, keyframed) {
+    return keyframed
+        ? keyframe_aismover_fade_counter / fade_length
+        : aismover_fade_counter / fade_length;
+}
+
+function strobed_ambient(fade_length, keyframed) {
+    let fade = keyframed ? keyframe_aismover_fade_amount : aismover_fade_amount;
+    return fade < 0 ? 0 : 1;
+}
+
+let beating_aismover_effect = {
+    beat_time: 0,
+    thresehold: 33,
+    effect_amount: 35,
+
+    beat: function (interval) {
+        this.beat_time += 1 / interval;
+    },
+
+    get_beat: function () {
+        if (this.beat_time > this.thresehold) this.beat_time = 0;
+        return 1 - ((this.beat_time / this.thresehold) * this.effect_amount * 0.01);
+    },
+
+    auto_beat: function (inter) {
+        this.beat(inter);
+        return this.get_beat();
+    },
+
+    reset_clk: function () {
+        this.beat_time = 0;
+    }
+};
+
+function aismover_activate_effect(f) {
+    aismover_pulse_effect = f === "pulse";
+    aismover_strobe_effect = f === "strobe";
+    other_effect = f === "beating" ? "beating" : "none";
+
+    try {
+        _("effect_selector").value = f;
+    } catch (e) {
+        // UI element may not exist
+    }
+}

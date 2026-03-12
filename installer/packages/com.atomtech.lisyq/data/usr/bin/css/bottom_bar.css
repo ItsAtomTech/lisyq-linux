@@ -1,0 +1,335 @@
+.bottom_bar_main{
+		
+	position:fixed;
+	bottom:0;
+	left:0;
+	right:0;
+	
+	min-width:300px;
+	/* border:solid white 1px; */
+	padding:4px;
+	z-index:80;
+	min-height:40px;
+	height:40px;
+	background:rgba(35,35,35,0.5);
+	box-shadow:0px -2px 3px 3px rgba(0,0,0,0.5);
+	color:inherit;
+	overflow:hidden;
+	white-space:nowrap;
+	display:flex;
+	align-items:flex-start;
+	justify-content:flex-start;
+	font-family:Arial;
+	user-select:none;
+}
+
+.bottom_bar_main_pl{
+		
+	position:absolute;
+	bottom:0;
+	left:0;
+	right:0;
+	
+	min-width:300px;
+	/* border:solid white 1px; */
+	padding:4px;
+	z-index:2;
+	min-height:40px;
+	height:40px;
+	background:var(--primary_background);
+	box-shadow:0px -2px 3px 3px rgba(0,0,0,0.5);
+	color:inherit;
+	overflow:hidden;
+	white-space:nowrap;
+	display:flex;
+	align-items:flex-start;
+	justify-content:flex-start;
+	font-family:Arial;
+	user-select:none;
+}
+
+
+.timer_con{
+	min-width:200px;
+	min-height:100%;
+	height:100%;
+	display:block;
+
+	max-width:200px;
+	margin-left:10px;
+	font-size:1.5em;
+	font-family:Arial;
+}
+
+.media_cont{
+	min-width:200px;
+	min-height:100%;
+	height:100%;
+	display:flex;
+	/* border:solid white 1px; */
+	max-width:200px;
+	border-right:2px solid gray;
+}
+
+
+
+
+
+
+
+
+/* Timer View */
+
+.timer_display_{
+	width:100%;
+	height:100%;
+	border-right:2px solid gray;
+	display:flex;
+	align-items:center;
+	justify-content:center;
+	
+}
+
+
+.bit8{
+	font-family:Ten;
+
+}
+
+.lcd{
+	font-family:Lcd;
+	font-size:0.8em;
+}
+
+
+/* Buttons View */
+
+
+.button_box{
+	width:30px;
+	height:30px;
+	/* border:solid white 1px; */
+	display:flex;
+	align-items:center;
+	justify-content:center;
+	cursor:pointer;
+	margin-left:5px;
+	background-repeat:none;
+	background-size:100% 100%;
+	
+}
+
+.button_box:active{
+	opacity:0.5;
+	transform:scale(0.9,0.9);
+	
+}
+
+.media_cont > .button_box{
+		min-width:30px;	
+}
+
+
+.grad_dark_button{
+/* Gradiant_button */
+	border-radius:5px;
+	background-color: rgba(50,50,50,0.8);
+	backdrop-filter:blur(2px);
+	border:solid rgba(58,58,58,0.9) 1px;
+	border-top:solid rgba(158,158,158,0.4) 1px;
+	border-left:solid rgba(158,158,158,0.4) 1px;
+	background-clip:border-box;
+
+	box-shadow:rgba(54,54,54,0.4) 0px 0px 3px 3px;
+}
+
+
+
+.play_button_grad{
+	background-image:url('../images/play_bare.png');
+}
+.pause_button_grad{
+	background-image:url('../images/pause_bare.png');
+}
+
+.stop_button_grad{
+	background-image:url('../images/stop_bare.png');
+}
+
+.play_button{
+	background-image:url('../images/play.png');
+	width:33px;
+	height:33px;	
+	
+}
+.pause_button{
+	background-image:url('../images/pause.png');	
+	opacity:0.9;
+	
+}
+.stop_button{
+	background-image:url('../images/stop.png');	
+	opacity:0.9;
+	
+}
+
+
+.go_to_button{
+	
+	display:flex;
+	align-items:center;
+	justify-content:center;
+	width:60px;
+	font-family:inherit;
+	
+	border:solid gray 1px;
+	border-radius:6px;
+}
+
+.go_button{
+	position:relative;
+	bottom:0;
+	display:block;
+	padding:5px;
+	border:solid gray 1px;
+	border-radius:5px;
+/* 	padding-left:20px;
+	padding-right:20px; */
+	user-select:none;
+	margin:0px auto;
+	text-align:center;
+	width:70px
+	
+}
+
+
+
+.go_to_form{
+	width:90px;
+	border:solid red 1px;
+	
+	
+}
+
+
+/* Track Display */
+
+.track_display{
+	/* min-width:200px; */
+	min-height:100%;
+	height:100%;
+	display:block;
+	/* border:solid white 1px; */
+	max-width:200px;
+	margin-left:10px;
+	font-size:1.3em;
+	font-family:Arial;
+	width:100%;
+	overflow:hidden;
+	padding:2px;
+	
+}
+
+.tiny{
+	font-size:0.55em;
+	
+}
+
+.micro{
+	font-size:0.5em;
+	line-height:30px;
+	
+}
+
+.total_tracks{
+	font-size:0.6em;
+	width:50px;
+	
+}
+
+.track_input{
+	width:40px;
+	font-size:0.8em;
+	text-align:right;
+}
+
+
+.plane_input{
+	border:none;
+	padding:2px;
+	outline:none;
+	background:none;
+	
+	
+	
+	
+}
+
+
+/* Delay Settter */
+
+
+
+.delay_setter{
+	/* min-width:200px; */
+	min-height:100%;
+	height:100%;
+	display:block;
+	/* border:solid white 1px; */
+	border-left:2px gray solid;
+	max-width:200px;
+	margin-left:10px;
+	font-size:1.3em;
+	font-family:Arial;
+	width:100%;
+	overflow:hidden;
+	padding:2px;
+	
+}
+
+
+/* Zoom Settter */
+
+
+
+.zoom_setter{
+	/* min-width:200px; */
+	min-height:100%;
+	height:100%;
+	display:block;
+	/* border:solid white 1px; */
+	border-left:2px gray solid;
+	max-width:100px;
+	margin-left:10px;
+	font-size:1.3em;
+	font-family:Arial;
+	width:100%;
+	overflow:hidden;
+	padding:2px;
+	
+}
+
+
+
+@media (max-width:600px){
+	.track_display{
+		min-width:50px;
+		max-width:50px;
+		
+		
+	}
+	
+	.tiny{
+		display:none;
+		
+	}
+	
+	.micro{
+		font-size:none;
+	
+	}
+	
+}
+
+
+

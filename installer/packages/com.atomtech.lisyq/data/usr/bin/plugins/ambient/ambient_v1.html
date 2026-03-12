@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html> 
+<head> 
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, user-scalable=0">
+	<!-- <link rel="stylesheet" href="font-awesome/css/solid.min.css"> -->
+	<!-- <link rel="stylesheet" href="font-awesome/css/fontawesome.min.css"> -->
+	<link rel="stylesheet" href="css/ambient_plugin.css">
+	<link rel="stylesheet" id="color" href="css/coloring.css">
+	<link rel="icon" type="image/png" href="images/favicon.ico"/>
+ </head>
+ <body class='primary_color'>
+
+	
+	
+<!-- Plugins body-->
+	
+	
+	<div class="plugin_con" >
+		
+		<div class="ambient_plugin_main">
+			<div class="close_button_amb" onclick="sendTo('stop_media_prev');sendTo('close_plugin','')"> &times; </div>
+			
+			<div class="panel_con">
+				<div class="number_picker">
+					<span> Length: </span><input type="number" max="60" min="0.1"id="seconds_len" step="0.1" value="1" onchange="change_secs_sacle(this.value)"/> <span>Secs.</span>
+				</div>
+			
+			
+			</div>	
+			
+			<div class="panel_con" id="scroll_manner">
+			
+				<div class="keyframe_con" id="keyframe_container" onmousedown="click_on_time_con(this)">
+					<div class="line_key_time" id="line_key_time" onmousedown="click_on_time_bar(this)"  onmousemove="show_time(this);"  onmouseleave="empty_display();">
+						
+					</div>
+					<div class="preview_head" id="preview_head"> </div>
+					
+				</div>
+			
+			
+			</div>
+			
+			
+			<div class="panel_con" >				
+				<div class="add_button_keyframe" onclick="show_keyframe_man('timeline')" title="Add New Keyframe"> + </div>
+				<div class="key_frame_details" id='keyframe_details'> ---</div>
+			</div>
+
+			<div class="panel_con">
+				
+				<div class="pn_c_p"> <input type="color" id="panel_color">  </div><span class="small_det"> Template Color</span>
+				
+				<div class="key_frame_details w2n" > <input type="text" class="input_name" value="No name" id="template_name"/> </div>
+			</div>
+		
+		
+				<div class="panel_con">
+				
+					
+				<div class='normal'> Global effects: </div>
+					<div class="number_picker">
+					
+					
+					
+					<span> FX Interval: </span><input type="number" max="1" min="0.01" class="seconds_select" id="seconds_len_effect" step="0.01" value="0.1" onchange="change_effect_len(this.value)"/> <span>Secs.</span>
+					
+					<select class="effect_choice" onchange="ambient_activate_effect(this.value)" id="effect_selector" title="Effect applied for this whole template">
+						<option value="none">No effects</option>
+						<option value="pulse">Pulse</option>
+						<option value="strobe">Strobe</option>
+						<option value="beating">Beat</option>
+						
+					</select>
+					
+				</div>
+					
+				</div>	
+				
+				
+				<div class="panel_con flexed">
+					
+					<div class="my_buttons" onclick="play_template()"> Preview </div>
+										
+					<div class="my_buttons st" onclick="stop_template()">Stop Preview </div>
+					
+					<div class="my_buttons st" onclick="pause_template()">Pause Preview </div>
+					
+					
+					<div id="preview" class="preview_bud"> </div>
+					
+				</div>
+				
+				<div class="panel_con">
+					
+					<!-- <div class="my_buttons"> Apply Changes </div> -->
+					<div class="my_buttons" onclick="generate_template()"> Save and Add </div>
+					
+					
+					
+				</div>				
+				
+				<div class="panel_con">
+					
+				<span class="small_det v_number">Ambient Light Plugin v1.0.2</span>
+					
+				</div>
+		
+		</div>
+	
+	
+	
+	
+	
+	<!-- Modals -->
+		
+		<div class="modal_view" style="display:none;" id="key_man">
+			<div class="close_button_amb" onclick="close_key_man()"> &times; </div>
+			<div class="modal_title"> Manage Keyframe </div>
+				
+				
+			<div class="modal_row">
+				
+				<div class="modal_colm color_panel">	
+					<div class="modal_panel">
+
+						<input type="color" class="color_picker_key" id="c_start" title="from" onfocus="prev_colors('show',this)" onfocusout="prev_colors('hide',null)"> <span class='color_option_button' title='Options' onclick="color_options('show')"> - </span> 
+						<input type="color" class="color_picker_key" id="c_end" title="to" onfocus="prev_colors('show',this)" onfocusout="prev_colors('hide',null)">
+
+					</div>
+					
+					<div class="modal_panel">
+						
+						<input type="number" max="60" min="0" maxlength="5" step="0.1" id="s_start" class="seconds_select" value="0" placeholder="Start"  />
+						 | 
+						<input type="number" max="60" min="0" id="s_end" step="0.1" class="seconds_select" value="" maxlength = "5" placeholder="End" />
+						
+					</div>	
+					
+					<div class="modal_panel">
+						
+						<button class="slick_button tiny" onclick="set_end_at(_('duration_').value)"> Calculate <br> Duration </button> 
+						
+						<input type="number" max="60" min="0" id="duration_" step="0.01" class="seconds_select" value="" maxlength = "5" placeholder="Duration" onchange="set_end_at(this.value)" title="Duration for the Keyframe"/>
+					
+					</div>
+					
+					
+					<div class="modal_panel">
+						
+						<div class="my_buttons" onclick="save_key()"> Apply </div> 
+						<div class="my_buttons" id="r_button" onclick="remove_key()"> Remove </div>
+						
+					</div>
+				
+				
+					<!-- Prev color picks -->
+					<div class="color_drawer primary_color primary_background" id='color_drawer' style='display:none;'>
+						
+						<div class='color_dip_'> </div>
+					
+						
+					</div>
+					<!-- color options -->
+					<div class="color_options_drawer primary_color primary_background" id='color_options' style='display:none;'>
+						
+						<div class="close_button_amb" onclick="color_options('hide')"> &times; </div>
+				
+						<div class="my_buttons" onclick="color_command('a')" title="Start color copied to End"> A -&gt; B</div>
+						<div class="my_buttons" onclick="color_command('swap')" title="Swap Start and End"> Swap </div>
+						<div class="my_buttons" onclick="color_command('b')" title="End color copied to Start">A <- B</div>
+					
+						
+					</div>
+					
+				
+				</div>
+				
+				<div class="modal_colm other_panel">
+				
+					<div class="modal_panel">
+						<span class="small"> Keyframe effects: </span>
+					
+					</div>
+				
+					<div class="modal_panel">						
+							<select class="effect_choice" id="keyframe_effect_selector">
+								<option value="none">No effects</option>
+								<option value="pulse">Pulse</option>
+								<option value="strobe">Strobe</option>
+								
+							</select>
+					</div>
+					
+					
+					<div class="modal_panel">
+						<div class="number_picker">
+							<span> FX Interval: </span><input type="number" max="1" min="0.01" class="seconds_select" id="keyframe_seconds_len_effect" step="0.01" value="0.1" /> <span>Secs.</span>
+							</div>
+					</div>	
+					
+					
+						<div class="modal_panel" title='This will make global effects ignored for this keyframe'>
+						
+							<input type='checkbox' id='effect_bypass'>  <span class='tiny'>: Bypass global effect</span>
+						
+						</div>		
+						
+						<div class="modal_panel" >
+							
+							<div class="my_buttons" id="copy_frame" onclick="copy_frame()"> Copy Keframe</div>
+						
+						</div>
+				
+				</div>
+				
+			
+			</div>
+			
+		</div>
+		
+	
+	</div>
+	
+	
+	
+	
+ 
+ </body>
+
+ 
+ 
+		<div class="context_menu primary_color primary_background" id="ct_menu" style='visibility:hidden;'>
+				
+				<div class='context_items small' title="Paste Copied keyframe" onclick="paste_key()"> Paste </div>
+		
+		</div>
+ 
+ 
+ 
+ 
+ <!-- plugins js -->
+ <script src="js/ambient_v1.js"  ></script>
+ <script src="js/generator.js"  ></script>
+ 
+ 
+
+ 
+ 
+ </html>
+ 
+ 
+ 
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+

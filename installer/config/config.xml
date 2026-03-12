@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Installer>
+    <Name>LiSyQ</Name>
+    <Version>1.2.1</Version>
+    <Title>LiSyQ Installer</Title>
+    <Publisher>ItsAtomtech</Publisher>
+    <StartMenuDir>LiSyQ</StartMenuDir>
+    <TargetDir>@HomeDir@/LiSyQ</TargetDir>
+    <MaintenanceToolName>uninstaller</MaintenanceToolName>
+    <InstallerWindowIcon>logo.png</InstallerWindowIcon>
+</Installer>

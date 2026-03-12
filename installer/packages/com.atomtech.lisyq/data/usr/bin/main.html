@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html> 
+<head> 
+	<title>LiSyQ - Studio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, user-scalable=0">
+	<!-- <link rel="stylesheet" href="font-awesome/css/solid.min.css"> -->
+	<!-- <link rel="stylesheet" href="font-awesome/css/fontawesome.min.css"> -->
+		<link rel="stylesheet" href="css/default.css">
+		<link rel="stylesheet" href="css/content_creator.css">
+		<link rel="stylesheet" href="css/bottom_bar.css">
+		<link rel="stylesheet" href="css/template_player.css">
+		<link rel="stylesheet" id="color" href="css/coloring.css">
+		<link rel="stylesheet" href="css/dailoge.css">
+		<link rel="stylesheet" href="css/contextmenu.css">
+		<link rel="icon" type="image/png" href="images/favicon.ico"/>
+	
+	<style id='dyna_scaler'>
+		:root {
+			--scale: 1;
+		}
+	</style>
+	<style id='dyna_height'>
+		:root {
+			--overall-height: 150px;
+		}
+	</style>
+		
+	<style id='dyna_margin'>
+		:root {
+			--margin_left: 0px;
+		}
+	</style>
+	
+	
+	
+ </head>
+ <body class='primary_color' onresize="init_resize()">
+	
+	
+	
+	
+	 <div class="upper_col" id="col_1">
+		<div id="content_editor_view" class="content_editor_view">
+		
+			
+		
+			<div class="templates_time_con" >
+				
+				<div class="search_bar_tool_section">
+					
+					<div class="options_button button_box" onclick="showTimelineScriptOptions()">
+					</div>
+					
+					<div class="search_bar time_templates_search"> 				
+						<input type="search"  class='search_input primary_background primary_color' placeholder='Search...'id='_ttemp' onchange="decup(event)" oninput="indexer.timeline_templates(this)" />
+					</div>	
+				</div>
+				
+		
+			
+			
+				<div id="content_con" class="content_con">
+				
+				</div>
+				
+			</div>
+		
+			<div class="plugins_corner"  id="plugin_lists">
+			
+
+			
+			
+			
+			</div>
+		
+		
+		
+		</div>
+		
+		
+		<div class="media_player_con">
+			<div class="media_bar_options">
+
+				<div class="load_button button_box" onclick="load_media()" title="Load Media Sampling File"> </div>
+				<div class="load_link_button button_box " onclick="select_link()" title="Load and Link a media to this lsys file."> </div>
+
+			</div>
+		
+			<div class="video_media_con">
+			
+				
+					<video id="thisvid" class="media_player" controls controlsList="nodownload noplaybackrate noplay"></video>
+					
+					<input type="file" class="hidden_button" id="media_link" accept="video/*,audio/*"/>
+			
+			</div>
+		
+		</div>
+		
+	</div>
+	
+	
+	<div class="slide_bar" onmousedown="devider_(true,this)" onmouseleave="devider_(false,this)" onmouseup="devider_(false,this)" onmousemove="try{devider_rep(this)}catch(e){};"> = </div>
+	
+	
+	
+	<iframe class="plugin_view" onload="try{init_handshake();}catch(e){}" src="" id="plugin">
+	
+	
+	</iframe>
+	
+	
+	
+	
+<div class="timeline_view" id="col_2">
+		<div class="time_ruler secondary_background" id="ruler_view">
+			<canvas id="canvas_ruler"></canvas>
+		</div>
+		
+			
+		<!-- Timeline Player -->
+		<div class="timeline_main_con" id="timeline_container" >
+			
+			<div class="timeline_head" id="playhead"> </div>
+			<div class="timeline_main" id="timeline_">
+	
+			
+			</div>	
+		</div>
+		
+		<!-- Template Player -->
+		<div class="template_player_main" id="template_player_container" style='display:none;'>	
+			<div class="v_con_1" id="v_con_1">		
+				<div class="search_bar"> 				
+						<input type="text"  class='search_input primary_background primary_color' placeholder='Search...'onchange="decup(event)" oninput="indexer.manual_templates(this)"/>
+				</div>		
+				<div class="template_container_main" id="manual_templates_con">
+						
+						
+				</div>
+
+					
+					
+			
+			</div>
+			
+			
+			<div class="v_slide_bar" 
+			onmousedown="vertical_resizer.pickSlider(this)" 
+			onmousemove="vertical_resizer.resize(this)" 
+			onmouseleave="vertical_resizer.dropSlider(this)"
+			onmouseup="vertical_resizer.dropSlider(this)"
+			
+			ontouchstart="vertical_resizer.pickSlider(this)" 
+			ontouchmove="vertical_resizer.resize(this)" 
+			ontouchend="vertical_resizer.dropSlider(this)"
+			ontouchcancel="vertical_resizer.dropSlider(this)"
+			
+			> || </div>
+			
+			
+			<div class="v_con_2 primary_color primary_background" id="v_con_2">
+				<div class="search_bar flexed"> 	
+					<div class="activate_button button_box" onclick="activate_player(this)"><span class='active_button_icon'></span><span class='tex'> Off</span></div>
+					
+					<div class="button_box actions" onclick="saveLocalTemplate();"title="Save to Local"> Save  </div>
+					<div class="button_box actions" onclick="openLocalSaves();"> Load  </div>
+					<input type='text' class="plane_input name_live_templ primary_background primary_color" id="local_save_name" placeholder='No name'>  </input>
+					
+					<div class="button_box actions small" onclick="save_LV_to_file();" title="Write data to file"> Save File  </div>
+					
+					<div class="button_box actions small" onclick="openLiveFile();" title="Open an lytemp File"> Open File  </div>
+					
+					<div class="button_box actions small layout_view" onclick="layoutChange();" title="Change Layout: Simple or Expanded(Default)">  </div>			
+					
+					<div class="button_box actions small layout_full_view" onclick="layoutLiveFull();" title="Toggle to cover entire Window with this panel">  </div>
+				</div>
+				
+				<div class="triggers_con" id="triggers_con"> 
+						
+
+				
+				</div>
+					
+
+			</div>
+				
+	</div>
+		
+		
+		
+</div>
+ 
+ 
+  
+	<div class="bottom_bar_main">
+		<div class="timer_con">
+
+			<div id="time_display_" class="timer_display_">
+			0:00:00:00
+			</div>
+
+		</div>
+		<div class="media_cont">
+
+			<div class="button_box play_button" onclick="play()"> </div>
+			<div class="button_box pause_button" onclick="pause()"> </div>
+			<div class="button_box stop_button" onclick="stop()"> </div>
+			
+			<div class="button_box go_to_button" onclick='createDialogue("time_jump")'> Go to </div>
+			
+			
+
+		</div>
+		
+		<div class="track_display">
+			<div class=" track_number_con" title='Selected Track Index / Total Tracks '><span class='tiny'>Track Selected: </span> <input type='number' onfocusout='set_selected_track(this.value)' class='plane_input track_input primary_color' min='0' value=0 id='track_disp' /> /<span class='total_tracks' id='total_tracks'> -- </span ></div>
+		</div>
+		
+		<div class="delay_setter">
+			<div class=" track_number_con" title='Apply Delay to Timeline play sequence'><span class='tiny'>Play Delay (ms): </span> <input type='number' onchange='set_delay(this.value)'  class='plane_input track_input primary_color small' min='0' max='1000' value=0 id='delay_disp' /></div>
+		
+		
+		</div>
+		
+		<div class="zoom_setter">
+			<div class=" track_number_con" title='Timeline Zoom scale'><span class='micro'>Zoom: </span> <input type='number' onchange='applyScale(this.value);decup(event)' onmousewheel='applyScale(this.value)' class='plane_input track_input primary_color small' min='0.5' max='2' step='0.1' value=0 id='zoom_disp' /></div>
+		
+		
+		</div>
+		
+	
+	
+	</div>
+
+ 
+ </body>
+	<script src="js/unified.js"></script>
+	<script src="js/settings.js"></script>
+	<script src="js/timeline.js"></script>
+	<script src="js/play_optimized.js"></script>
+	<script src="js/block_contents.js"></script>
+	<script src="js/undorefier.js"></script>
+	<script src="js/canvas_ruler.js"></script>
+	<script src="js/resize_bar.js"></script>
+	<script src="js/bottom_bar.js"></script>
+	
+	<script src="js/template_player.js"></script>
+	<script src="js/vertical_resizer.js"></script>
+
+	
+	<script src="js/shortcuts.js"></script>
+	<script src="js/indexer.js"></script>
+	<script src="js/media_player.js"></script>
+	<script src="js/dialogue.js"></script>
+	<script src="js/scaler.js"></script>
+	
+	<script src="js/viselect.umd.js"></script>
+	
+	 <!--Matthias Thalmann (Github) -->
+	<script src="js/contextmenu.min.js"></script>
+	
+
+	<script defer src="js/impexporter.js"></script>
+	<script defer src="js/marker_maker.js"></script>
+	<script defer src="js/dragSelectHelper.js"></script>
+	
+	<script defer src="js/context_menu_helper.js"></script> 
+ 
+ <script>
+ 
+ add_track(null,'init');
+ set_delay();
+ applyScale(1);
+ 
+	<!-- var g = load_saved(); -->
+	<!-- optimizedData = false; -->
+	<!-- modeSelect('manual'); -->
+	<!-- open_saved(0); -->
+	<!-- load_saved(); -->
+
+	//media player setup
+	localFileVideoPlayer('media_link', 'thisvid');
+	
+	
+ </script>
+ 
+ 
+
+ 
+ 
+ </html>
+ 
+ 
+ 
+ 

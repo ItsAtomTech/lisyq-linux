@@ -1,0 +1,40 @@
+
+:root {
+  --primary_background: rgba(40,40,40,1);
+  --primary_background_darker: rgba(20,20,20,1);
+  --primary_color: rgba(240,240,240,1);
+  --primary_color_faded: rgba(160,160,160,0.5);
+  --primary_color_invert: rgba(254,254,255,1);
+  --secondary_color:#0b832d;
+  --secondary_color_darker: rgba(0,113,55,1);
+  --secondary_background: rgba(34,34,34,1);
+  
+  --accent_1: #9c27b0;
+  
+}
+
+
+
+.primary_color{
+	color:rgba(240,240,240,1);
+	
+	
+}
+
+
+
+
+.primary_background{
+	background-color:rgba(40,40,40,1);
+	
+	
+	
+}
+
+
+.secondary_background{
+	background-color:rgba(34,34,34,1);
+	
+	
+	
+}

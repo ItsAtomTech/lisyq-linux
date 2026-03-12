@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, user-scalable=0" />
+        <!-- <link rel="stylesheet" href="font-awesome/css/solid.min.css"> -->
+        <!-- <link rel="stylesheet" href="font-awesome/css/fontawesome.min.css"> -->
+        <link rel="stylesheet" href="css/aismover_plugin.css" />
+        <link rel="stylesheet" href="css/gobo_3d.css" />
+        <link rel="stylesheet" id="color" href="css/coloring.css" />
+        <link rel="icon" type="image/png" href="images/favicon.ico" />
+    </head>
+    
+    <style id="color_display_data"> :root{--color_light:#52ff74;}</style>
+    
+    <body class="primary_color">
+        <!-- Plugins body-->
+
+        <div class="plugin_con">
+            <div class="ambient_plugin_main">
+            
+            
+            <div class="decor_banner_top_con">
+              <div class="decor_holder">
+                <img src="images/logoword.webp" class="wordart">
+              </div>
+            </div>   
+            
+                <div class="close_button_amb" onclick="sendTo('stop_media_prev');sendTo('close_plugin','')">&times;</div>
+
+                <div class="panel_con">
+                    <div class="number_picker small"><span> Length: </span><input type="number" max="60" min="0.1" id="seconds_len" step="0.1" value="1" onchange="change_secs_sacle(this.value)" /> <span>Secs.</span></div>
+                </div>
+
+                <div class="panel_con centered_panel" id="scroll_manner">
+                    <div class="keyframe_con" id="keyframe_container" onmousedown="click_on_time_con(this)">
+                        <div class="line_key_time" id="line_key_time" onmousedown="click_on_time_bar(this)" onmousemove="show_time(this);" onmouseleave="empty_display();"></div>
+                        <div class="preview_head" id="preview_head"></div>
+                    </div>
+                </div>
+
+                <div class="panel_con">
+                    <div class="add_button_keyframe" onclick="show_keyframe_man('timeline')" title="Add New Keyframe">+</div>
+                    <div class="key_frame_details" id="keyframe_details">---</div>
+                </div>
+
+                <div class="panel_con">
+                    <div class="pn_c_p"><input type="color" id="panel_color" /></div>
+                    <span class="small_det"> Template Color</span>
+
+                    <div class="key_frame_details w2n"><input type="text" class="input_name" value="No name" id="template_name" /></div>
+                </div>
+
+                <div class="panel_con">
+                    <div class="normal">Global Color effects:</div>
+                    <div class="number_picker">
+                        <span> FX Interval: </span><input type="number" max="1" min="0.01" class="seconds_select" id="seconds_len_effect" step="0.01" value="0.1" onchange="change_effect_len(this.value)" /> <span>Secs.</span>
+
+                        <select class="effect_choice" onchange="aismover.activate_effect(this.value)" id="effect_selector" title="Effect applied for this whole template">
+                            <option value="none">No effects</option>
+                            <option value="pulse">Pulse</option>
+                            <option value="strobe">Strobe</option>
+                            <option value="beating">Beat</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="panel_con flexed">
+                    <div class="my_buttons" onclick="play_template()">Preview</div>
+
+                    <div class="my_buttons st" onclick="stop_template()">Stop Preview</div>
+
+                    <div class="my_buttons st" onclick="pause_template()">Pause Preview</div>
+
+                    <!-- <div id="preview" class="preview_bud"></div> -->
+                </div>
+
+                <div class="panel_con">
+                    <!-- <div class="my_buttons"> Apply Changes </div> -->
+                    <div class="my_buttons" onclick="generate_template()">Save and Add</div>
+                </div>
+
+                <div class="panel_con">
+                    <span class="small_det v_number">Aismover Plugin v1.0</span>
+                </div>
+                
+                
+                
+<div id="gobo_light">
+  <div class="scene" id="pan_3d" style=" transform:rotateX(0deg) rotateY(0deg) translateY(50px) scale3d(0.5,0.5,0.5)">
+    <div class="shape cuboid-1 base">
+      <div class="face ft">
+        <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.14);"></div>
+      </div>
+      <div class="face bk">
+        <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.46);"></div>
+      </div>
+      <div class="face rt">
+        <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.14);"></div>
+      </div>
+      <div class="face lt">
+        <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.14);"></div>
+      </div>
+      <div class="face bm">
+        <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.14);"></div>
+      </div>
+      <div class="face tp">
+        <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.14);"></div>
+      </div>
+      <div class="cr cr-0">
+        <div class="face side s0">
+          <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.118);"></div>
+        </div>
+        <div class="face side s1">
+          <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.09);"></div>
+        </div>
+        <div class="face side s2">
+          <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.086);"></div>
+        </div>
+        <div class="face side s3">
+          <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.106);"></div>
+        </div>
+        <div class="face side s4">
+          <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.15);"></div>
+        </div>
+      </div>
+      <div class="cr cr-1">
+        <div class="face side s0">
+          <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.2);"></div>
+        </div>
+        <div class="face side s1">
+          <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.26);"></div>
+        </div>
+        <div class="face side s2">
+          <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.32);"></div>
+        </div>
+        <div class="face side s3">
+          <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.38);"></div>
+        </div>
+        <div class="face side s4">
+          <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.435);"></div>
+        </div>
+      </div>
+      <div class="cr cr-2">
+        <div class="face side s0">
+          <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.482);"></div>
+        </div>
+        <div class="face side s1">
+          <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.51);"></div>
+        </div>
+        <div class="face side s2">
+          <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.514);"></div>
+        </div>
+        <div class="face side s3">
+          <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.494);"></div>
+        </div>
+        <div class="face side s4">
+          <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.45);"></div>
+        </div>
+      </div>
+      <div class="cr cr-3">
+        <div class="face side s0">
+          <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.4);"></div>
+        </div>
+        <div class="face side s1">
+          <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.34);"></div>
+        </div>
+        <div class="face side s2">
+          <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.28);"></div>
+        </div>
+        <div class="face side s3">
+          <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.22);"></div>
+        </div>
+        <div class="face side s4">
+          <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.165);"></div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="shape cuboid-2 cub-1">
+      <div class="face ft">
+        <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.14);"></div>
+      </div>
+      <div class="face bk">
+        <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.46);"></div>
+      </div>
+      <div class="face rt">
+        <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.14);"></div>
+      </div>
+      <div class="face lt">
+        <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.14);"></div>
+      </div>
+      <div class="face bm">
+        <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.14);"></div>
+      </div>
+      <div class="face tp">
+        <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.14);"></div>
+      </div>
+    </div>
+    <div class="shape cuboid-3 cub-2">
+      <div class="face ft">
+        <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.14);"></div>
+      </div>
+      <div class="face bk">
+        <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.46);"></div>
+      </div>
+      <div class="face rt">
+        <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.14);"></div>
+      </div>
+      <div class="face lt">
+        <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.14);"></div>
+      </div>
+      <div class="face bm">
+        <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.14);"></div>
+      </div>
+      <div class="face tp">
+        <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.14);"></div>
+      </div>
+    </div>
+    <div class="shape cuboid-4 pivot" id="tilt_3d" style="transform:translate3D(0em, -7.5em, 0em) rotateX(0deg) rotateY(0deg) rotateZ(0deg)">
+      <div class="face ft">
+        <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.14);"></div>
+      </div>
+      <div class="face bk">
+        <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.46);"></div>
+      </div>
+      <div class="face rt">
+        <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.14);"></div>
+      </div>
+      <div class="face lt">
+        <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.14);"></div>
+      </div>
+      <div class="face bm">
+        <div class="photon-shader easter_logo" title="Word Arts and BGs by Graphixart.jpg" style="background-color: rgba(0, 0, 0, 0.14);">
+            <img src="images/gpx_logo.webp" >
+        </div>
+      </div>
+      <div class="face tp">
+        <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.14);"></div>
+      </div>
+      <div class="cr cr-0">
+        <div class="face side s0">
+          <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.118);"></div>
+        </div>
+        <div class="face side s1">
+          <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.09);"></div>
+        </div>
+        <div class="face side s2">
+          <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.086);"></div>
+        </div>
+        <div class="face side s3">
+          <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.106);"></div>
+        </div>
+        <div class="face side s4">
+          <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.15);"></div>
+        </div>
+      </div>
+      <div class="cr cr-1">
+        <div class="face side s0">
+          <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.2);"></div>
+        </div>
+        <div class="face side s1">
+          <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.26);"></div>
+        </div>
+        <div class="face side s2">
+          <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.32);"></div>
+        </div>
+        <div class="face side s3">
+          <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.38);"></div>
+        </div>
+        <div class="face side s4">
+          <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.435);"></div>
+        </div>
+      </div>
+      <div class="cr cr-2">
+        <div class="face side s0">
+          <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.482);"></div>
+        </div>
+        <div class="face side s1">
+          <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.51);"></div>
+        </div>
+        <div class="face side s2">
+          <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.514);"></div>
+        </div>
+        <div class="face side s3">
+          <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.494);"></div>
+        </div>
+        <div class="face side s4">
+          <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.45);"></div>
+        </div>
+      </div>
+      <div class="cr cr-3">
+        <div class="face side s0">
+          <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.4);"></div>
+        </div>
+        <div class="face side s1">
+          <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.34);"></div>
+        </div>
+        <div class="face side s2">
+          <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.28);"></div>
+        </div>
+        <div class="face side s3">
+          <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.22);"></div>
+        </div>
+        <div class="face side s4">
+          <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.165);"></div>
+        </div>
+      </div>
+	  
+	      <div class="shape cylinder-1 light">
+      <div class="face bm">
+        <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.14);"></div>
+      </div>
+      <div class="face tp">
+        <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.14);"></div>
+      </div>
+      <div class="face side s0">
+        <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.11);"></div>
+      </div>
+      <div class="face side s1">
+        <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.086);"></div>
+      </div>
+      <div class="face side s2">
+        <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.11);"></div>
+      </div>
+      <div class="face side s3">
+        <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.14);"></div>
+      </div>
+      <div class="face side s4">
+        <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.255);"></div>
+      </div>
+      <div class="face side s5">
+        <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.34);"></div>
+      </div>
+      <div class="face side s6">
+        <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.424);"></div>
+      </div>
+      <div class="face side s7">
+        <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.49);"></div>
+      </div>
+      <div class="face side s8">
+        <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.514);"></div>
+      </div>
+      <div class="face side s9">
+        <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.49);"></div>
+      </div>
+      <div class="face side s10">
+        <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.14);"></div>
+      </div>
+      <div class="face side s11">
+        <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.345);"></div>
+      </div>
+      <div class="face side s12">
+        <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.26);"></div>
+      </div>
+      <div class="face side s13">
+        <div class="photon-shader" style="background-color: rgba(0, 0, 0, 0.176);"></div>
+      </div>
+    </div>
+	  
+	  
+    </div>
+
+  </div>
+</div>
+
+       
+                            
+</div>
+
+
+            <!-- Modals -->
+
+            <div class="modal_view" style="display: none;" id="key_man">
+         
+                <div class="modal_title">Manage Keyframe 
+				       <div class="close_button_amb" onclick="close_key_man()">&times;</div>
+				</div>
+
+                <div class="modal_row">
+				
+					<div class="modal_colm position_panel">
+                    
+                        <div class="modal_panel pos_options_range rowed_view">
+                                
+                         
+                                
+                                <select class="effect_choice" id="position_mode" onclick="modeChange(this)">
+                                    <option value="raw" selected>Raw</option>
+                                    <option value="????" disabled>Coming Soon</option>
+                                </select>
+                                
+                                <label class="small"> Enable: <input type="checkbox" id="movement_enabled" checked title="Enable or Disable Movement Data" /></label>
+                                
+                                
+                        </div>
+                    
+                    <div>
+                    
+              
+                    
+						<div class="position_pad_elm" id="position_pad">
+                            <div class="crosshair_elm" id="pos_crosshair"> </div>
+						</div>
+						
+                        
+                        
+						<div class="modal_panel pos_options_range">
+                            
+							<div> <label> Pan </label><input oninput="updateFromRange()" type="range" min="0" id="pan_slider" /> <span class="value_disp" id="pan_disp"> 0 </span></div>
+                            
+							<div> <label> Tilt</label><input type="range" oninput="updateFromRange()" id="tilt_slider" /> <span class="value_disp" id="tilt_disp"> 0 </span></div>
+			
+						</div>
+						
+                        
+                        
+                        
+						<div class="modal_panel pos_options_col">
+							<div class="my_buttons pos_buttons" onclick="setPositionPoint(0)">A</div>
+							
+							<span class="color_option_button" title="Options" onclick="pos_options('show')"> &hArr; </span>
+							
+							<div class="my_buttons pos_buttons" onclick="setPositionPoint(1)">B</div>
+                            
+                            <label class="button_center" onclick="resetToCenter()" title="Reset to Center"> &#10034; </label>
+                            
+						</div>
+						
+						<div class="position_options_drawer primary_color primary_background" id="pos_options" style="display: none;">
+                            <div class="close_button_amb" onclick="pos_options('hide')">&times;</div>
+
+                            <div class="my_buttons" onclick="pos_command('a')" title="Start color copied to End">A -&gt; B</div>
+                            <div class="my_buttons" onclick="pos_command('swap')" title="Swap Start and End">Swap</div>
+                            <div class="my_buttons" onclick="pos_command('b')" title="End color copied to Start">A <- B</div>
+                        </div>
+                    
+                    <div class="modal_panel pos_options_range">
+                            <div class="medium "> Effects:   </div>
+                            <select class="effect_choice" id="effect_selection" onclick="effectChange(this)">
+                                <option value="" >None</option>
+                                <option value="wave" >Wave</option>
+                                <option value="circle" >Circle</option>
+                                <option value="infinity" >8finity</option>
+                                <option value="square" >Square</option>
+                                <option value="oval" >Oval</option>
+                                <option value="????" disabled>Coming Soon</option>
+                            </select>
+                            
+                            <div par="speed"> <label> Speed </label><input onchange="updateEffectParams(this,'effect_speed_disp')" oninput="updateEffectParams(this,'effect_speed_disp')" type="range" partype="speed" min="0" max="40" value="0" id="effect_speed" /> <span class="value_disp" id="effect_speed_disp"> 0 </span></div>
+                            
+							<div par="size"> <label> Size</label><input type="range" partype="size" max="20" onchange="updateEffectParams(this,'effect_size_disp')" oninput="updateEffectParams(this,'effect_size_disp')" id="effect_size" value="0" /> <span class="value_disp" id="effect_size_disp"> 0 </span></div>
+                            
+                    </div>
+                        
+                        
+                    </div>
+                    
+                </div>
+				
+				
+                    <div class="modal_colm color_panel">
+                        <div class="modal_panel">
+                            <input type="color" class="color_picker_key" id="c_start" title="from" onfocus="prev_colors('show',this)" onfocusout="prev_colors('hide',null)" />
+                            <span class="color_option_button" title="Options" onclick="color_options('show')"> - </span>
+                            <input type="color" class="color_picker_key" id="c_end" title="to" onfocus="prev_colors('show',this)" onfocusout="prev_colors('hide',null)" />
+                        </div>
+
+                        <div class="modal_panel">
+                            <input type="number" max="60" min="0" maxlength="5" step="0.1" id="s_start" class="seconds_select" value="0" placeholder="Start" />
+                            |
+                            <input type="number" max="60" min="0" id="s_end" step="0.1" class="seconds_select" value="" maxlength="5" placeholder="End" />
+                        </div>
+
+                        <div class="modal_panel">
+                            <button class="slick_button tiny" onclick="set_end_at(_('duration_').value)">
+                                Calculate <br />
+                                Duration
+                            </button>
+
+                            <input type="number" max="60" min="0" id="duration_" step="0.01" class="seconds_select" value="" maxlength="5" placeholder="Duration" onchange="set_end_at(this.value)" title="Duration for the Keyframe" />
+                        </div>
+
+
+
+                        <!-- Prev color picks -->
+                        <div class="color_drawer primary_color primary_background" id="color_drawer" style="display: none;">
+                            <div class="color_dip"></div>
+                        </div>
+                        <!-- color options -->
+                        <div class="color_options_drawer primary_color primary_background" id="color_options" style="display: none;">
+                            <div class="close_button_amb" onclick="color_options('hide')">&times;</div>
+
+                            <div class="my_buttons" onclick="color_command('a')" title="Start color copied to End">A -&gt; B</div>
+                            <div class="my_buttons" onclick="color_command('swap')" title="Swap Start and End">Swap</div>
+                            <div class="my_buttons" onclick="color_command('b')" title="End color copied to Start">A <- B</div>
+                        </div>
+                    </div>
+
+                    <div class="modal_colm other_panel">
+                        <div class="modal_panel">
+                            <span class="small">Keyframe Color effects: </span>
+                        </div>
+
+                        <div class="modal_panel">
+                            <select class="effect_choice" id="keyframe_effect_selector">
+                                <option value="none">No effects</option>
+                                <option value="pulse">Pulse</option>
+                                <option value="strobe">Strobe</option>
+                            </select>
+                        </div>
+
+                        <div class="modal_panel">
+                            <div class="number_picker"><span> FX Interval: </span><input type="number" max="1" min="0.01" class="seconds_select" id="keyframe_seconds_len_effect" step="0.01" value="0.1" /> <span>Secs.</span></div>
+                        </div>
+
+                        <div class="modal_panel" title="This will make global effects ignored for this keyframe"><input type="checkbox" id="effect_bypass" /> <span class="tiny">: Bypass global effect</span></div>
+
+                        <div class="modal_panel">
+                            <div class="my_buttons" id="copy_frame" onclick="copy_frame()">Copy Keframe</div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="modal_row bottom_frame_actions">
+                        <div class="modal_panel">
+                            <div class="my_buttons" onclick="save_key()">Apply</div>
+                            <div class="my_buttons" id="r_button" onclick="remove_key()">Remove</div>
+                        </div>
+                </div>
+            
+            </div>
+            
+        </div>
+		
+    </body>
+
+    <div class="context_menu primary_color primary_background" id="ct_menu" style="visibility: hidden;">
+        <div class="context_items small" title="Paste Copied keyframe" onclick="paste_key()">Paste</div>
+    </div>
+
+    <!-- plugins js -->
+    <script src="js/generator.js"></script>
+    <script src="js/aismover.js"></script>
+</html>

@@ -1,0 +1,10 @@
+/home/itsatompc/QTApps/LiSyQ/build/Desktop-Release/CMakeFiles/LiSyQ.dir
+/home/itsatompc/QTApps/LiSyQ/build/Desktop-Release/CMakeFiles/LiSyQ_qmlimportscan.dir
+/home/itsatompc/QTApps/LiSyQ/build/Desktop-Release/CMakeFiles/edit_cache.dir
+/home/itsatompc/QTApps/LiSyQ/build/Desktop-Release/CMakeFiles/rebuild_cache.dir
+/home/itsatompc/QTApps/LiSyQ/build/Desktop-Release/CMakeFiles/list_install_components.dir
+/home/itsatompc/QTApps/LiSyQ/build/Desktop-Release/CMakeFiles/install.dir
+/home/itsatompc/QTApps/LiSyQ/build/Desktop-Release/CMakeFiles/install/local.dir
+/home/itsatompc/QTApps/LiSyQ/build/Desktop-Release/CMakeFiles/install/strip.dir
+/home/itsatompc/QTApps/LiSyQ/build/Desktop-Release/CMakeFiles/LiSyQ_autogen_timestamp_deps.dir
+/home/itsatompc/QTApps/LiSyQ/build/Desktop-Release/CMakeFiles/LiSyQ_autogen.dir

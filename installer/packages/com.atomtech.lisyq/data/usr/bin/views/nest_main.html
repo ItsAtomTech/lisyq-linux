@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html> 
+<head> 
+	<title>LiSyQ - Nest.In Player</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, user-scalable=0">
+	<!-- <link rel="stylesheet" href="font-awesome/css/solid.min.css"> -->
+	<!-- <link rel="stylesheet" href="font-awesome/css/fontawesome.min.css"> -->
+		<link rel="stylesheet" href="../css/default.css">
+		<link rel="stylesheet" href="../css/content_creator.css">
+		<link rel="stylesheet" href="../css/nestview.css">
+		<link rel="stylesheet" id="color" href="../css/coloring.css">
+		<link rel="stylesheet" href="../css/dailoge.css">
+		<link rel="stylesheet" href="../css/bottom_bar.css">
+		<link rel="stylesheet" href="../css/template_player.css">
+		<link rel="icon" type="image/png" href="../images/favicon.ico"/>
+	
+	<style id='dyna_scaler'>
+		:root {
+			--scale: 1;
+		}
+	</style>
+				
+</head>
+
+<body>
+
+
+
+<div class="nest_player_main" id="nest_player_sep_container" style=''>	
+		<div class="v_con_1 container_bound" id="v_con_1">		
+			
+			<!-- Nested Player Group -->
+			<div class="h_con_1 horizontal_bounds" id="h2_con_1">		
+				<!-- Nested Player Media Group Goes here -->
+				<div class="v_con_1 container_bound" id="v2_con_1">
+				<div class="search_bar time_templates_search row_flex flexed primary_color"> 				
+			
+						<div class="flexed">
+							<input type="search"  class='search_input primary_background primary_color' placeholder='Search...'id='_ttemp' onchange="decup(event)" oninput="indexer.timeline_nested_scripts(this)" />
+						</div>
+						
+						<div class="button_box actions grad_dark_button auto_width" onclick="openLsysFileNS();" title="Load an Lysis File to List" > Add  </div>
+						
+						
+				</div>	
+			
+					<div class="scripts_container" id="script_main">
+					
+					</div>
+											
+				</div>	
+					
+							
+			<div class="v_slide_bar" id="v_rez2" 
+			onmousedown="vResizer2.pickSlider(this)" 
+			onmousemove="vResizer2.resize(this)" 
+			onmouseleave="vResizer2.dropSlider(this)"
+			onmouseup="vResizer2.dropSlider(this)"
+			
+			ontouchstart="vResizer2.pickSlider(this)" 
+			ontouchmove="vResizer2.resize(this)" 
+			ontouchend="vResizer2.dropSlider(this)"
+			ontouchcancel="vResizer2.dropSlider(this)"
+			
+			> || </div>
+					
+				<div class="v_con_2 primary_color primary_background container_bound center_all_banner" id="v2_con_2">	
+
+					
+							
+				<div class="media_bar_options padded_left">
+					<div class="load_button button_box" onclick="load_media_tm()" title="Load Media Sampling File for timeline"> </div>
+					<!-- <div class="load_link_button button_box " onclick="select_link()" title="Load and Link a media to this lsys file."> </div> -->
+				</div>
+			
+				<div class="video_media_con padded_left">
+						<video id="thisvidtm" class="media_player autofit_aspect" controls controlsList="nodownload noplaybackrate noplay"></video>
+						<input type="file" class="hidden_button" id="media_link_tm" accept="video/*,audio/*"/>
+				</div>
+					
+
+
+				</div>			
+			
+			
+			</div>
+				
+			<div class="h_slide_bar primary_color" id="h_rez2" 
+			onmousedown="hResizer2.pickSlider(this)" 
+			onmousemove="hResizer2.resize(this)" 
+			onmouseleave="hResizer2.dropSlider(this)"
+			onmouseup="hResizer2.dropSlider(this)"
+			
+			ontouchstart="hResizer2.pickSlider(this)" 
+			ontouchmove="hResizer2.resize(this)" 
+			ontouchend="hResizer2.dropSlider(this)"
+			ontouchcancel="hResizer2.dropSlider(this)"
+			
+			> = </div>
+			
+			
+			<div class="h_con_2 primary_color horizontal_bounds primary_background faded column_flex padded_top" id="h2_con_2">
+				<!-- Nested Player Timeline Goes here -->
+				<div class="time_ruler secondary_background offset_top" id="ruler_view">
+					<canvas id="canvas_ruler"></canvas>
+				</div>	
+				
+				<div class="nst_main" id="timeline_container">					
+					<div class="timeline_head" id="playhead"> </div>
+					<div class="track_con selected_track larger_track" id="timeline_track" tracks_id="0">
+					
+					</div>
+						
+				</div>
+				
+				<div class="big_timer_display_">
+					
+					<div class="timer_con_big lcd huge" id="time_display_tl"> 0:00:00:00 </div>
+				
+				</div>
+				
+				
+								
+				<div class="bottom_bar_main_pl">
+
+					<div class="media_cont">
+						<div class="button_box grad_dark_button play_button_grad" onclick="playTL()"> </div>
+						<div class="button_box grad_dark_button pause_button_grad" onclick="pauseTL()"> </div>
+						<div class="button_box grad_dark_button stop_button_grad" onclick="stopTL()"> </div>
+						
+															
+						<div class="button_box small go_to_button" onclick='createDialogue("time_jump")'> Go to </div>
+						
+					</div>
+					
+
+					
+					<div class="delay_setter">
+						<div class=" track_number_con" title='Apply Delay to Timeline play sequence'><span class='tiny'>Play Delay (ms): </span> <input type='number' onchange='set_delay_timeline(this.value)'  class='plane_input track_input primary_color small' min='0' max='1000' value=0 id='delay_disp_tl' /></div>
+					
+					</div>
+					
+				<div class="zoom_setter">
+					<div class=" track_number_con" title='Timeline Zoom scale'><span class='micro'>Zoom: </span> <input type='number' onchange='applyScale(this.value);decup(event)' onmousewheel='applyScale(this.value)' class='plane_input track_input primary_color small' min='0.3' max='2' step='0.1' value=1 id='zoom_disp' /></div>
+				
+				
+				</div>
+					
+				
+				
+				</div>
+				
+				
+				
+			</div>
+	
+		
+		</div>
+			
+			<div class="v_slide_bar primary_color" id="v_rez1" 
+			onmousedown="vertical_resizer.pickSlider(this)" 
+			onmousemove="vertical_resizer.resize(this,true)" 
+			onmouseleave="vertical_resizer.dropSlider(this)"
+			onmouseup="vertical_resizer.dropSlider(this); gen_ruler();"
+			
+			ontouchstart="vertical_resizer.pickSlider(this)" 
+			ontouchmove="vertical_resizer.resize(this, true)" 
+			ontouchend="vertical_resizer.dropSlider(this);gen_ruler();v "
+			ontouchcancel="vertical_resizer.dropSlider(this)"
+			
+			> || </div>
+		
+		
+		<div class="v_con_2 primary_color primary_background container_bound" id="v_con_2">
+			
+			<!-- List Player Group -->
+			<div class="h_con_1 media_pl_con" id="h_con_1">		
+		
+				<div class="media_bar_options padded_left">
+					<div class="load_button button_box" onclick="load_media()" title="Load Media Sampling File"> </div>
+					<!-- <div class="load_link_button button_box " onclick="select_link()" title="Load and Link a media to this lsys file."> </div> -->
+				</div>
+			
+				<div class="video_media_con">
+						<video id="thisvidpl" class="media_player" controls controlsList="nodownload noplaybackrate noplay"></video>
+						<input type="file" class="hidden_button" id="media_link" accept="video/*,audio/*"/>
+				</div>
+			
+			</div>
+				
+				<div class="h_slide_bar" id="h_rez1" 
+				onmousedown="horizontal_resizer.pickSlider(this)" 
+				onmousemove="horizontal_resizer.resize(this)" 
+				onmouseleave="horizontal_resizer.dropSlider(this)"
+				onmouseup="horizontal_resizer.dropSlider(this)"
+				
+				ontouchstart="horizontal_resizer.pickSlider(this)" 
+				ontouchmove="horizontal_resizer.resize(this)" 
+				ontouchend="horizontal_resizer.dropSlider(this)"
+				ontouchcancel="horizontal_resizer.dropSlider(this)"
+				
+				> = </div>
+			
+			
+			<div class="h_con_2 primary_color primary_background" id="h_con_2">
+				<div class="search_bar flexed"> 	
+					<div class="button_box actions grad_dark_button auto_width" onclick="openLsysFilePL();" title="Load an Lysis File to List" > Add  </div>
+					<input type='text' class="plane_input name_live_templ primary_background primary_color" id="pl_save_name" placeholder='No name'>  </input>
+					
+					<div class="button_box actions small grad_dark_button auto_width" onclick="save_pl_to_file();" title="Write Playlist data to file"> Save Playlist  </div>
+					
+					<div class="button_box actions small grad_dark_button auto_width" onclick="OpenFilePL();" title="Open a playlist File"> Open Playlist  </div>
+					
+					<!-- <div class="button_box actions small layout_view" onclick="layoutChange();" title="Change Layout: Simple or Expanded(Default)">  </div>			 -->
+					
+					<!-- <div class="button_box actions small layout_full_view" onclick="layoutLiveFull();" title="Toggle to cover entire Window with this panel">  </div> -->
+				</div>
+					
+				<div class="playlistMainCon" id="playlistView">
+
+					
+				</div>
+				
+				<div class="bottom_bar_main_pl">
+					<div class="timer_con">
+
+						<div id="time_display_pl" class="timer_display_ lcd">
+						0:00:00:00
+						</div>
+
+					</div>
+					<div class="media_cont">
+						<div class="button_box grad_dark_button play_button_grad" onclick="playPL()"> </div>
+						<div class="button_box grad_dark_button pause_button_grad" onclick="pausePL()"> </div>
+						<div class="button_box grad_dark_button stop_button_grad" onclick="stopPL()"> </div>
+						
+					</div>
+					
+
+					
+					<div class="delay_setter">
+						<div class=" track_number_con" title='Apply Delay to Timeline play sequence'><span class='tiny'>Play Delay (ms): </span> <input type='number' onchange='set_delay(this.value)'  class='plane_input track_input primary_color small' min='0' max='1000' value=0 id='delay_disp' /></div>
+					
+					</div>
+					
+					
+				
+				
+				</div>
+			</div>
+
+		</div>
+			
+</div>
+
+
+<script src="../js/unified.js"></script>
+<script src="../js/vertical_resizer.js"></script>
+<script src="../js/horizontal_resizer.js"></script>
+<script src="../js/indexer.js"></script>
+<script src="../js/nest_main.js"></script>
+<script src="../js/scaler.js"></script>
+<script src="../js/block_contents.js"></script>
+<script src="../js/undorefier.js"></script>
+<script src="../js/media_player.js"></script>
+<script src="../js/canvas_ruler.js"></script>
+<script defer src="../js/dialogue.js"></script>
+<script defer src="../js/bottom_bar.js"></script>
+<script defer src="../js/shortcuts_ns.js"></script>
+
+
+
+<script>
+	
+	//Setup ruler scalling for nested timeline, would be 50px per 10 second
+	scaleFactor = 0.50;
+	timeFormatDevider = 10;
+	gen_ruler();
+	
+	zoom_limit_min = 0.3;
+	
+	//media player setup
+	localFileVideoPlayer('media_link', 'thisvidpl');
+	localFileVideoPlayer('media_link_tm', 'thisvidtm');
+	
+	//init
+	loadTimeline();
+
+	//UnDoRe setup
+	unredoType = "nested";
+
+
+</script>
+
+
+
+</body>
+</html>
