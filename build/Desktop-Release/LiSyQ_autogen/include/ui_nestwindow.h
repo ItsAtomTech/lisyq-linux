@@ -86,7 +86,28 @@ public:
         NestWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(NestWindow);
         menubar->setObjectName("menubar");
-        menubar->setGeometry(QRect(0, 0, 780, 23));
+        menubar->setGeometry(QRect(0, 0, 780, 26));
+        menubar->setStyleSheet(QString::fromUtf8("QMenuBar {\n"
+"    background-color: #282828;\n"
+"    color: #fefeff;\n"
+"}\n"
+"\n"
+"QMenuBar::item {\n"
+"    background-color: transparent;\n"
+"    color: #fefeff;\n"
+"    padding: 4px 10px;\n"
+"	cursor:pointer;\n"
+"}\n"
+"\n"
+"QMenuBar::item:selected {\n"
+"    background-color: #3e3e3e;\n"
+"    color: #ffffff;\n"
+"}\n"
+"\n"
+"QMenuBar::item:pressed {\n"
+"    background-color: #505050;\n"
+"    color: #ffffff;\n"
+"}"));
         menubar->setDefaultUp(false);
         menubar->setNativeMenuBar(false);
         menuFIle = new QMenu(menubar);

@@ -60,8 +60,31 @@
      <x>0</x>
      <y>0</y>
      <width>780</width>
-     <height>23</height>
+     <height>26</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QMenuBar {
+    background-color: #282828;
+    color: #fefeff;
+}
+
+QMenuBar::item {
+    background-color: transparent;
+    color: #fefeff;
+    padding: 4px 10px;
+	cursor:pointer;
+}
+
+QMenuBar::item:selected {
+    background-color: #3e3e3e;
+    color: #ffffff;
+}
+
+QMenuBar::item:pressed {
+    background-color: #505050;
+    color: #ffffff;
+}</string>
    </property>
    <property name="defaultUp">
     <bool>false</bool>
