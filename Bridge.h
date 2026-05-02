@@ -22,7 +22,7 @@ public slots:
     bool AsNewTrigger();
     bool Open_FileDirectory();
 
-    void onReady(){}
+    QString onReady();
 
     // ================================
     // New PORT Channel Management

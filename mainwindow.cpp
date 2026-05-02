@@ -122,7 +122,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     SavePath = "";
     FromOpenFile = false;
-    asNew = true;
+    asNew = false;
 
 
     // ==================
@@ -384,10 +384,23 @@ void MainWindow::initializeWebChannel()
                     window.chrome.webview.hostObjects.NativeObject =
                         channel.objects.NativeObject;
                 });
+
+                //Try to send readySignal to native.
+
             }
 
         })();
         console.log("Native Bridge Injected to runtime");
+
+
+        setTimeout(stateReadyQT, 500);
+        function stateReadyQT(){
+            window.chrome.webview.hostObjects.NativeObject.onReady();
+            console.log("Native Bridge Ready");
+
+        }
+
+
     )";
 
     webView->page()->runJavaScript(js);
@@ -510,7 +523,63 @@ void MainWindow::on_actionImport_Templates_triggered(){
 
 
 void MainWindow::onReady(){
-    //---
+    // ======
+    // Open from File Assocs if provided from args
+    // =====
+    if(OpenQuePath.length() <= 0){
+        return;
+    }
+
+    if (SavePath.length() > 0) {
+        QMessageBox::StandardButton confirm_loadnew = QMessageBox::question(
+            this,
+            "Open New",
+            "You are about to load this file and close currently open file so save changes first, Continue to Load?",
+            QMessageBox::Yes | QMessageBox::No
+            );
+
+        if (confirm_loadnew != QMessageBox::Yes) {
+            return;
+        }
+    }
+
+
+
+    QFile file(OpenQuePath);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+        return;
+
+    QTextStream in(&file);
+    QString fileContent = in.readAll();
+    file.close();
+
+
+    // Escape single quotes for JS
+    fileContent.replace("'", "\\'");
+
+    webView->page()->runJavaScript(
+        "load_from_file('" + fileContent + "');"
+        );
+    SavePath=OpenQuePath;
+    OpenQuePath = "";
+    asNew = false;
+
+    Toast *toast = new Toast(this);
+    toast->showMessage("Opening File: " + SavePath,
+                       QColor("green"),
+                       QColor("white"),2000);
+
+    // ======
+    // Open from File End
+    // =====
+
+
+}
+
+
+void MainWindow::loadFilePath(const QString &filePath)
+{
+    OpenQuePath = filePath;
 }
 
 
@@ -688,6 +757,9 @@ void MainWindow::Open_FileDirectory_Native()
     }
 }
 
+
+
+
 // ================================
 // PORT Channel Management
 // ================================
@@ -789,6 +861,14 @@ void Bridge::disconnect_com(int index)
 {
     if (!mainWindow) return;
     mainWindow->removeComPort(index);
+}
+
+
+QString Bridge::onReady(){
+
+    mainWindow->onReady();
+    qDebug() << "QPath Loaded: "+ mainWindow->OpenQuePath;
+    return "_";
 }
 
 

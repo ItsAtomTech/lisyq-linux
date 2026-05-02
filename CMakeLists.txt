@@ -14,7 +14,7 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 find_package(Qt6 REQUIRED COMPONENTS Widgets WebEngineWidgets)
 find_package(Qt6 REQUIRED COMPONENTS Widgets)
 find_package(Qt6 REQUIRED COMPONENTS SerialPort Network)
-
+find_package(Qt6 REQUIRED COMPONENTS Network)
 
 
 set(PROJECT_SOURCES
@@ -62,6 +62,7 @@ endif()
 target_link_libraries(LiSyQ PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 target_link_libraries(LiSyQ PRIVATE Qt6::Widgets Qt6::WebEngineWidgets)
 target_link_libraries(LiSyQ PRIVATE Qt6::SerialPort)
+target_link_libraries(LiSyQ PRIVATE Qt6::Network)
 
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

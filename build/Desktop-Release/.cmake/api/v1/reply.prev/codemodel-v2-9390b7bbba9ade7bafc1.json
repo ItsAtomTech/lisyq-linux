@@ -7,7 +7,7 @@
 				{
 					"build" : ".",
 					"hasInstallRule" : true,
-					"jsonFile" : "directory-.-Release-9a89b6a4367d89cb54ea.json",
+					"jsonFile" : "directory-.-Release-ee23e740c25e199538f1.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.16"
@@ -46,7 +46,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "LiSyQ::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-LiSyQ-Release-7c1907efdd6ca6a5238d.json",
+					"jsonFile" : "target-LiSyQ-Release-5bde76f99d66f4d6738f.json",
 					"name" : "LiSyQ",
 					"projectIndex" : 0
 				},
@@ -67,7 +67,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "LiSyQ_qmlimportscan::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-LiSyQ_qmlimportscan-Release-8b567291e1bfa56dc380.json",
+					"jsonFile" : "target-LiSyQ_qmlimportscan-Release-817b61236c7f14647a1c.json",
 					"name" : "LiSyQ_qmlimportscan",
 					"projectIndex" : 0
 				}

@@ -2566,13 +2566,13 @@ function projectScriptColor(val){
 
 
 // Send Ready to Native Host
-
-try{
-	window.chrome.webview.hostObjects.NativeObject.Onready();
-
-	}catch(e){
-	console.log('No native host found');
-}
+window.onload = function() {
+    try {
+        window.chrome.webview.hostObjects.NativeObject.Onready();
+    } catch(e) {
+        console.log('No native host found');
+    }
+};
 
 
 

@@ -79,7 +79,7 @@ template <> constexpr inline auto Bridge::qt_create_metaobjectdata<qt_meta_tag_Z
         // Slot 'Open_FileDirectory'
         QtMocHelpers::SlotData<bool()>(6, 2, QMC::AccessPublic, QMetaType::Bool),
         // Slot 'onReady'
-        QtMocHelpers::SlotData<void()>(7, 2, QMC::AccessPublic, QMetaType::Void),
+        QtMocHelpers::SlotData<QString()>(7, 2, QMC::AccessPublic, QMetaType::QString),
         // Slot 'add_comport'
         QtMocHelpers::SlotData<bool(int, const QString &)>(8, 2, QMC::AccessPublic, QMetaType::Bool, {{
             { QMetaType::Int, 9 }, { QMetaType::QString, 10 },
@@ -149,7 +149,8 @@ void Bridge::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void
             if (_a[0]) *reinterpret_cast<bool*>(_a[0]) = std::move(_r); }  break;
         case 3: { bool _r = _t->Open_FileDirectory();
             if (_a[0]) *reinterpret_cast<bool*>(_a[0]) = std::move(_r); }  break;
-        case 4: _t->onReady(); break;
+        case 4: { QString _r = _t->onReady();
+            if (_a[0]) *reinterpret_cast<QString*>(_a[0]) = std::move(_r); }  break;
         case 5: { bool _r = _t->add_comport((*reinterpret_cast<std::add_pointer_t<int>>(_a[1])),(*reinterpret_cast<std::add_pointer_t<QString>>(_a[2])));
             if (_a[0]) *reinterpret_cast<bool*>(_a[0]) = std::move(_r); }  break;
         case 6: { bool _r = _t->add_udpchannel((*reinterpret_cast<std::add_pointer_t<int>>(_a[1])),(*reinterpret_cast<std::add_pointer_t<QString>>(_a[2])),(*reinterpret_cast<std::add_pointer_t<int>>(_a[3])));

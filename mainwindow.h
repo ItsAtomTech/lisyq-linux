@@ -47,7 +47,8 @@ public:
 
     void Save_File();
 
-
+    QString OpenQuePath;
+    void loadFilePath(const QString &filePath);
     // ================
     // Ports and UDP Section
     // ================
@@ -69,6 +70,8 @@ public:
     QString getManagedPortsJson();
     QString getUdpListJson();
 
+
+    void onReady();
 
     void setDf(const QString &data);
     void outputs_v2();
@@ -169,7 +172,7 @@ private:
     // Bridge Inject
     void injectWebChannelScript();
     void initializeWebChannel();
-    void onReady();
+
 
 
 

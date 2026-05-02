@@ -87,7 +87,7 @@
 			{
 				"command" : 4,
 				"file" : 1,
-				"line" : 82,
+				"line" : 83,
 				"parent" : 0
 			},
 			{
@@ -386,6 +386,12 @@
 			},
 			{
 				"command" : 5,
+				"file" : 1,
+				"line" : 65,
+				"parent" : 0
+			},
+			{
+				"command" : 5,
 				"file" : 0,
 				"line" : 674,
 				"parent" : 2
@@ -393,44 +399,44 @@
 			{
 				"command" : 19,
 				"file" : 1,
-				"line" : 89,
+				"line" : 90,
 				"parent" : 0
 			},
 			{
 				"command" : 18,
 				"file" : 0,
 				"line" : 1022,
-				"parent" : 61
+				"parent" : 62
 			},
 			{
 				"command" : 17,
 				"file" : 0,
 				"line" : 879,
-				"parent" : 62
+				"parent" : 63
 			},
 			{
 				"command" : 16,
 				"file" : 0,
 				"line" : 801,
-				"parent" : 63
+				"parent" : 64
 			},
 			{
 				"command" : 15,
 				"file" : 0,
 				"line" : 801,
-				"parent" : 64
+				"parent" : 65
 			},
 			{
 				"command" : 14,
 				"file" : 20,
 				"line" : 4777,
-				"parent" : 65
+				"parent" : 66
 			},
 			{
 				"command" : 13,
 				"file" : 20,
 				"line" : 4552,
-				"parent" : 66
+				"parent" : 67
 			}
 		]
 	},
@@ -443,14 +449,14 @@
 					"fragment" : "-O3 -DNDEBUG -std=gnu++17 -fdiagnostics-color=always"
 				},
 				{
-					"backtrace" : 60,
+					"backtrace" : 61,
 					"fragment" : "-fPIC"
 				}
 			],
 			"defines" : 
 			[
 				{
-					"backtrace" : 60,
+					"backtrace" : 61,
 					"define" : "QT_CORE_LIB"
 				},
 				{
@@ -462,7 +468,7 @@
 					"define" : "QT_NETWORK_LIB"
 				},
 				{
-					"backtrace" : 60,
+					"backtrace" : 61,
 					"define" : "QT_NO_DEBUG"
 				},
 				{
@@ -517,17 +523,17 @@
 					"path" : "/home/itsatompc/QTApps/LiSyQ/build/Desktop-Release/LiSyQ_autogen/include"
 				},
 				{
-					"backtrace" : 60,
+					"backtrace" : 61,
 					"isSystem" : true,
 					"path" : "/home/itsatompc/Qt/6.10.2/gcc_64/include/QtCore"
 				},
 				{
-					"backtrace" : 60,
+					"backtrace" : 61,
 					"isSystem" : true,
 					"path" : "/home/itsatompc/Qt/6.10.2/gcc_64/include"
 				},
 				{
-					"backtrace" : 60,
+					"backtrace" : 61,
 					"isSystem" : true,
 					"path" : "/home/itsatompc/Qt/6.10.2/gcc_64/mkspecs/linux-g++"
 				},
@@ -602,8 +608,8 @@
 			{
 				"backtraces" : 
 				[
-					60,
-					60
+					61,
+					61
 				],
 				"standard" : "17"
 			},
@@ -621,7 +627,7 @@
 	"dependencies" : 
 	[
 		{
-			"backtrace" : 67,
+			"backtrace" : 68,
 			"id" : "LiSyQ_qmlimportscan::@6890427a1f51a3e7e1df"
 		},
 		{
@@ -729,12 +735,12 @@
 				"role" : "libraries"
 			},
 			{
-				"backtrace" : 23,
+				"backtrace" : 60,
 				"fragment" : "/home/itsatompc/Qt/6.10.2/gcc_64/lib/libQt6Network.so.6.10.2",
 				"role" : "libraries"
 			},
 			{
-				"backtrace" : 60,
+				"backtrace" : 61,
 				"fragment" : "/home/itsatompc/Qt/6.10.2/gcc_64/lib/libQt6Core.so.6.10.2",
 				"role" : "libraries"
 			},
