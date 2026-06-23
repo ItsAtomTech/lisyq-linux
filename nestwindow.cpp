@@ -833,7 +833,7 @@ QString Bridge_Nest::open_filePath(const QString &filePath)
 // Script Template Menu
 void NestWindow::Show_template_scriptmenu(){
     QPoint globalPos = QCursor::pos();   // show at mouse position
-    template_menu->exec(globalPos);
+    template_menu->popup(globalPos);
 }
 
 void Bridge_Nest::Show_template_scriptmenu(){
@@ -863,7 +863,7 @@ void NestWindow::onTemplateCancel()
 // Script Sub Template Menu
 void NestWindow::Show_content_scriptmenu(){
     QPoint globalPos = QCursor::pos();   // show at mouse position
-    nestMainMenu->exec(globalPos);
+    nestMainMenu->popup(globalPos);
 }
 
 void Bridge_Nest::Show_content_menu(){

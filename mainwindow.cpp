@@ -936,7 +936,7 @@ void Bridge::SendToComPort(const QString &portName, const QString &data){
 //Context Menus
 void MainWindow::showContentSubMenu(){
     QPoint globalPos = QCursor::pos();   // show at mouse position
-    contextMenu_Sub->exec(globalPos);
+    contextMenu_Sub->popup(globalPos);
 }
 
 
@@ -964,7 +964,7 @@ void MainWindow::onContextTrackOptions()
 {
     //Open the Track Option Context Menu
     QPoint globalPos = QCursor::pos();   // show at mouse position
-    contextMenu_Track->exec(globalPos);
+    contextMenu_Track->popup(globalPos);
 }
 
 void MainWindow::onContextAddToTemplate()
@@ -976,7 +976,7 @@ void MainWindow::onContextAddToTemplate()
 // Track Context Menu
 void MainWindow::showTrackMenu(){
     QPoint globalPos = QCursor::pos();   // show at mouse position
-    contextMenu_Track->exec(globalPos);
+    contextMenu_Track->popup(globalPos);
 }
 
 
@@ -1081,7 +1081,7 @@ void MainWindow::pasteContent()
 
 void MainWindow::showTemplateMenu(){
     QPoint globalPos = QCursor::pos();   // show at mouse position
-    template_menu->exec(globalPos);
+    template_menu->popup(globalPos);
 }
 
 void Bridge::Show_template_menu(){
@@ -1130,7 +1130,7 @@ void MainWindow::sendToManualTemplate()
 
 void MainWindow::showManualTemplateMenu(){
     QPoint globalPos = QCursor::pos();   // show at mouse position
-    template_menu_manual->exec(globalPos);
+    template_menu_manual->popup(globalPos);
 }
 
 

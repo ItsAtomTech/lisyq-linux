@@ -28,8 +28,8 @@ void PortManager::addSerialPort(int index, const QString &portName)
 
         if (port->open(QIODevice::ReadWrite)) {
             connect(port, &QSerialPort::readyRead, this, [=]() {
-                QByteArray data = port->readAll();
-                emit serialDataReceived(index, QString::fromUtf8(data));
+                //QByteArray data = port->readAll();
+                //emit serialDataReceived(index, QString::fromUtf8(data));
             });
             serialPorts[index] = port;
             emit notification("Connected: " + portName, "green");
@@ -193,7 +193,7 @@ void PortManager::outputs_v2()
     {
         const QString &strg = parts[i];
 
-        // Even empty string is used as a signal, you we should allow it, so we comment it out
+        // Even empty string is used as a signal, we should allow it, so we comment it out
         // if (strg.trimmed().isEmpty())
         //    continue;
 
@@ -210,7 +210,7 @@ void PortManager::outputs_v2()
             {
                 if (port->bytesToWrite() <= 1)
                 {
-                    data.append('\n'); //append a newline
+                    data.append('\n');  // append a newline
                     port->write(data);  // async
                 }
             }
@@ -226,7 +226,7 @@ void PortManager::outputs_v2()
             if (socket)
             {
                 QByteArray udpData = data;
-                udpData.append('\n');   // <-- append newline
+                udpData.append('\n');   // append newline
 
                 socket->writeDatagram(
                     udpData,
