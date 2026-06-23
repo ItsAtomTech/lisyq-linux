@@ -1,5 +1,5 @@
 // =================================
-// Ambient light controller plugin v1.0.2
+// Ambient light controller plugin v1.0.6
 // by Atomtech 
 // =================================
 
@@ -50,6 +50,7 @@ function _(ghf){
 
 function change_secs_sacle(s){
 	
+	processStretchables(amb_seconds, s);
 	amb_seconds = parseFloat(s);
 	
 	if(amb_seconds > 60){
@@ -57,7 +58,6 @@ function change_secs_sacle(s){
 	}else if(amb_seconds < 0){
 		amb_seconds = 0;		
 	}
-	
 	
 	refresh_timeline();
 	
@@ -416,6 +416,9 @@ function save_key(){
 			
 		}
 		
+		key_frame.canStretch = _("stretch").checked;
+		
+		
 		add_time_stab(start,width,ambient_time_line.length);
 		
 		ambient_time_line.push(key_frame);	
@@ -435,6 +438,8 @@ function save_key(){
 			
 			
 		}
+		
+		key_frame.canStretch = _("stretch").checked;
 		
 		ambient_time_line[idf] = key_frame;
 		
@@ -508,6 +513,7 @@ function show_keyframe_man(fr){
 		_("keyframe_effect_selector").value = "none";
 		_("keyframe_seconds_len_effect").value = 0.1;
 		_("effect_bypass").checked = false;
+		_("stretch").checked = false;
 		
 		mode = "add";
 		
@@ -533,6 +539,8 @@ function show_keyframe_man(fr){
 		_("keyframe_effect_selector").value = selected_stabs.keyframe_ambient_effect;
 		_("keyframe_seconds_len_effect").value = selected_stabs.keyframe_ambient_effect_len / 33;
 		_("effect_bypass").checked = selected_stabs.bypass_global_effect;
+		
+		_("stretch").checked = selected_stabs.canStretch;
 		
 		mode = "edit";
 	}else{
@@ -613,7 +621,7 @@ function generate_template(){
 	sendTo("stop_media_prev");
 	sendTo('close_plugin','');
 	
-	
+	return template_data;
 }
 
 var at_point = 0;
@@ -1068,12 +1076,61 @@ function load_from_host(df){
 }
 
 
-
-
 // Shorcuts
 
 
+
+// Shorcuts End
+
+
+
+
+// =============================================
+// Proccessing of Stretchables keyframes  
+// =============================================
+
+function processStretchables(old, newValue){
+
+	let timelines = ambient_time_line;
+	let difference  = (parseFloat(newValue) - parseFloat(old));
+	let mostMinStartIndex = null;
 	
+	mostMinStartIndex = getMostMinIndex();
+	let percent = (difference / old);
 
-
+	  
+	for(let i = 0; i < timelines.length; i++){
+		let keyframe = timelines[i];
+		
+		if(keyframe.canStretch && mostMinStartIndex != i){
+			keyframe.start_at = (parseFloat(keyframe.start_at) + (parseFloat(keyframe.start_at) * percent))
+		}		
+		
+		if(keyframe.canStretch){
+			keyframe.end_at = (parseFloat(keyframe.end_at) + (parseFloat(keyframe.end_at) * percent))
+		}
+		
+	}
+	
+	
+	//gets the most near to start keyframe index;
+	function getMostMinIndex(){
+		let minValue = -1;
+		let selectedIndex = null;
+		for(let keys = 0; keys < timelines.length; keys++){
+			if(!timelines[keys].canStretch){
+				continue;
+			}
+		  
+			if(parseFloat(timelines[keys].start_at) <= minValue || minValue == -1){				
+				minValue = timelines[keys].start_at;
+				selectedIndex = keys;
+			}
+		}
+		
+		
+	return selectedIndex;
+	}
+}
+	
 

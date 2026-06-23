@@ -11,50 +11,66 @@ PortManager::PortManager(QObject *parent)
 
 void PortManager::addSerialPort(int index, const QString &portName)
 {
-    if (serialPorts.contains(index)) {
-        serialPorts[index]->close();
-        delete serialPorts[index];
-        serialPorts.remove(index);
-    }
+    try {
+        if (serialPorts.contains(index)) {
+            serialPorts[index]->close();
+            delete serialPorts[index];
+            serialPorts.remove(index);
+        }
 
-    QSerialPort *port = new QSerialPort(this);
-    port->setPortName(portName);
-    port->setBaudRate(115200);
-    port->setDataBits(QSerialPort::Data8);
-    port->setParity(QSerialPort::NoParity);
-    port->setStopBits(QSerialPort::OneStop);
-    port->setFlowControl(QSerialPort::NoFlowControl);
+        QSerialPort *port = new QSerialPort(this);
+        port->setPortName(portName);
+        port->setBaudRate(115200);
+        port->setDataBits(QSerialPort::Data8);
+        port->setParity(QSerialPort::NoParity);
+        port->setStopBits(QSerialPort::OneStop);
+        port->setFlowControl(QSerialPort::NoFlowControl);
 
-    if (port->open(QIODevice::ReadWrite)) {
+        if (port->open(QIODevice::ReadWrite)) {
+            connect(port, &QSerialPort::readyRead, this, [=]() {
+                QByteArray data = port->readAll();
+                emit serialDataReceived(index, QString::fromUtf8(data));
+            });
+            serialPorts[index] = port;
+            emit notification("Connected: " + portName, "green");
+        } else {
+            emit notification("Failed to connect: " + portName + " — " + port->errorString(), "red");
+            delete port;
+        }
 
-        connect(port, &QSerialPort::readyRead, this, [=]() {
-            QByteArray data = port->readAll();
-            emit serialDataReceived(index, QString::fromUtf8(data));
-        });
-
-        serialPorts[index] = port;
-        emit notification("Connected " + portName, "green");
-    } else {
-        emit notification("Failed to connect " + portName, "red");
-        delete port;
+    } catch (const std::exception &e) {
+        emit notification("Exception in addSerialPort: " + QString::fromUtf8(e.what()), "red");
+    } catch (...) {
+        emit notification("Unknown exception in addSerialPort: " + portName, "red");
     }
 }
+
+
 
 void PortManager::removeSerialPort(int index, bool keep)
 {
-    if (!serialPorts.contains(index))
-        return;
+    try {
+        if (!serialPorts.contains(index))
+            return;
 
-    QSerialPort *port = serialPorts[index];
+        QSerialPort *port = serialPorts[index];
 
-    if (port->isOpen())
-        port->close();
+        if (port->isOpen())
+            port->close();
 
-    if (!keep) {
-        delete port;
-        serialPorts.remove(index);
+        if (!keep) {
+            delete port;
+            serialPorts.remove(index);
+        }
+
+    } catch (const std::exception &e) {
+        emit notification("Exception in removeSerialPort: " + QString::fromUtf8(e.what()), "red");
+    } catch (...) {
+        emit notification("Unknown exception in removeSerialPort: " + QString::number(index), "red");
     }
 }
+
+
 
 void PortManager::sendToSerial(int index, const QString &data)
 {
@@ -177,8 +193,9 @@ void PortManager::outputs_v2()
     {
         const QString &strg = parts[i];
 
-        if (strg.trimmed().isEmpty())
-            continue;
+        // Even empty string is used as a signal, you we should allow it, so we comment it out
+        // if (strg.trimmed().isEmpty())
+        //    continue;
 
         QByteArray data = strg.toLatin1();
 
@@ -193,6 +210,7 @@ void PortManager::outputs_v2()
             {
                 if (port->bytesToWrite() <= 1)
                 {
+                    data.append('\n'); //append a newline
                     port->write(data);  // async
                 }
             }

@@ -60,7 +60,7 @@ function decople(dat){
 
 
 function change_secs_sacle(s){
-	
+	processStretchables(amb_seconds,s)
 	amb_seconds = parseFloat(s);
 	
 	if(amb_seconds > 60){
@@ -377,6 +377,8 @@ function save_key(){
 			"position_data": decople(positionKeyData),
 		}
 		
+		key_frame.canStretch = _("stretch").checked;
+		
 		add_time_stab(start,width,aismover_time_line.length);
 		
 		
@@ -397,6 +399,8 @@ function save_key(){
 			"position_data": decople(positionKeyData),
 			
 		}
+		
+		key_frame.canStretch = _("stretch").checked;
 		
 		positionKeyData.enabled = _("movement_enabled").checked;
 		aismover_time_line[idf] = key_frame;
@@ -470,6 +474,7 @@ function show_keyframe_man(fr){
 		_("r_button").style.display = "none";
 		_("copy_frame").style.display = "none";
 		
+		_("stretch").checked = false;
 		
 		// Position Pad
 		
@@ -498,6 +503,9 @@ function show_keyframe_man(fr){
 		_("effect_bypass").checked = selected_stabs.bypass_global_effect;
 		
 		mode = "edit";
+		
+		_("stretch").checked = selected_stabs.canStretch;
+	
 		
 		//Position pad load to view
 		loadPosFromData();
@@ -1431,5 +1439,59 @@ function starPattern() {
 // function startTest(){
 	// window.setInterval(testPatterns(), 33);
 // }
+
+
+
+
+
+// =============================================
+// Proccessing of Stretchables keyframes  
+// =============================================
+
+function processStretchables(old, newValue){
+
+	let timelines = aismover_time_line;
+	let difference  = (parseFloat(newValue) - parseFloat(old));
+	let mostMinStartIndex = null;
+	
+	mostMinStartIndex = getMostMinIndex();
+	let percent = (difference / old);
+
+	  
+	for(let i = 0; i < timelines.length; i++){
+		let keyframe = timelines[i];
+		
+		if(keyframe.canStretch && mostMinStartIndex != i){
+			keyframe.start_at = (parseFloat(keyframe.start_at) + (parseFloat(keyframe.start_at) * percent))
+		}		
+		
+		if(keyframe.canStretch){
+			keyframe.end_at = (parseFloat(keyframe.end_at) + (parseFloat(keyframe.end_at) * percent))
+		}
+		
+	}
+	
+	
+	//gets the most near to start keyframe index;
+	function getMostMinIndex(){
+		let minValue = -1;
+		let selectedIndex = null;
+		for(let keys = 0; keys < timelines.length; keys++){
+			if(!timelines[keys].canStretch){
+				continue;
+			}
+		  
+			if(parseFloat(timelines[keys].start_at) <= minValue || minValue == -1){				
+				minValue = timelines[keys].start_at;
+				selectedIndex = keys;
+			}
+		}
+		
+		
+	return selectedIndex;
+	}
+}
+	
+
 
 

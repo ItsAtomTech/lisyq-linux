@@ -750,23 +750,29 @@ function gen_end_val(rd){
 
 
 
-
 function playon(){
 	
 	if(preview_play){
 		
-		
-		
 		// _("preview").style.backgroundColor = "#"+colors_array[at_point];
-		
-		//console.log(aipexil.seqData[at_point]);
 		
 		//To-DO: Interactive preview based on type detected
 		
-		_("preview_container").innerText = "No visual preview for this effect! \n" +aipexil.seqData[at_point];
+		try{
+			if(aipexil.seqData[at_point].startsWith("fx:color")){
+				let color = aipexil.seqData[at_point].split(":")[2];
+				_("preview_container").innerText = aipexil.seqData[at_point];
+				_("preview_container").style.backgroundColor = "#"+color+"ee";
+			}else{
+				_("preview_container").style.backgroundColor = "unset";
+				_("preview_container").innerText = "No visual preview for this effect! \n" +aipexil.seqData[at_point];
+			}
+			
+		}catch(e){
+			//--
+		}
 		
-		
-		
+
 		
 		preview_head(at_point);
 		
@@ -781,8 +787,6 @@ function playon(){
 		}
 	}
 
-	
-	
 	
 }
 
@@ -821,11 +825,17 @@ function pause_template(){
 
 
 function change_params(index, values){
-		
-	if(typeof(aipexil.premade_effects_params[index]) == 'object'){
+	
+	try{
+		if(typeof(aipexil.premade_effects_params[index]) == 'object' && selected_stabs.effect_params.animatable == false){
 		
 		return;
-	};	
+	  };	
+	}catch(e){
+		//--
+	}
+	
+
 	try{
 		if(typeof(selected_stabs.effect_params.values[index]) == 'object' && mode == "edit"){
 		
@@ -860,7 +870,9 @@ function dual_value(elm,form_id, index){
 	}
 	
 
-	
+	if(elm.getAttribute("color") == "true"){
+		elm.style.color = _(form_id).value;
+	}
 	
 	
 	elm.innerText = text +  _(form_id).value;
@@ -909,9 +921,7 @@ function generate_type_inputs(gtype){
 	
 	
 	if(gtype == "premade"){
-		
 		generate_premade_inputs();
-		
 		
 	}else{
 		
@@ -1010,6 +1020,9 @@ function generate_premade_inputs(type){
 		
 		}
 		
+		
+		
+		
 		//Add from-to Buttons if this param is animatable
 		if(parameter.animatable){
 			
@@ -1028,7 +1041,14 @@ function generate_premade_inputs(type){
 						
 						from_.innerText =  "From: " + selected_stabs.effect_params.values[indexes][0];
 						
+						if(selected_stabs.effect_params.fx_type == "color"){
+							from_.style.color = selected_stabs.effect_params.values[indexes][0];
+							from_.setAttribute("color","true");
+						};
+						
 					}
+				
+				
 				
 					
 				let to_ = document.createElement("button");
@@ -1041,6 +1061,12 @@ function generate_premade_inputs(type){
 					if(mode == "edit" && typeof(selected_stabs.effect_params.values[indexes]) == "object"){
 						
 						to_.innerText = "To: " + selected_stabs.effect_params.values[indexes][1];
+						
+						if(selected_stabs.effect_params.fx_type == "color"){
+							to_.style.color = selected_stabs.effect_params.values[indexes][1];
+							to_.setAttribute("color","true");
+						};
+						
 						
 					}
 					
@@ -1108,6 +1134,15 @@ function generate_form(params){
 		in_form.type = "range";
 		in_form.min = params.min;
 		in_form.max = params.max;
+		in_form.value = params.default;
+		in_form.setAttribute("value",params.default);
+		
+		
+	}else if(params.type == "color"){
+		
+
+		in_form = document.createElement("input");
+		in_form.type = "color";
 		in_form.value = params.default;
 		in_form.setAttribute("value",params.default);
 		
@@ -1229,7 +1264,7 @@ function generate_template(){
 	sendTo("stop_media_prev");
 	sendTo('close_plugin','');
 	
-	
+	return template_data;
 }
 
 
@@ -1260,7 +1295,3 @@ function load_from_host(df){
 
 	
 }
-
-
-
-

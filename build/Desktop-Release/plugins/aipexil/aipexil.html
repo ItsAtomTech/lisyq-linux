@@ -108,15 +108,20 @@
 							<label> Duration: </label><input type="number" max="60" min="0" id="duration_" step="0.1" class="seconds_select" value="1" maxlength = "5" placeholder="Duration" />
 							
 							<button class="slick_button tiny" onclick="set_end_at(_('duration_').value)"> Calculate <br> Duration </button> 
-				
+							
+							<br />
+							
+							<label class="small" for="stretch" title="Allow this keyframe to resize on time changes"> Smart Stretch: </label><input type="checkbox" id="stretch" />
 				</div>
 				
 				<div class="effect_secl">
 
 						<select id="pre_efx_selector" class="selection_view primary_color secondary_background" oninput="generate_premade_inputs(this.value)" value="pallet">
 							<option value="pallet" > Pallete Run</option>
+							<option value="color" > Color</option>
 							<option value="fire"> Fire Fx</option>
 							<option value="ocean"> Ocean (Pacifica)</option>
+							<option value="tfox">Twinkle Fox</option>
 						</select>
 						
 				</div>
