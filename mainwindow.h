@@ -42,10 +42,19 @@ public:
     QString SavePath;
     bool FromOpenFile;
     bool asNew;
+    bool asNewLV;
 
     void Open_FileDirectory_Native();
 
     void Save_File();
+
+
+    // Live Template Section
+    QString SaveLivePlayerPath;
+    void openLYTempFile();
+    void Save_File_LV();
+
+
 
     QString OpenQuePath;
     void loadFilePath(const QString &filePath);

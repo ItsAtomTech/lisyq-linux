@@ -45,6 +45,8 @@ template <> constexpr inline auto Bridge::qt_create_metaobjectdata<qt_meta_tag_Z
         "Save_To_File",
         "AsNewTrigger",
         "Open_FileDirectory",
+        "Open_File_LVjs",
+        "Save_File_LVjs",
         "onReady",
         "add_comport",
         "index",
@@ -78,48 +80,52 @@ template <> constexpr inline auto Bridge::qt_create_metaobjectdata<qt_meta_tag_Z
         QtMocHelpers::SlotData<bool()>(5, 2, QMC::AccessPublic, QMetaType::Bool),
         // Slot 'Open_FileDirectory'
         QtMocHelpers::SlotData<bool()>(6, 2, QMC::AccessPublic, QMetaType::Bool),
+        // Slot 'Open_File_LVjs'
+        QtMocHelpers::SlotData<bool()>(7, 2, QMC::AccessPublic, QMetaType::Bool),
+        // Slot 'Save_File_LVjs'
+        QtMocHelpers::SlotData<bool()>(8, 2, QMC::AccessPublic, QMetaType::Bool),
         // Slot 'onReady'
-        QtMocHelpers::SlotData<QString()>(7, 2, QMC::AccessPublic, QMetaType::QString),
+        QtMocHelpers::SlotData<QString()>(9, 2, QMC::AccessPublic, QMetaType::QString),
         // Slot 'add_comport'
-        QtMocHelpers::SlotData<bool(int, const QString &)>(8, 2, QMC::AccessPublic, QMetaType::Bool, {{
-            { QMetaType::Int, 9 }, { QMetaType::QString, 10 },
+        QtMocHelpers::SlotData<bool(int, const QString &)>(10, 2, QMC::AccessPublic, QMetaType::Bool, {{
+            { QMetaType::Int, 11 }, { QMetaType::QString, 12 },
         }}),
         // Slot 'add_udpchannel'
-        QtMocHelpers::SlotData<bool(int, const QString &, int)>(11, 2, QMC::AccessPublic, QMetaType::Bool, {{
-            { QMetaType::Int, 9 }, { QMetaType::QString, 12 }, { QMetaType::Int, 13 },
+        QtMocHelpers::SlotData<bool(int, const QString &, int)>(13, 2, QMC::AccessPublic, QMetaType::Bool, {{
+            { QMetaType::Int, 11 }, { QMetaType::QString, 14 }, { QMetaType::Int, 15 },
         }}),
         // Slot 'get_udplist_json'
-        QtMocHelpers::SlotData<QString()>(14, 2, QMC::AccessPublic, QMetaType::QString),
+        QtMocHelpers::SlotData<QString()>(16, 2, QMC::AccessPublic, QMetaType::QString),
         // Slot 'disconnect_udp'
-        QtMocHelpers::SlotData<void(int)>(15, 2, QMC::AccessPublic, QMetaType::Void, {{
-            { QMetaType::Int, 9 },
+        QtMocHelpers::SlotData<void(int)>(17, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::Int, 11 },
         }}),
         // Slot 'get_comlist'
-        QtMocHelpers::SlotData<QString()>(16, 2, QMC::AccessPublic, QMetaType::QString),
+        QtMocHelpers::SlotData<QString()>(18, 2, QMC::AccessPublic, QMetaType::QString),
         // Slot 'get_comports'
-        QtMocHelpers::SlotData<QString()>(17, 2, QMC::AccessPublic, QMetaType::QString),
+        QtMocHelpers::SlotData<QString()>(19, 2, QMC::AccessPublic, QMetaType::QString),
         // Slot 'disconnect_com'
-        QtMocHelpers::SlotData<void(int)>(18, 2, QMC::AccessPublic, QMetaType::Void, {{
-            { QMetaType::Int, 9 },
+        QtMocHelpers::SlotData<void(int)>(20, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::Int, 11 },
         }}),
         // Slot 'set_values'
-        QtMocHelpers::SlotData<void(int, const QString &)>(19, 2, QMC::AccessPublic, QMetaType::Void, {{
-            { QMetaType::Int, 13 }, { QMetaType::QString, 3 },
+        QtMocHelpers::SlotData<void(int, const QString &)>(21, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::Int, 15 }, { QMetaType::QString, 3 },
         }}),
         // Slot 'outputs'
-        QtMocHelpers::SlotData<void()>(20, 2, QMC::AccessPublic, QMetaType::Void),
+        QtMocHelpers::SlotData<void()>(22, 2, QMC::AccessPublic, QMetaType::Void),
         // Slot 'SendToComPort'
-        QtMocHelpers::SlotData<void(const QString &, const QString &)>(21, 2, QMC::AccessPublic, QMetaType::Void, {{
-            { QMetaType::QString, 22 }, { QMetaType::QString, 3 },
+        QtMocHelpers::SlotData<void(const QString &, const QString &)>(23, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::QString, 24 }, { QMetaType::QString, 3 },
         }}),
         // Slot 'Show_content_menu'
-        QtMocHelpers::SlotData<void()>(23, 2, QMC::AccessPublic, QMetaType::Void),
-        // Slot 'Show_track_menu'
-        QtMocHelpers::SlotData<void()>(24, 2, QMC::AccessPublic, QMetaType::Void),
-        // Slot 'Show_template_menu'
         QtMocHelpers::SlotData<void()>(25, 2, QMC::AccessPublic, QMetaType::Void),
-        // Slot 'Show_manual_template_menu'
+        // Slot 'Show_track_menu'
         QtMocHelpers::SlotData<void()>(26, 2, QMC::AccessPublic, QMetaType::Void),
+        // Slot 'Show_template_menu'
+        QtMocHelpers::SlotData<void()>(27, 2, QMC::AccessPublic, QMetaType::Void),
+        // Slot 'Show_manual_template_menu'
+        QtMocHelpers::SlotData<void()>(28, 2, QMC::AccessPublic, QMetaType::Void),
     };
     QtMocHelpers::UintData qt_properties {
     };
@@ -149,27 +155,31 @@ void Bridge::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void
             if (_a[0]) *reinterpret_cast<bool*>(_a[0]) = std::move(_r); }  break;
         case 3: { bool _r = _t->Open_FileDirectory();
             if (_a[0]) *reinterpret_cast<bool*>(_a[0]) = std::move(_r); }  break;
-        case 4: { QString _r = _t->onReady();
-            if (_a[0]) *reinterpret_cast<QString*>(_a[0]) = std::move(_r); }  break;
-        case 5: { bool _r = _t->add_comport((*reinterpret_cast<std::add_pointer_t<int>>(_a[1])),(*reinterpret_cast<std::add_pointer_t<QString>>(_a[2])));
+        case 4: { bool _r = _t->Open_File_LVjs();
             if (_a[0]) *reinterpret_cast<bool*>(_a[0]) = std::move(_r); }  break;
-        case 6: { bool _r = _t->add_udpchannel((*reinterpret_cast<std::add_pointer_t<int>>(_a[1])),(*reinterpret_cast<std::add_pointer_t<QString>>(_a[2])),(*reinterpret_cast<std::add_pointer_t<int>>(_a[3])));
+        case 5: { bool _r = _t->Save_File_LVjs();
             if (_a[0]) *reinterpret_cast<bool*>(_a[0]) = std::move(_r); }  break;
-        case 7: { QString _r = _t->get_udplist_json();
+        case 6: { QString _r = _t->onReady();
             if (_a[0]) *reinterpret_cast<QString*>(_a[0]) = std::move(_r); }  break;
-        case 8: _t->disconnect_udp((*reinterpret_cast<std::add_pointer_t<int>>(_a[1]))); break;
-        case 9: { QString _r = _t->get_comlist();
+        case 7: { bool _r = _t->add_comport((*reinterpret_cast<std::add_pointer_t<int>>(_a[1])),(*reinterpret_cast<std::add_pointer_t<QString>>(_a[2])));
+            if (_a[0]) *reinterpret_cast<bool*>(_a[0]) = std::move(_r); }  break;
+        case 8: { bool _r = _t->add_udpchannel((*reinterpret_cast<std::add_pointer_t<int>>(_a[1])),(*reinterpret_cast<std::add_pointer_t<QString>>(_a[2])),(*reinterpret_cast<std::add_pointer_t<int>>(_a[3])));
+            if (_a[0]) *reinterpret_cast<bool*>(_a[0]) = std::move(_r); }  break;
+        case 9: { QString _r = _t->get_udplist_json();
             if (_a[0]) *reinterpret_cast<QString*>(_a[0]) = std::move(_r); }  break;
-        case 10: { QString _r = _t->get_comports();
+        case 10: _t->disconnect_udp((*reinterpret_cast<std::add_pointer_t<int>>(_a[1]))); break;
+        case 11: { QString _r = _t->get_comlist();
             if (_a[0]) *reinterpret_cast<QString*>(_a[0]) = std::move(_r); }  break;
-        case 11: _t->disconnect_com((*reinterpret_cast<std::add_pointer_t<int>>(_a[1]))); break;
-        case 12: _t->set_values((*reinterpret_cast<std::add_pointer_t<int>>(_a[1])),(*reinterpret_cast<std::add_pointer_t<QString>>(_a[2]))); break;
-        case 13: _t->outputs(); break;
-        case 14: _t->SendToComPort((*reinterpret_cast<std::add_pointer_t<QString>>(_a[1])),(*reinterpret_cast<std::add_pointer_t<QString>>(_a[2]))); break;
-        case 15: _t->Show_content_menu(); break;
-        case 16: _t->Show_track_menu(); break;
-        case 17: _t->Show_template_menu(); break;
-        case 18: _t->Show_manual_template_menu(); break;
+        case 12: { QString _r = _t->get_comports();
+            if (_a[0]) *reinterpret_cast<QString*>(_a[0]) = std::move(_r); }  break;
+        case 13: _t->disconnect_com((*reinterpret_cast<std::add_pointer_t<int>>(_a[1]))); break;
+        case 14: _t->set_values((*reinterpret_cast<std::add_pointer_t<int>>(_a[1])),(*reinterpret_cast<std::add_pointer_t<QString>>(_a[2]))); break;
+        case 15: _t->outputs(); break;
+        case 16: _t->SendToComPort((*reinterpret_cast<std::add_pointer_t<QString>>(_a[1])),(*reinterpret_cast<std::add_pointer_t<QString>>(_a[2]))); break;
+        case 17: _t->Show_content_menu(); break;
+        case 18: _t->Show_track_menu(); break;
+        case 19: _t->Show_template_menu(); break;
+        case 20: _t->Show_manual_template_menu(); break;
         default: ;
         }
     }
@@ -194,14 +204,14 @@ int Bridge::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 19)
+        if (_id < 21)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 19;
+        _id -= 21;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 19)
+        if (_id < 21)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 19;
+        _id -= 21;
     }
     return _id;
 }

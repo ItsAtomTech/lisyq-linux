@@ -21,6 +21,9 @@ public slots:
     void Save_To_File();
     bool AsNewTrigger();
     bool Open_FileDirectory();
+    bool Open_File_LVjs();
+    bool Save_File_LVjs();
+
 
     QString onReady();
 

@@ -685,11 +685,6 @@ void MainWindow::Save_File()
 // Saving Files end        ===========
 
 
-
-
-
-
-
 // Opens a Native File Picker for .lsys files
 void MainWindow::openLSYSFile()
 {
@@ -758,7 +753,106 @@ void MainWindow::Open_FileDirectory_Native()
 }
 
 
+// Live Template Player Save and Open Logic ===
+bool Bridge::Open_File_LVjs(){
 
+    mainWindow->openLYTempFile();
+    return true;
+}
+
+
+void MainWindow::openLYTempFile()
+{
+    QString fileName = QFileDialog::getOpenFileName(
+        this,
+        "Open LY Temp File",
+        QDir::homePath(),
+        "LSYS temp Files (*.lytemp)"
+        );
+
+    if (fileName.isEmpty())
+        return;
+
+    QFile file(fileName);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+        return;
+
+    QTextStream in(&file);
+    QString fileContent = in.readAll();
+    file.close();
+
+    // Escape single quotes for JS
+    fileContent.replace("'", "\\'");
+
+    webView->page()->runJavaScript(
+        "load_LV_from_file('" + fileContent + "');"
+        );
+
+    SaveLivePlayerPath = fileName;
+
+       Toast *toast = new Toast(this);
+       toast->showMessage("File: " + fileName + " is Now Loading.",
+                        QColor("green"),
+                         QColor("white"), 2000);
+}
+
+
+bool Bridge::Save_File_LVjs(){
+    mainWindow->Save_File_LV();
+    return true;
+}
+
+
+void MainWindow::Save_File_LV()
+{
+    if (SaveLivePlayerPath.isEmpty() || asNewLV == true)
+    {
+        QString fileName = QFileDialog::getSaveFileName(
+            this,
+            "Save Live Player Template",
+            QDir::homePath(),
+            "Live Player Template Files (*.lytemp)"
+            );
+
+        if (!fileName.isEmpty())
+        {
+            // Ensure the extension is appended if not present
+            if (!fileName.endsWith(".lytemp"))
+                fileName += ".lytemp";
+
+            QFile file(fileName);
+            if (file.open(QIODevice::WriteOnly | QIODevice::Text))
+            {
+                QTextStream out(&file);
+                out << data_string;
+                file.close();
+            }
+
+            SaveLivePlayerPath = fileName;
+            asNewLV = false;
+        }
+        else
+        {
+            if (SaveLivePlayerPath.isEmpty())
+                asNewLV = true;
+        }
+    }
+    else
+    {
+        QFile file(SaveLivePlayerPath);
+        if (file.open(QIODevice::WriteOnly | QIODevice::Text))
+        {
+            QTextStream out(&file);
+            out << data_string;
+            file.close();
+        }
+
+        Toast *toast = new Toast(this);
+        toast->showMessage("Saving File: " + SaveLivePlayerPath,
+                           QColor("green"),
+                           QColor("white"), 2000);
+    }
+}
 
 // ================================
 // PORT Channel Management
