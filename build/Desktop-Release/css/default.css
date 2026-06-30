@@ -552,6 +552,21 @@ border:solid blue 1px;
 	
 }
 
+.shortcuts_button{
+	width:29px;
+	height:29px;
+	min-width:30px;
+	min-height:30px;
+	/* border:solid white 1px; */
+	cursor:pointer;
+	margin-left:5px;
+	background-repeat:none;
+	background-size:100% 100%;
+	background-image:url('../images/keyboard.png');
+	opacity:0.8;
+	
+}
+
 .video_media_con{
 	width:100%;
 	height:100%;
@@ -589,7 +604,7 @@ border:solid blue 1px;
     background: rgba(0, 200, 80, 0.11);
     border: 1px solid rgba(0, 200, 80, 0.81);
     border-radius: 0.1em;
-	
+	cursor:drag;
 }
 
 
@@ -615,6 +630,11 @@ border:solid blue 1px;
 
 }
 
+.normal{
+	font-size:0.9em !important;
+
+}
+
 .big{
 	
 	font-size:1.2em !important;
@@ -626,5 +646,20 @@ border:solid blue 1px;
 	
 	font-size:2.2em !important;
 	
+}
+
+
+/* Other Styling essentials */
+
+.full_width{
+	width:100%;
+}
+
+
+.center{
+	align-items:center;
+	text-align:center;
 	
 }
+
+

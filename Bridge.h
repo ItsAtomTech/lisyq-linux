@@ -52,6 +52,10 @@ public slots:
     void Show_manual_template_menu();
 
 
+    //Others
+    void set_toastMessage(const QString &data);
+    void show_toast();
+
 private:
     MainWindow *mainWindow; // pointer to the MainWindow instance
 };

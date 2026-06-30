@@ -9,12 +9,19 @@ let unredoType = "default";
  * Adds a new action to the undo stack and clears the redo stack.
  * @param {Object} data - Action data to be stored for undo.
  */
-function add_undo(data) {
+function add_undo(data,redo) {
     if (data == undefined) {
         return console.warn("Trying to add undefined to undo stack");
     }
-    undo_stack.push(data);
-    redo_stack.length = 0; // Clear redo stack on new undo entry
+    
+    if(redo){
+        redo_stack.push(data);
+    }else{
+        undo_stack.push(data);   
+        redo_stack.length = 0; // Clear redo stack on new undo entry
+    }
+    
+
 }
 
 /**
@@ -282,7 +289,7 @@ function subtrack_undo_format(action_command, index, track, subtrack_index) {
  * @param {object|array} data - data of the affected item(s)
  * @param {number|array} subtrack_index - subtrack index (optional for subtrack)
  */
-function push_undo(type, action_command, index, data, subtrack_index) {
+function push_undo(type, action_command, index, data, subtrack_index,forRedo=false) {
     var udata;
     switch (type) {
         case "track":
@@ -294,7 +301,12 @@ function push_undo(type, action_command, index, data, subtrack_index) {
         default:
             return false;
     }
-    add_undo(udata);
+    
+    if(type == "subtrack" && (data.length == 0 || subtrack_index.length == 0)){
+        return;
+    }
+    
+    add_undo(udata,forRedo);
     
     optimizedData=false;
 }

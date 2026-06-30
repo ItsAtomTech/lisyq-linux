@@ -66,7 +66,9 @@ template <> constexpr inline auto Bridge::qt_create_metaobjectdata<qt_meta_tag_Z
         "Show_content_menu",
         "Show_track_menu",
         "Show_template_menu",
-        "Show_manual_template_menu"
+        "Show_manual_template_menu",
+        "set_toastMessage",
+        "show_toast"
     };
 
     QtMocHelpers::UintData qt_methods {
@@ -126,6 +128,12 @@ template <> constexpr inline auto Bridge::qt_create_metaobjectdata<qt_meta_tag_Z
         QtMocHelpers::SlotData<void()>(27, 2, QMC::AccessPublic, QMetaType::Void),
         // Slot 'Show_manual_template_menu'
         QtMocHelpers::SlotData<void()>(28, 2, QMC::AccessPublic, QMetaType::Void),
+        // Slot 'set_toastMessage'
+        QtMocHelpers::SlotData<void(const QString &)>(29, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::QString, 3 },
+        }}),
+        // Slot 'show_toast'
+        QtMocHelpers::SlotData<void()>(30, 2, QMC::AccessPublic, QMetaType::Void),
     };
     QtMocHelpers::UintData qt_properties {
     };
@@ -180,6 +188,8 @@ void Bridge::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void
         case 18: _t->Show_track_menu(); break;
         case 19: _t->Show_template_menu(); break;
         case 20: _t->Show_manual_template_menu(); break;
+        case 21: _t->set_toastMessage((*reinterpret_cast<std::add_pointer_t<QString>>(_a[1]))); break;
+        case 22: _t->show_toast(); break;
         default: ;
         }
     }
@@ -204,14 +214,14 @@ int Bridge::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 21)
+        if (_id < 23)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 21;
+        _id -= 23;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 21)
+        if (_id < 23)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 21;
+        _id -= 23;
     }
     return _id;
 }

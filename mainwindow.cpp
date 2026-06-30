@@ -138,12 +138,18 @@ MainWindow::MainWindow(QWidget *parent)
     QAction *consub_copy = contextMenu_Sub->addAction("Copy");
     QAction *consub_trackoption = contextMenu_Sub->addAction("Track Options");
     QAction *consub_addtotemplate = contextMenu_Sub->addAction("Add to Templates");
+    QAction *consub_groupselected = contextMenu_Sub->addAction("Group Selected");
+    QAction *consub_ungroupselected = contextMenu_Sub->addAction("Un-Group Selection");
+
 
     connect(consub_edit, &QAction::triggered, this, &MainWindow::onContextEdit);
     connect(consub_remove, &QAction::triggered, this, &MainWindow::onContextRemove);
     connect(consub_copy, &QAction::triggered, this, &MainWindow::onContextCopy);
     connect(consub_trackoption, &QAction::triggered, this, &MainWindow::onContextTrackOptions);
     connect(consub_addtotemplate, &QAction::triggered, this, &MainWindow::onContextAddToTemplate);
+    connect(consub_groupselected, &QAction::triggered, this, &MainWindow::onContextGroupSelected);
+    connect(consub_ungroupselected, &QAction::triggered, this, &MainWindow::onContextUnGroupSelected);
+
 
 
     //track_options
@@ -1066,6 +1072,15 @@ void MainWindow::onContextAddToTemplate()
     webView->page()->runJavaScript("sendToTimelineTemplates();");
 }
 
+void MainWindow::onContextGroupSelected(){
+    webView->page()->runJavaScript("groupSelected();");
+}
+
+void MainWindow::onContextUnGroupSelected(){
+    webView->page()->runJavaScript("ungroupSelected();");
+}
+
+
 
 // Track Context Menu
 void MainWindow::showTrackMenu(){
@@ -1264,5 +1279,22 @@ void MainWindow::onTemplateCancel()
 void MainWindow::onTemplateAddToTimeline()
 {
     webView->page()->runJavaScript("sendToTimeTemplates();");
+}
+
+
+//Toast message via js ============
+void Bridge::set_toastMessage(const QString &data){
+    mainWindow->toastMessage = data;
+}
+
+
+void Bridge::show_toast(){
+    mainWindow->showToast();
+}
+
+
+void MainWindow::showToast(){
+    Toast *toast = new Toast(this);
+    toast->showMessage(toastMessage , QColor("green"), QColor("white"), 2000);
 }
 

@@ -91,6 +91,8 @@ public:
     void showTemplateMenu();
     void showManualTemplateMenu();
 
+    QString toastMessage;
+    void showToast();
 
 protected:
     void keyPressEvent(QKeyEvent *event);
@@ -123,6 +125,8 @@ private slots:
     void onContextCopy();
     void onContextTrackOptions();
     void onContextAddToTemplate();
+    void onContextGroupSelected();
+     void onContextUnGroupSelected();
 
 
     //Track Context

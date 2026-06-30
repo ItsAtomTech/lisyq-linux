@@ -1,5 +1,5 @@
 // =================================
-// Aipexil neopexil controller plugin v1.0.2
+// Aipexil neopexil controller plugin v1.0.6
 // by Atomtech 
 // =================================
 
@@ -128,6 +128,8 @@ function save_key(){
 		}
 		
 		
+		key_frame.canStretch = _("stretch").checked;
+		
 		//Determine type effect to sent to a factory function
 		if(effect_type == "premade"){
 			
@@ -163,6 +165,7 @@ function save_key(){
 			
 		}
 		
+		key_frame.canStretch = _("stretch").checked;
 		
 		//Determine type effect to sent to a factory function
 		if(effect_type == "premade"){
@@ -299,8 +302,8 @@ function click_on_time_con(t){
 //Update timeline when the length total is changed
 function change_secs_sacle(s){
 	
+	processStretchables(timelen, s);
 	timelen = parseFloat(s);
-	
 	
 	if(timelen > 60){
 		z = 60;	
@@ -574,6 +577,8 @@ function open_keyframe_manager(elm, type){
 		_("duration_").setAttribute("max",s);
 		
 		
+		_("stretch").checked = false;
+		
 		mode = "add";
 		
 		
@@ -598,7 +603,7 @@ function open_keyframe_manager(elm, type){
 		
 		mode = "edit";
 		
-
+		_("stretch").checked = selected_stabs.canStretch;
 		
 		generate_type_inputs(selected_stabs.type);
 		
@@ -744,9 +749,6 @@ function gen_end_val(rd){
 
 
 }
-
-
-
 
 
 
@@ -1295,3 +1297,62 @@ function load_from_host(df){
 
 	
 }
+
+
+
+
+
+
+
+// =============================================
+// Proccessing of Stretchables keyframes  
+// =============================================
+
+function processStretchables(old, newValue){
+
+	let timelines = aipexil_time_line;
+	let difference  = (parseFloat(newValue) - parseFloat(old));
+	let mostMinStartIndex = null;
+	
+	mostMinStartIndex = getMostMinIndex();
+	let percent = (difference / old);
+
+	  
+	for(let i = 0; i < timelines.length; i++){
+		let keyframe = timelines[i];
+		
+		if(keyframe.canStretch && mostMinStartIndex != i){
+			keyframe.time_start = (parseFloat(keyframe.time_start) + (parseFloat(keyframe.time_start) * percent))
+		}		
+		
+		if(keyframe.canStretch){
+			keyframe.time_end = (parseFloat(keyframe.time_end) + (parseFloat(keyframe.time_end) * percent))
+		}
+		
+	}
+	
+	
+	//gets the most near to start keyframe index;
+	function getMostMinIndex(){
+		let minValue = -1;
+		let selectedIndex = null;
+		for(let keys = 0; keys < timelines.length; keys++){
+			if(!timelines[keys].canStretch){
+				continue;
+			}
+		  
+			if(parseFloat(timelines[keys].time_start) <= minValue || minValue == -1){				
+				minValue = timelines[keys].time_start;
+				selectedIndex = keys;
+			}
+		}
+		
+		
+	return selectedIndex;
+	}
+}
+	
+
+
+
+

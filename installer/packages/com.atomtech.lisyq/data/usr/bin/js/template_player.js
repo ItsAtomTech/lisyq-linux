@@ -301,6 +301,8 @@ let manual_template_manager = {
 			// console.log(plg);
 		}
 			
+	    if (!_("manual_templates_con")._contextMenuAdded) {	
+		_("manual_templates_con")._contextMenuAdded = true;
 		
 		
 		_("manual_templates_con").addEventListener("contextmenu", function context_menu_templates (e) {
@@ -326,9 +328,7 @@ let manual_template_manager = {
 			
 		},
 		
-		false
-		
-		)
+	false); }
 		
 		
 		

@@ -621,11 +621,11 @@ const CONFIG_WRITER = {
 		// Loop through configs
 		configs.forEach((config, configIndex) => {
 			// console.log(config.port_config[0]);
-			
+			let channel = parseInt(config.channel);
 			config.port_config.forEach((portCfg, portIndex) => {
 				if (portCfg.type === "com") {
 					// Find matching entry in data
-					let match = data.find(d => d.index === portIndex && d.portName === portCfg.comport);
+					let match = data.find(d => d.index == channel && d.portName === portCfg.comport);
 					
 					if (match) {
 						// Sync status based on isOpen
