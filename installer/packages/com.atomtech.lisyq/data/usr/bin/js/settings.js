@@ -121,8 +121,122 @@ function showTimelineScriptOptions(){
 	
 	createDialogue('scriptsettings');
 	
+
+}
+
+
+
+
+//Added
+
+let shortcutsDia = {
+	
+	shortcutTips: function(){ return "<div class='dai_title'><b>Shortcut Key Tips </b></div>"+
+		"<hr class='dashed'>"+
+		"<div class='option_row clamped'>"
+			
+			
+			+"<div class='medium center full_width'> Group and Selections </div> </br> "+
+			"<div class='normal shortcut_con'>  "+
+				"<b> Ctrl + Click </b> - Select Multiple." 
+			+"</div> "+		
+			
+			"<div class='shortcut_con normal'>  "+
+				"<b> Ctrl + Drag Click </b> - Start Drag Selection." 
+			+"</div>"+	
+			
+			"<div class='shortcut_con normal'>  "+
+				"<b> Shift + Click </b> - Select grouped items on current track." 
+			+"</div>"+	
+
+			
+			"<div class='shortcut_con normal'>  "+
+				"<b> Ctrl + Shift + Click </b> - Select grouped items on all the tracks." 
+			+"</div>"+
+			
+	
+			"<div class='option_info padded small'> * The above items are applicable on the Timeline editor</div>"+
+			
+			
+			"<div class='medium center full_width'> File Operations </div> </br> "+
+
+			"<div class='shortcut_con normal'>  "+
+				"<b> Ctrl + S </b> - Save to file" 
+			+"</div>"+
+
+			"<div class='shortcut_con normal'>  "+
+				"<b> Ctrl + O </b> - Open file" 
+			+"</div>"+
+
+			"<div class='shortcut_con normal'>  "+
+				"<b> Ctrl + Q </b> - Open ports" 
+			+"</div>"+
+
+			"<div class='shortcut_con normal'>  "+
+				"<b> Ctrl + V </b> - Paste content" 
+			+"</div>"+
+
+			"<div class='shortcut_con normal'>  "+
+				"<b> Ctrl + C </b> - Copy content" 
+			+"</div>"+
+
+
+			"<div class='medium center full_width'> Playback </div> </br> "+
+
+			"<div class='shortcut_con normal'>  "+
+				"<b> Space </b> - Play / Pause" 
+			+"</div>"+
+
+			"<div class='shortcut_con normal'>  "+
+				"<b> Any Key </b> - Manual play assigned template (Manual Player)" 
+			+"</div>"+
+
+
+			"<div class='medium center full_width'> Editing Shortcuts </div> </br> "+
+
+			"<div class='shortcut_con normal'>  "+
+				"<b> Ctrl + Z </b> - Undo an action on Timeline" 
+			+"</div>"+
+
+			"<div class='shortcut_con normal'>  "+
+				"<b> Ctrl + Y </b> - Redo an action on Timeline" 
+			+"</div>"+
+
+			"<div class='shortcut_con normal'>  "+
+				"<b> T </b> - Edit track channel" 
+			+"</div>"+
+
+			"<div class='shortcut_con normal'>  "+
+				"<b> P </b> - Edit track port" 
+			+"</div>"+
+
+			"<div class='shortcut_con normal'>  "+
+				"<b> Shift + M </b> - Add marker" 
+			+"</div>"+
+
+			"<div class='shortcut_con normal'>  "+
+				"<b> Shift + = </b> - Zoom in on Timeline" 
+			+"</div>"+
+
+			"<div class='shortcut_con normal'>  "+
+				"<b> Shift + - </b> - Zoom out on Timeline" 
+			+"</div>"+
+			
+		"</div>"+
+		
+		"<hr class='dashed'>";
+		
+	},
 	
 	
 	
+	
+}
+
+function showShortcutTips(){
+	createDialogue('shortcutTips');
+	
+	
+
 }
 

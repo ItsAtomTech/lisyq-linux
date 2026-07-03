@@ -111,6 +111,13 @@ function createDialogue(type,data){
 			dia.innerHTML = "<div class='dialogue_box primary_background'><span class='close_dia primary_color' onclick='destroy_dia()'>&times;</span>  "+Settingsdia.colorScriptProfile()+" </div>";	
 				
 			created = true;
+		break;	
+		
+		case "shortcutTips" :
+		
+			dia.innerHTML = "<div class='dialogue_box bigger_box primary_background'><span class='close_dia primary_color' onclick='destroy_dia()'>&times;</span>  "+shortcutsDia.shortcutTips()+" </div>";	
+				
+			created = true;
 		break;
 		
 		

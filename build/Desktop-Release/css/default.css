@@ -335,6 +335,16 @@ body{
 	
 }
 
+.grouped_content{
+	outline:1px dashed rgba(240, 240, 240, 0.4);
+}
+
+.grouped_content.selected_content{
+	outline:2px dashed white;
+}
+
+
+
 .resize_left{
 	position:absolute;
 	width:10px;
