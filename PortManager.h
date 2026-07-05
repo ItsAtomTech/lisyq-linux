@@ -30,6 +30,8 @@ public:
     QString getManagedPortsJson();
     void sendToSerial(int index, const QString &data);
 
+    void terminateSerialPorts(bool keep = false);
+
     // UDP
     void addUdpChannel(int index, const QString &address, quint16 port);
     void removeUdpChannel(int index);

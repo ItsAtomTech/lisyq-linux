@@ -71,6 +71,21 @@ void PortManager::removeSerialPort(int index, bool keep)
 }
 
 
+void PortManager::terminateSerialPorts(bool keep)
+{
+    QList<int> keys = serialPorts.keys();
+    try {
+        for (int index : keys) {
+            removeSerialPort(index, keep);
+        }
+    } catch (const std::exception &e) {
+        emit notification("Exception in terminateSerialPorts: " + QString::fromUtf8(e.what()), "red");
+    } catch (...) {
+        emit notification("Unknown exception in terminateSerialPorts: " + QString::number(keys.size()) + " ports", "red");
+    }
+}
+
+
 
 void PortManager::sendToSerial(int index, const QString &data)
 {

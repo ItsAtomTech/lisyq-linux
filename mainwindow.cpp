@@ -23,6 +23,8 @@
 #include <QTextStream>
 #include <QMessageBox>
 
+#include <QCloseEvent>
+
 #include "Toast.h"
 
 MainWindow::MainWindow(QWidget *parent)
@@ -338,6 +340,15 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 void MainWindow::resizeEvent(QResizeEvent *event){
     QMainWindow::resizeEvent(event);  // call base implementation
      webView->page()->runJavaScript("gen_ruler();");
+}
+
+
+//When we close this window
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    qDebug() << "[MainWindow] App closing — terminating serial ports...";
+    portManager->terminateSerialPorts();
+    event->accept();
 }
 
 

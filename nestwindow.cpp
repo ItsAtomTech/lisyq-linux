@@ -25,6 +25,8 @@
 #include "mainwindow.h"
 #include "Toast.h"
 
+#include <QCloseEvent>
+
 NestWindow::NestWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::NestWindow)
@@ -217,6 +219,14 @@ void NestWindow::keyPressEvent(QKeyEvent *event)
 void NestWindow::resizeEvent(QResizeEvent *event){
     QMainWindow::resizeEvent(event);  // call base implementation
      webView->page()->runJavaScript("gen_ruler();");
+}
+
+
+void NestWindow::closeEvent(QCloseEvent *event)
+{
+    qDebug() << "[NestWindow] App closing — terminating serial ports";
+    portManager->terminateSerialPorts();
+    event->accept();
 }
 
 
