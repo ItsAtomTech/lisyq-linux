@@ -586,6 +586,15 @@ function add_sub_tracks(data,com,mode,sub_index){
 			sub_track.title = block_contents.name;
 			sub_track.appendChild(div_details);
 			
+			
+			if(block_contents.group != undefined && block_contents.group != ""  ){
+				sub_track.title = block_contents.name + " (Grouped)";
+				
+				sub_track.classList.add("grouped_content");
+				
+			}
+			
+			
 		selected_track_.appendChild(sub_track);
 		
 			selected_content = parentTrack(selected_track_index).querySelector('[content_id="'+content_id+'"]'); 
@@ -652,6 +661,14 @@ function modify_sub_track(data,com){
 	
 	}
 	
+	if(tm_data.group != undefined && tm_data.group != ""  ){
+		selected_content.title = tm_data.name + " (Grouped)";
+		selected_content.classList.add("grouped_content");
+	}else{
+		selected_content.title = tm_data.name;
+		selected_content.classList.remove("grouped_content");
+	}
+		
 		
 	if(com == undefined){
 		push_undo("subtrack", "edit", selected_track_index, decople_data(timeline_data[selected_track_index].sub_tracks[data_id]),data_id);
@@ -1135,6 +1152,10 @@ function groupSelected(){
 		  
 		  let content_lengths = timeline_data[the_parent].sub_tracks[content_ids].content_length;
 
+			the_element.classList.add("grouped_content");
+			the_element.title = timeline_data[the_parent].sub_tracks[content_ids].name + " (Grouped)";
+			
+
 		  timeline_data[the_parent].sub_tracks[content_ids].group = groupID;
 		  extIndex++;
 			
@@ -1189,7 +1210,11 @@ function ungroupSelected(){
 		  let content_ids = the_element.getAttribute("content_id");
 		  
 		  let content_lengths = timeline_data[the_parent].sub_tracks[content_ids].content_length;
-
+			
+			
+			the_element.classList.remove("grouped_content");
+			the_element.title = timeline_data[the_parent].sub_tracks[content_ids].name;
+			
 		  timeline_data[the_parent].sub_tracks[content_ids].group = undefined;
 		  extIndex++;
 		}

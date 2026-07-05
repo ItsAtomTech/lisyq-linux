@@ -288,6 +288,7 @@ function subtrack_undo_format(action_command, index, track, subtrack_index) {
  * @param {number|array} index - affected index/indices
  * @param {object|array} data - data of the affected item(s)
  * @param {number|array} subtrack_index - subtrack index (optional for subtrack)
+ * @param {boolean} forRedo - override to force push to redo stack instead  (optional)
  */
 function push_undo(type, action_command, index, data, subtrack_index,forRedo=false) {
     var udata;

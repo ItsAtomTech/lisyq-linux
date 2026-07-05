@@ -1,7 +1,7 @@
 var active;
 let template_player = {
 	
-	templates:[], //Tempates are loaded into here
+	templates:[], //Templates are loaded into here
 	playerTabs:[],//Play Tabs collection
 	
 	timers: [], //Timer counter array for every playing Que
@@ -30,6 +30,16 @@ let template_player = {
 					
 					this.timers[index_timer] = 0;
 		
+				}
+				
+				
+				//Appply Modified Maximum when the chase effect is applied
+				if(targets.chaser_mode != undefined || targets.chaser_mode != ""){
+					let thresholds_ = parseInt(targets.chaser_threshold); 
+					
+					if(targets.chaser_mode == "running_chase"){
+						max = (thresholds_ * targets.target_channel.length) + targets.content_length;
+					}
 				}
 				
 				
@@ -82,6 +92,7 @@ let template_player = {
 
 				
 				for(ports of targets.target_port){
+					let chanCount = 0;
 					for(chan of targets.target_channel){						
 						try{						
 						if(output[ports] == undefined){							
@@ -91,18 +102,30 @@ let template_player = {
 						if(active){ //only output if active toggle is true
 						
 						
-						
+						  let timerValue = this.timers[index_timer];
 							if(this.timers[index_timer] < 0){
 								//Handles Negative Value to + val
 								let absoluteV = Math.abs(this.timers[index_timer]);
 								output[ports][chan] = targets.data[absoluteV];
-							}else{
-						
-								output[ports][chan] = targets.data[this.timers[index_timer]];
 								
+								if(targets.chaser_mode != undefined || targets.chaser_mode != ""){
+									
+									//Apply available chase effect
+									output[ports][chan] = template_player.applyChaseEffect(targets, output[ports][chan], targets.data,chanCount,absoluteV);
+								}
+								
+							}else{
+								
+								output[ports][chan] = targets.data[timerValue];
+								
+								if(targets.chaser_mode != undefined || targets.chaser_mode != ""){
+									
+									//Apply available chase effect
+									output[ports][chan] = template_player.applyChaseEffect(targets, output[ports][chan], targets.data,chanCount,timerValue);
+								}
+									
 							}
-						
-						
+									
 						}
 						
 						}catch(e){
@@ -110,19 +133,19 @@ let template_player = {
 							//
 							
 						}
+						chanCount++;
+						
 					}					
 					
 				}											
 			}catch(e){
-			
+				//console.error(e);
 				//Do something if outbound index, but better nothing at all
 				
 			}
 			
 		
 			index_timer++;
-			
-			
 			
 		}
 		
@@ -173,6 +196,35 @@ let template_player = {
 		return false;
 		
 	},
+	
+	//returns the modified output for chase effect
+	applyChaseEffect: function(targets, output, data_pool,channel_index,timer_value){
+		let modifiedOutput = "";
+		
+		let chaseType = targets.chaser_mode;
+		let chaseThreshold = parseInt(targets.chaser_threshold);
+		
+		if(chaseType == "running_chase"){
+			let calculatedTimer = timer_value - (chaseThreshold * channel_index);
+			calculatedTimer = calculatedTimer  < 0 ? 0 : calculatedTimer;
+			
+			//console.log(output ,timer_value,channel_index, calculatedTimer, targets);
+			
+			if(calculatedTimer >= targets.content_length){
+				calculatedTimer = targets.content_length-1;
+			}
+			modifiedOutput =  data_pool[calculatedTimer];
+		}else{
+			return output;
+		}
+		
+		//console.log(template_player.timers);
+		
+		return modifiedOutput;
+	},
+	
+	
+	
 	
 	update_channels: function(val, index){
 		let values = val.value.split(",");
@@ -696,6 +748,8 @@ let manual_template_manager = {
 				 "<option value='press_hold'> Press and Hold Key </option>"+
 			  "</select>"+
 		   "</div>"+
+		   
+		   
 		   "<div class='option_items_con'>"+
 			  "<div class='big items_header'> Repeat Mode: </div>"+
 			  "<label for='repeat_live_options'> Mode:  </label>"+
@@ -706,6 +760,26 @@ let manual_template_manager = {
 			  "</select>"+
 			  "<br />"+
 		   "</div>"+
+		   		   
+		   
+		   "<div class='option_items_con'>"+
+			  "<div class='big items_header'> Chaser Effects: </div>"+
+			  "<label for='chaser_live_options'> Effect:  </label>"+
+			  "<select class='plane_input primary_background primary_color' id='chaser_live_options'>"+
+				 "<option value=''> None </option>"+
+				 "<option value='running_chase'> Running Chase </option>"+
+				 "<option value='_soon' disabled> Coming Soon ... </option>"+
+			  "</select>"+
+			  "<br />"+			  
+			  
+			  "<label for='chaser_threshold_live_options'> Effect Threshold:  </label>"+
+			  "<input type='number' min='0' max='2000' value='0' steps='1' class='plane_input primary_background primary_color' id='chaser_threshold_live_options' />"+
+				
+			  "<br />"+
+		   "</div>"+
+		   
+		   
+		   
 		   "<div class='option_items_con flexed'>"+
 			  "<button class='button_box plane_input primary_color' onkeypress='manual_template_manager.saveConfig();destroy_dia();' onclick='manual_template_manager.saveConfig();destroy_dia();'> Save </button>"+
 			  "<button class='button_box plane_input primary_color' onclick='destroy_dia()'> Cancel </button>"+
@@ -734,6 +808,18 @@ let manual_template_manager = {
 			}		
 			if(this.tab_selected.repeat){
 				_("repeat_live_options").value = this.tab_selected.repeat;
+			}		
+			//Chase Effect Load Values
+			if(this.tab_selected.chaser_mode){
+				_("chaser_live_options").value = this.tab_selected.chaser_mode;
+			}else{
+				_("chaser_live_options").value = "";
+			}			
+			
+			if(this.tab_selected.chaser_threshold){
+				_("chaser_threshold_live_options").value = this.tab_selected.chaser_threshold;
+			}else{
+				_("chaser_threshold_live_options").value = 0;
 			}
 			
 			_("playtabconfigOptions_").focus();
@@ -821,6 +907,10 @@ let manual_template_manager = {
 		this.tab_selected.playMode = _("playback_live_options").value;
 		this.tab_selected.activation = _("activation_live_options").value;
 		this.tab_selected.repeat = _("repeat_live_options").value;
+		
+		//Chase Effects
+		this.tab_selected.chaser_mode = _("chaser_live_options").value;
+		this.tab_selected.chaser_threshold = _("chaser_threshold_live_options").value;
 		
 		
 		template_player.playerTabs[this.selectedTabIndex] = decople_data(this.tab_selected);
