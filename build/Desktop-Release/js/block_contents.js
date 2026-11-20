@@ -625,7 +625,29 @@ function openDMXConfig(l, timeout=1500) {
 }
 
 
+// Auto Backup Logic ============================================== 
+async function backupDirectoryPicker(){
+	let existing = _("auto_bc_input").value;
+	
+	if(existing == undefined){
+		existing = " ";
+	}
+	
+	let picked = await openDirectorySelector(existing); 
+	console.log(picked);
+	_("auto_bc_input").value = picked;
+	await sleep(100);
+	saveSettingsAutoSD();
+	
+} 
 
 
 
 
+function saveSettingsAutoSD(){
+	settings.set("auto_backup_dir", _("auto_bc_input").value.trim());
+	
+	if(settings.get("auto_backup_dir")){
+		AutoSaveLsysBackup();
+	}
+}

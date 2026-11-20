@@ -25,6 +25,13 @@ public slots:
     bool Save_File_LVjs();
 
 
+    QString OpenSelectDirectory();
+    QString OpenSelectDirectory(const QString &startAt);
+    bool SaveToFile(const QString &path, const QString data);
+    QString getCurrentPath();
+
+    void removeOldBakFiles(const QString &folder);
+
     QString onReady();
 
     // ================================

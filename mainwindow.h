@@ -45,8 +45,13 @@ public:
     bool asNewLV;
 
     void Open_FileDirectory_Native();
+    QString openSelectDirectoryNative(const QString &startAt);
+    bool saveToFileNative(const QString &path, const QString &data);
+    void removeOldBakFilesNative(const QString &folder);
 
     void Save_File();
+
+
 
 
     // Live Template Section
@@ -177,7 +182,7 @@ private:
 
 
     void openLSYSFile();
-
+    bool lastRemoveOldBackup = false;
 
     // ================
     // File Management Section End

@@ -736,6 +736,133 @@ void MainWindow::openLSYSFile()
 }
 
 
+
+QString Bridge::OpenSelectDirectory()//For Optional Params
+{
+    return OpenSelectDirectory("");
+}
+
+QString Bridge::OpenSelectDirectory(const QString &startAt)
+{
+    if (!mainWindow) return "";
+   return mainWindow->openSelectDirectoryNative(startAt);
+}
+
+
+
+QString MainWindow::openSelectDirectoryNative(const QString &startAt)
+{
+    QString startPath;
+
+    if (!startAt.trimmed().isEmpty() && QDir(startAt).exists())
+        startPath = startAt;
+    else
+        startPath = QDir::homePath();
+
+    QString selectedPath = QFileDialog::getExistingDirectory(
+        this,
+        "Select a directory",
+        startPath,
+        QFileDialog::ShowDirsOnly
+        );
+
+    if (selectedPath.isEmpty())
+        return QString();
+
+    Toast *toast = new Toast(this);
+    toast->showMessage("Directory: " + selectedPath + " has been selected.", QColor("green"), QColor("white"), 2000);
+
+    return selectedPath;
+}
+
+
+void Bridge::removeOldBakFiles(const QString &folder)
+{
+    if (!mainWindow)
+        return;
+
+    QString normalized = folder;
+    normalized.replace('\\', '/');
+
+    mainWindow->removeOldBakFilesNative(normalized);
+}
+
+void MainWindow::removeOldBakFilesNative(const QString &folder)
+{
+    const QStringList allowedSuffixes = { ".lsys.bak", ".ntlis.bak" };
+    const QDateTime cutoff = QDateTime::currentDateTime().addMonths(-1);
+
+    if (folder.trimmed().isEmpty() || !QDir(folder).exists())
+        return;
+
+    if (lastRemoveOldBackup)
+        return;
+
+    QDir dir(folder);
+    const QFileInfoList files = dir.entryInfoList(QDir::Files | QDir::NoDotAndDotDot);
+
+    for (const QFileInfo &info : files) {
+        QString fileName = info.fileName();
+        bool isAllowed = false;
+
+        for (const QString &suffix : allowedSuffixes) {
+            if (fileName.endsWith(suffix, Qt::CaseInsensitive)) {
+                isAllowed = true;
+                break;
+            }
+        }
+
+        if (isAllowed && info.lastModified() < cutoff)
+            QFile::remove(info.absoluteFilePath());
+    }
+
+    lastRemoveOldBackup = true;
+}
+
+
+QString Bridge::getCurrentPath()
+{
+    if (!mainWindow) return "";
+
+    QString path = mainWindow->SavePath;
+    path.replace('/', '\\');
+    return path;
+}
+
+
+bool Bridge::SaveToFile(const QString &path, const QString data)
+{
+    if (!mainWindow) return false;
+    QString normalized = path;
+    normalized.replace('\\', '/');
+
+    return mainWindow->saveToFileNative(normalized, data);
+}
+
+
+bool MainWindow::saveToFileNative(const QString &path, const QString &data)
+{
+    if (path.isEmpty())
+        return false;
+
+    QDir dir = QFileInfo(path).absoluteDir();
+
+    if (!dir.exists() && !dir.mkpath("."))
+        return false;
+
+    QFile file(path);
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Truncate))
+        return false;
+
+    QByteArray bytes = data.toUtf8();
+    qint64 written = file.write(bytes);
+    file.close();
+
+    return written == bytes.size();
+}
+
+
+
 bool Bridge::Open_FileDirectory()
 {
     if (!mainWindow) return false;

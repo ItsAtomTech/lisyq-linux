@@ -170,6 +170,19 @@ function openFileSelector(){
 }
 
 
+async function openDirectorySelector(Str){
+	try{	
+		let directory = await window.chrome.webview.hostObjects.NativeObject.OpenSelectDirectory(Str);	
+        
+		return directory;
+		//console.log(directory);
+		
+	}catch(e){
+        console.warn("Host Object not present! Selection");
+	}
+}
+
+
 function trigerNewFile(){
 		try{	
 		window.chrome.webview.hostObjects.NativeObject.AsNewTrigger();	

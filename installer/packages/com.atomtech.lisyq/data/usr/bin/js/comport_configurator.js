@@ -1,6 +1,6 @@
 // COMPORT Configurator JS 
 // Writen by Atomtech @ 2025
-// v1.2
+// v1.2.1
 
 // =================
 // Utilities
@@ -43,6 +43,8 @@ let selectedIndex = 0;
 let selectedSaveIndex = undefined;
 
 let hasChanges = true;
+
+let tempSave = undefined;
 
 // ========================
 //Constant data structure
@@ -116,6 +118,8 @@ const CHANNEL_CONF = {
 		silent == false ? createDialogue("info","<center> Changes Saved! </center>"): false;
 		hasChanges = false;
 		
+		localStorage.removeItem("temp_com_save");
+		
 		return selectedSaveIndex || SAVES.length;
 	},
 	
@@ -149,11 +153,18 @@ const CHANNEL_CONF = {
 		showLoadList(true);
 		
 		localStorage.setItem('loaded_comports', selectedSaveIndex);
+		localStorage.removeItem('temp_com_save');
 		
 	},
 	
 	loadPrevius: function(){
 		let prevIndex = localStorage.getItem('loaded_comports');
+		
+		if(CHANNEL_CONF.loadTempSaved()){
+			return;
+		}
+		
+		
 		
 		if(prevIndex == null || prevIndex == undefined){
 			return false;
@@ -580,6 +591,51 @@ const CHANNEL_CONF = {
 	},
 	
 	
+	//Temporary saves_loader
+	loadTempSaved: function(){
+		let tempSave = localStorage.getItem("temp_com_save");
+		
+		if(!tempSave){
+			return false;
+		}
+		
+		let SAVE = JSON.parse(tempSave);
+		
+		configs = clone(SAVE.configs);
+		options = clone(SAVE.options);
+		
+		this.renderConfigs();
+		this.clearAllEditTabs();
+		
+		hasChanges = true;
+		
+		return true;
+		
+	},
+	
+	
+	saveTempSave: function(){
+		let DataOptions = clone(OPTIONS_DATA);
+		let configsData = clone(CONFIG_DATA);
+		
+		let data = {
+			options: DataOptions,
+			configs: configsData,
+		}
+		
+		data.configs = configs;
+		let saves = localStorage.setItem("temp_com_save", JSON.stringify(data));
+		
+		return true;
+		
+		
+		},
+		
+		
+		
+	
+	
+	
 	
 }
 
@@ -588,8 +644,6 @@ const CHANNEL_CONF = {
 
 const CONFIG_WRITER = {
 	syncConfig:async function(){
-		
-		
 		
 		for(each of configs){
 			
@@ -605,7 +659,7 @@ const CONFIG_WRITER = {
 			}
 		}
 		
-		hasChanges = false;
+	
 		
 		try{
 			getComPortList(CONFIG_WRITER.updateLinksCOM);
@@ -614,6 +668,11 @@ const CONFIG_WRITER = {
 		}
 		
 		let removeAll = await CONFIG_WRITER.clearAllConnected();
+		
+		if(hasChanges){
+			CHANNEL_CONF.saveTempSave();
+		}
+		hasChanges = false;
 		
 	},
 	
