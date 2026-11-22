@@ -203,9 +203,6 @@ hr.dashed{
 .option_title{
 	display:inline;
 	
-	
-	
-	
 }
 
 .option_info{
@@ -234,6 +231,31 @@ hr.dashed{
 	color:var(--accent_2);
 }
 
+.max_width{
+	width:100%;
+	gap:5px;
+	
+}
+
+.settings_auto_backup{
+	display:flex;
+	gap:5px;
+	width:100%;
+	
+}
+
+.settings_auto_backup > button{
+	overflow:hidden;
+}
+
+.settings_auto_backup > input{
+	border:1px solid rgba(145,145,145,0.8);
+	border-radius:5px;
+	padding:3px;
+	font-family:Comfortaa;
+	width:100%;
+	
+}
 
 
 

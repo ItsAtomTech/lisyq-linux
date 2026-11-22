@@ -6,11 +6,9 @@ Component.prototype.createOperations = function() {
         // Windows shortcut if ever needed
     } else {
         // Install required system dependency
-        component.addOperation("Execute",
-            "bash", "-c",
-            "apt-get install -y libxcb-cursor0 || true"
+        component.addOperation("Execute", "bash", "-c",
+            "dpkg -s libxcb-cursor0 >/dev/null 2>&1 || pkexec bash -c 'apt-get update && apt-get install -y libxcb-cursor0' || true"
         );
-
 
 
        // Add LD_LIBRARY_PATH to ~/.bashrc permanently

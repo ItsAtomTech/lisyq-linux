@@ -7,6 +7,7 @@ const settings = {
 	default_values:{
 		includeData: false,
 		followMode: 'normal', //values: normal, page
+		auto_backup_dir : '', //values: normal, page
 	},
 
 
@@ -61,6 +62,12 @@ function returnChecked(bool){
 	
 }
 
+function returnString(value){	
+
+	if(value == true && value != undefined){ return value.toString() }else{ return "" };
+	
+}
+
 function getColorCurrent(){
 	let scriptColor =  fileOptions.color ? fileOptions.color : "";
 	return scriptColor;
@@ -76,7 +83,11 @@ function getColorCurrent(){
 let Settingsdia =  {
 
 	
-	includeData: function(){ return "<div class='dai_title'><b>Project Options and Settings</b></div>"+
+	includeData: function(){
+
+		let savedABK = settings.get('auto_backup_dir') ? settings.get('auto_backup_dir').trim() : "";
+
+		return "<div class='dai_title'><b>Project Options and Settings</b></div>"+
 		"<hr class='dashed'>"+
 		"<div class='option_row'>"+
 			
@@ -86,6 +97,25 @@ let Settingsdia =  {
 			
 			+"/> </div>"+
 			"<div class='option_info small'> Generated data from Plugins would not be removed upon saving, this would incure larger file sizes in the process, but would make the Project usable even if plugins where not present on the playing device (for playing only), recomended to be off. </div>"+
+			
+			
+			
+		"</div>"+		
+		
+		"<div class='option_row'>"+
+			
+			"<div class='option_title padded max_width'>Auto Backup Directory:  </br> <div class='settings_auto_backup'> <button class='button_box go_button bold primary_background primary_color' onclick='backupDirectoryPicker(this)' "
+
+			+"/> <span class='icon_small'> &#128449; </span> Pick </button> "+
+			
+			
+			"<input type='text' class='primary_background primary_color normal' value='"+savedABK+"' id='auto_bc_input' onchange='saveSettingsAutoSD()' placeholder='dir/...'/> </div>"
+			
+			
+			+"</div>"+
+			"<div class='option_info small'>Once Configured, Projects being worked on would be automatically coppied into a backup file. Backup is made when loading a project file and at the set interval of every 5 minutes (when not on playing mode) if there were changes.</div>"+
+			
+			
 			
 		"</div>"+
 		

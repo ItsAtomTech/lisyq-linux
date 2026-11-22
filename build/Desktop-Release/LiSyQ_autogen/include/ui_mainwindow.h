@@ -139,7 +139,7 @@ public:
 
     void retranslateUi(QMainWindow *MainWindow)
     {
-        MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "LiSyQ v1.2 (Linux Edition)", nullptr));
+        MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "LiSyQ v1.3 (Linux Edition)", nullptr));
         actionNew->setText(QCoreApplication::translate("MainWindow", "New", nullptr));
         actionOpen->setText(QCoreApplication::translate("MainWindow", "Open", nullptr));
         actionSettings_and_Option->setText(QCoreApplication::translate("MainWindow", "Settings and Option", nullptr));

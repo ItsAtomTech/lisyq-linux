@@ -135,7 +135,7 @@ public:
 
     void retranslateUi(QMainWindow *NestWindow)
     {
-        NestWindow->setWindowTitle(QCoreApplication::translate("NestWindow", "LiSyQ - Nest.in v1.2 (Linux Edition)", nullptr));
+        NestWindow->setWindowTitle(QCoreApplication::translate("NestWindow", "LiSyQ - Nest.in v1.3 (Linux Edition)", nullptr));
         actionNew->setText(QCoreApplication::translate("NestWindow", "New", nullptr));
         actionOpen->setText(QCoreApplication::translate("NestWindow", "Open", nullptr));
         actionSettings_and_Option->setText(QCoreApplication::translate("NestWindow", "Settings and Option", nullptr));

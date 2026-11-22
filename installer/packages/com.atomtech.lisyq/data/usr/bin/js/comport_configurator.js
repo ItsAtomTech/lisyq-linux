@@ -1,5 +1,5 @@
 // COMPORT Configurator JS 
-// Writen by Atomtech @ 2025
+// Writen by Atomtech @ 2025 - 2026
 // v1.2.1
 
 // =================
@@ -120,7 +120,10 @@ const CHANNEL_CONF = {
 		
 		localStorage.removeItem("temp_com_save");
 		
-		return selectedSaveIndex || SAVES.length;
+		let nextTimeToLoad = selectedSaveIndex || SAVES.length-1;
+		localStorage.setItem('loaded_comports', nextTimeToLoad);
+		
+		return selectedSaveIndex || SAVES.length-1;
 	},
 	
 	//Will load a selected Saved data into list view and working variables.
@@ -780,6 +783,7 @@ function showLoadList(hide = false){
 		CHANNEL_CONF.loadAllSaved();
 		_("saves_loader").classList.add("hidden");
 	}else{
+		CHANNEL_CONF.loadAllSaved();
 		_("saves_loader").classList.remove("hidden");
 		
 	}

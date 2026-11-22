@@ -1,0 +1,4016 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scene Maker</title>
+
+  <!-- Three.js (3D Engine r128) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <!-- Cannon.js (Physics Engine 0.6.2) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cannon.js/0.6.2/cannon.min.js"></script>
+
+  <!-- Pure Embedded CSS (Offline Capable - Cosmic Glassmorphism Theme) -->
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
+
+    :root {
+      --bg-dark: #050811;
+      --panel-bg: rgba(10, 15, 29, 0.90);
+      --panel-border: rgba(255, 255, 255, 0.14);
+      --btn-bg: rgba(21, 32, 54, 0.8);
+      --btn-hover: rgba(38, 55, 88, 0.95);
+      --accent-emerald: #10b981;
+      --accent-sky: #38bdf8;
+      --accent-amber: #fbbf24;
+      --accent-rose: #f43f5e;
+      --accent-purple: #c084fc;
+      --accent-indigo: #818cf8;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+    }
+
+    /* Fullscreen WebGL Canvas */
+    #canvas-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      cursor: crosshair;
+      z-index: 1;
+    }
+
+    /* Reticle Crosshair */
+    #crosshair {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 18px;
+      height: 18px;
+      pointer-events: none;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #crosshair::before, #crosshair::after {
+      content: '';
+      position: absolute;
+      background: rgba(255, 255, 255, 0.75);
+      border-radius: 2px;
+      box-shadow: 0 0 6px rgba(56, 189, 248, 0.6);
+    }
+
+    #crosshair::before { width: 2px; height: 16px; }
+    #crosshair::after { width: 16px; height: 2px; }
+
+    .crosshair-dot {
+      width: 5px;
+      height: 5px;
+      background-color: var(--accent-emerald);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--accent-emerald);
+      transition: all 0.15s ease;
+    }
+
+    #crosshair.grab-active .crosshair-dot {
+      background-color: var(--accent-amber);
+      transform: scale(2.2);
+      box-shadow: 0 0 14px var(--accent-amber);
+    }
+
+    /* Glassmorphism Common Panels */
+    .glass-panel {
+      background: var(--panel-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--panel-border);
+      border-radius: 14px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.65);
+    }
+
+    .glass-button {
+      background: var(--btn-bg);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--panel-border);
+      color: var(--text-main);
+      padding: 7px 12px;
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.18s ease;
+    }
+
+    .glass-button:hover {
+      background: var(--btn-hover);
+      border-color: rgba(56, 189, 248, 0.5);
+      transform: translateY(-1px);
+    }
+
+    .glass-button:active {
+      transform: translateY(0);
+    }
+
+    .glass-button.active {
+      background: rgba(16, 185, 129, 0.25);
+      border-color: var(--accent-emerald);
+      color: #34d399;
+      box-shadow: 0 0 14px rgba(16, 185, 129, 0.35);
+    }
+
+    /* Top HUD Navigation */
+    .hud-top-bar {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      right: 16px;
+      z-index: 10;
+      pointer-events: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .brand-card {
+      pointer-events: auto;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 16px;
+    }
+
+    .brand-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #10b981, #38bdf8);
+      color: #050811;
+      font-weight: 900;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
+    }
+
+    .brand-title {
+      font-size: 14px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .mode-badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 12px;
+      background: rgba(56, 189, 248, 0.2);
+      color: var(--accent-sky);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      letter-spacing: 0.5px;
+    }
+
+    .mode-badge.walk {
+      background: rgba(251, 191, 36, 0.2);
+      color: var(--accent-amber);
+      border-color: rgba(251, 191, 36, 0.4);
+    }
+
+    .toolbar {
+      pointer-events: auto;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px;
+      flex-wrap: wrap;
+    }
+
+    .divider {
+      width: 1px;
+      height: 22px;
+      background: var(--panel-border);
+      margin: 0 3px;
+    }
+
+    /* Spawn Selector Controls */
+    .spawn-selector {
+      display: flex;
+      align-items: center;
+      background: rgba(15, 23, 42, 0.7);
+      padding: 3px;
+      border-radius: 10px;
+      border: 1px solid var(--panel-border);
+      gap: 3px;
+    }
+
+    .spawn-selector button {
+      padding: 5px 10px;
+      font-size: 11px;
+      border-radius: 7px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.15s ease;
+    }
+
+    .spawn-selector button.selected {
+      background: var(--btn-hover);
+      color: var(--text-main);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    }
+
+    .glass-button.pending {
+      outline: 2px dashed #fbbf24;
+      outline-offset: 2px;
+      color: #fbbf24;
+    }
+    .spawn-selector button[data-key]::after {
+      content: attr(data-key);
+      margin-left: 5px;
+      font-size: 9px;
+      opacity: 0.45;
+    }
+    .confirm-content { max-width: 380px; text-align: center; }
+    .confirm-content h3 { margin: 0 0 8px; font-size: 16px; color: var(--text-main); }
+    .confirm-content p { margin: 0 0 18px; font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+    .confirm-actions { display: flex; gap: 10px; justify-content: center; }
+
+    /* Inspector Side Panel */
+    .inspector-panel {
+      position: absolute;
+      top: 76px;
+      right: 16px;
+      width: 320px;
+      max-height: calc(100vh - 100px);
+      z-index: 25;
+      pointer-events: auto;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      overflow-y: auto;
+      transform: translateX(380px);
+      transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .inspector-panel.open {
+      transform: translateX(0);
+    }
+
+    .inspector-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--panel-border);
+    }
+
+    .inspector-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--accent-sky);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .inspector-close {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .inspector-close:hover { color: var(--text-main); }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .form-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .form-input-row {
+      display: flex;
+      gap: 6px;
+    }
+
+    .form-input {
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid var(--panel-border);
+      border-radius: 8px;
+      color: var(--text-main);
+      padding: 6px 10px;
+      font-family: inherit;
+      font-size: 12px;
+      width: 100%;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--accent-sky);
+    }
+
+    .slider-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .form-slider {
+      flex: 1;
+      accent-color: var(--accent-sky);
+      cursor: pointer;
+    }
+
+    .slider-val {
+      font-family: 'Fira Code', monospace;
+      font-size: 11px;
+      width: 42px;
+      text-align: right;
+      color: var(--accent-sky);
+    }
+
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-top: 1px dashed var(--panel-border);
+      border-bottom: 1px dashed var(--panel-border);
+    }
+
+    .area-opts {
+      display: none;
+      align-items: center;
+      gap: 4px;
+      padding-left: 6px;
+      border-left: 1px solid var(--panel-border);
+      margin-left: 3px;
+    }
+
+    .area-opts select, .area-opts input {
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid var(--panel-border);
+      border-radius: 6px;
+      color: var(--text-main);
+      font-family: inherit;
+      font-size: 11px;
+      padding: 3px 4px;
+    }
+
+    .area-opts input { width: 42px; }
+    .area-opts input:disabled { opacity: 0.35; }
+    .area-opts label { font-size: 10px; color: var(--text-muted); display: flex; align-items: center; gap: 3px; }
+
+    .area-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+    .area-actions .glass-button { padding: 4px 9px; font-size: 11px; }
+
+    .area-list {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      max-height: 150px;
+      overflow-y: auto;
+    }
+
+    .area-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 6px;
+      border: 1px solid var(--panel-border);
+      border-radius: 8px;
+      background: rgba(15, 23, 42, 0.55);
+    }
+
+    .area-row-main {
+      flex: 1;
+      font-family: 'Fira Code', monospace;
+      font-size: 11px;
+      color: var(--text-main);
+      cursor: pointer;
+    }
+
+    .area-row button {
+      border: 1px solid var(--panel-border);
+      background: transparent;
+      color: var(--text-muted);
+      border-radius: 6px;
+      font-size: 10px;
+      padding: 2px 6px;
+      cursor: pointer;
+    }
+
+    .area-row button:hover { color: var(--text-main); }
+    .area-check { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text-muted); margin-top: 8px; cursor: pointer; }
+    .area-empty, .area-info { font-size: 11px; color: var(--text-muted); }
+
+    .compass {
+      position: fixed;
+      left: 16px;
+      bottom: 16px;
+      z-index: 21;
+      width: 156px;
+      padding: 6px 6px 8px;
+      pointer-events: none;
+      text-align: center;
+    }
+    .compass canvas { width: 130px; height: 130px; display: block; margin: 0 auto; }
+    .compass-readout {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+    .compass-readout b { color: var(--text-main); }
+    .compass-pos {
+      display: flex;
+      justify-content: space-between;
+      gap: 4px;
+      margin-top: 5px;
+      padding-top: 5px;
+      border-top: 1px solid var(--panel-border);
+      font-size: 11px;
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+      color: var(--text-main);
+    }
+    .compass-pos i { font-style: normal; margin-right: 2px; }
+
+    /* Mass Operations Panel */
+    .selection-panel {
+      position: absolute;
+      bottom: 24px;
+      left: 50%;
+      transform: translate(-50%, 160%);
+      z-index: 22;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      max-width: calc(100vw - 32px);
+      pointer-events: auto;
+      transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .selection-panel.open {
+      transform: translate(-50%, 0);
+    }
+
+    .selection-count {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--accent-sky);
+      margin-right: 4px;
+    }
+
+    .selection-field {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .selection-hint {
+      width: 100%;
+      text-align: center;
+      font-size: 10px;
+      color: var(--text-muted);
+    }
+
+    /* Modal API & Console Helper */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(2, 6, 23, 0.82);
+      backdrop-filter: blur(8px);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-content {
+      width: 90%;
+      max-width: 640px;
+      padding: 24px;
+      max-height: 85vh;
+      overflow-y: auto;
+    }
+
+    .code-block {
+      background: #020617;
+      border: 1px solid var(--panel-border);
+      border-radius: 10px;
+      padding: 12px;
+      font-family: 'Fira Code', monospace;
+      font-size: 12px;
+      color: #38bdf8;
+      overflow-x: auto;
+      margin: 10px 0;
+      user-select: text;
+      -webkit-user-select: text;
+    }
+
+    /* Minimal Toast Overlay */
+    .toast-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 100;
+      pointer-events: none;
+    }
+
+    .toast {
+      padding: 10px 18px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #a7f3d0;
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .toast-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: var(--accent-emerald);
+    }
+
+    .icon {
+      width: 14px;
+      height: 14px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- WebGL Canvas -->
+  <div id="canvas-container"></div>
+
+  <!-- Center Crosshair Reticle -->
+  <div id="crosshair">
+    <div class="crosshair-dot"></div>
+  </div>
+
+
+  <!-- HUD Top Bar -->
+  <div class="hud-top-bar">
+    
+    <!-- Main Navigation Toolbar -->
+    <div class="glass-panel toolbar">
+      <button id="btn-mode-fly" class="glass-button active" title="Fly / Walk Mode (Double-tap Space to toggle Walk/Fly)">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+        POV Flight
+      </button>
+
+      <button id="btn-mode-select" class="glass-button" title="Select blocks: click one, or Shift+Click twice to mark a 3D area (wheel = height)">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z"></path></svg>
+        Select
+      </button>
+
+      <button id="btn-mode-spawn" class="glass-button">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4"></path></svg>
+        Spawn Mode
+      </button>
+
+      <!-- Spawn Block Selection Options -->
+      <div class="spawn-selector">
+        <button id="sp-light" data-key="1" class="selected" title="Light Source Block">Light</button>
+        <button id="sp-camera" data-key="2" title="Camera Block">Camera</button>
+        <button id="sp-target" data-key="3" title="Target Block">Target</button>
+        <button id="sp-building" data-key="4" title="Grid Building Block">Building</button>
+        <button id="sp-cube" data-key="5" title="Physics Cube">Cube</button>
+        <button id="sp-area" data-key="6" title="Spawn Area: a bounded zone that holds target blocks">Area</button>
+        <div id="area-opts" class="area-opts">
+          <select id="sp-area-mode" title="1D line, 2D plane, 3D volume">
+            <option value="1D">1D</option>
+            <option value="2D">2D</option>
+            <option value="3D">3D</option>
+          </select>
+          <label>L<input type="number" id="sp-area-w" min="1" max="50" step="1" value="6"></label>
+          <label>H<input type="number" id="sp-area-h" min="1" max="20" step="1" value="1"></label>
+          <label>D<input type="number" id="sp-area-d" min="1" max="50" step="1" value="1"></label>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <button id="btn-mode-grab" class="glass-button" title="Grab & Carry Block in 3D Space">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M7 11.5V14m0 0v2.5m0-2.5h10m-10 0a2.5 2.5 0 110-5 2.5 2.5 0 010 5zm10 0a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM12 4v3.5"></path></svg>
+        Grab
+      </button>
+
+      <button id="btn-mode-link" class="glass-button" title="Daisy-chain blocks together">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 10-5.656-5.656l-1.1 1.1"></path></svg>
+        Link
+      </button>
+
+      <button id="btn-finish-chain" class="glass-button" style="display: none; color: #34d399; border-color: rgba(16, 185, 129, 0.4);">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"></path></svg>
+        Finish Chain
+      </button>
+
+      <div class="divider"></div>
+
+      <!-- Save / Load Persistence Controls -->
+      <button id="btn-save-scene" class="glass-button" title="Save Scene State to LocalStorage">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path></svg>
+        Save
+      </button>
+
+      <button id="btn-load-scene" class="glass-button" title="Load Saved Scene State">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
+        Load
+      </button>
+
+      <button id="btn-toggle-paths" class="glass-button" title="Show the line from each light to the target it aims at (P)">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M5 19a2 2 0 100-4 2 2 0 000 4zM19 9a2 2 0 100-4 2 2 0 000 4zM6.5 15.5l11-5"></path></svg>
+        Paths
+      </button>
+
+      <button id="btn-api-help" class="glass-button" style="color: var(--accent-indigo);">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+        API
+      </button>
+
+      <button id="btn-clear" class="glass-button" style="color: var(--accent-rose);">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+        Clear
+      </button>
+    </div>
+
+  </div>
+
+  <!-- Object Inspector Right-Click Properties Panel -->
+  <div id="inspector-panel" class="glass-panel inspector-panel">
+    <div class="inspector-header">
+      <div class="inspector-title">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>
+        <span id="insp-type-title">Block Properties</span>
+      </div>
+      <button class="inspector-close" id="insp-close">&times;</button>
+    </div>
+
+    <div class="form-group">
+      <span class="form-label">Object ID</span>
+      <input type="text" id="insp-id" class="form-input" readonly>
+    </div>
+
+    <!-- Position Controls -->
+    <div class="form-group">
+      <span class="form-label">Position (X, Y, Z)</span>
+      <div class="form-input-row">
+        <input type="number" id="insp-pos-x" class="form-input" step="0.25">
+        <input type="number" id="insp-pos-y" class="form-input" step="0.25">
+        <input type="number" id="insp-pos-z" class="form-input" step="0.25">
+      </div>
+    </div>
+
+    <!-- Rotation Controls -->
+    <div class="form-group">
+      <span class="form-label">Pitch (X Angle)</span>
+      <div class="slider-row">
+        <input type="range" id="insp-rot-pitch" class="form-slider" min="-180" max="180" value="0">
+        <span id="val-rot-pitch" class="slider-val">0°</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <span class="form-label">Yaw (Y Angle)</span>
+      <div class="slider-row">
+        <input type="range" id="insp-rot-yaw" class="form-slider" min="-180" max="180" value="0">
+        <span id="val-rot-yaw" class="slider-val">0°</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <span class="form-label">Roll (Z Angle)</span>
+      <div class="slider-row">
+        <input type="range" id="insp-rot-roll" class="form-slider" min="-180" max="180" value="0">
+        <span id="val-rot-roll" class="slider-val">0°</span>
+      </div>
+    </div>
+
+    <!-- Physics / Freeze Toggle -->
+    <div class="toggle-row" id="insp-row-lock">
+      <span class="form-label" style="margin:0;">Disable Physics / Lock Position</span>
+      <input type="checkbox" id="insp-lock-physics" style="accent-color: var(--accent-sky); cursor: pointer; width: 18px; height: 18px;">
+    </div>
+
+    <!-- Spawn Area Controls -->
+    <div id="insp-sec-area" style="display: none;" class="form-group">
+      <span class="form-label">Spawn Area Mode</span>
+      <select id="insp-area-mode" class="form-input">
+        <option value="1D">1D &middot; line (length)</option>
+        <option value="2D">2D &middot; plane (length &times; height)</option>
+        <option value="3D">3D &middot; volume (length &times; height &times; depth)</option>
+      </select>
+
+      <span class="form-label" style="margin-top:8px;">Size in blocks (Length, Height, Depth)</span>
+      <div class="form-input-row">
+        <input type="number" id="insp-area-w" class="form-input" min="1" max="50" step="1">
+        <input type="number" id="insp-area-h" class="form-input" min="1" max="20" step="1">
+        <input type="number" id="insp-area-d" class="form-input" min="1" max="50" step="1">
+      </div>
+
+      <label class="area-check"><input type="checkbox" id="insp-area-collide"> Targets collide with each other</label>
+
+      <span class="form-label" style="margin-top:8px;"><span>Targets</span><span id="insp-area-count">0 / 0</span></span>
+      <div class="area-actions">
+        <button id="insp-area-add" class="glass-button">+ Target</button>
+        <button id="insp-area-add5" class="glass-button">+ 5</button>
+        <button id="insp-area-remove-last" class="glass-button">Remove last</button>
+        <button id="insp-area-clear" class="glass-button">Clear</button>
+      </div>
+      <div id="insp-area-list" class="area-list"></div>
+    </div>
+
+    <div id="insp-sec-area-target" style="display: none;" class="form-group">
+      <span class="form-label">Spawn Area</span>
+      <div id="insp-target-area-info" class="area-info"></div>
+      <button id="insp-target-open-area" class="glass-button" style="justify-content:center;">Open spawn area</button>
+    </div>
+
+    <!-- Specific Light Controls -->
+    <div id="insp-sec-light" style="display: none;" class="form-group">
+      <span class="form-label">Light Color</span>
+      <input type="color" id="insp-light-color" class="form-input" style="height:36px; padding:2px; cursor:pointer;">
+
+      <span class="form-label" style="margin-top:8px;">Spot Beam Angle</span>
+      <div class="slider-row">
+        <input type="range" id="insp-light-angle" class="form-slider" min="10" max="90" value="45">
+        <span id="val-light-angle" class="slider-val">45°</span>
+      </div>
+
+      <span class="form-label" style="margin-top:8px;">Light Intensity</span>
+      <div class="slider-row">
+        <input type="range" id="insp-light-intensity" class="form-slider" min="0" max="10" step="0.5" value="4">
+        <span id="val-light-intensity" class="slider-val">4</span>
+      </div>
+
+      <span class="form-label" style="margin-top:8px;">Beam Length</span>
+      <div class="slider-row">
+        <input type="range" id="insp-light-length" class="form-slider" min="2" max="60" step="1" value="20">
+        <span id="val-light-length" class="slider-val">20</span>
+      </div>
+    </div>
+
+    <!-- Specific Camera Controls -->
+    <div id="insp-sec-camera" style="display: none;" class="form-group">
+      <span class="form-label">FOV Angle</span>
+      <div class="slider-row">
+        <input type="range" id="insp-cam-fov" class="form-slider" min="20" max="120" value="60">
+        <span id="val-cam-fov" class="slider-val">60°</span>
+      </div>
+
+      <span class="form-label" style="margin-top:8px;">Tracking Depth Range</span>
+      <div class="slider-row">
+        <input type="range" id="insp-cam-range" class="form-slider" min="5" max="50" value="20">
+        <span id="val-cam-range" class="slider-val">20</span>
+      </div>
+
+      <span class="form-label" style="margin-top:8px;">Light Tracking Mode</span>
+      <select id="insp-cam-mode" class="form-input">
+        <option value="between">Between targets</option>
+        <option value="pair">Follow pair (one light per target)</option>
+      </select>
+    </div>
+
+    <div style="margin-top: auto; display: flex; gap: 8px;">
+      <button id="insp-btn-delete" class="glass-button" style="width: 100%; justify-content: center; color: var(--accent-rose); border-color: rgba(244, 63, 94, 0.4);">
+        Delete Block
+      </button>
+    </div>
+  </div>
+
+  <!-- Mass Operations Panel -->
+  <div id="selection-panel" class="glass-panel selection-panel">
+    <span id="selection-count" class="selection-count">0 blocks selected</span>
+    <button id="sel-lock" class="glass-button" title="Lock physics on all selected (L)">Lock</button>
+    <button id="sel-unlock" class="glass-button" title="Unlock physics on all selected (U)">Unlock</button>
+    <button id="sel-rot-left" class="glass-button" title="Rotate the group left ( [ )">&#10226; Rotate</button>
+    <button id="sel-rot-right" class="glass-button" title="Rotate the group right ( ] )">Rotate &#10227;</button>
+    <label class="selection-field">Angle
+      <select id="sel-rot-step" class="form-input" style="width:auto; padding:4px 6px;">
+        <option value="15" selected>15°</option>
+        <option value="45">45°</option>
+        <option value="90">90°</option>
+      </select>
+    </label>
+    <label class="selection-field">Step
+      <select id="sel-step" class="form-input" style="width:auto; padding:4px 6px;">
+        <option value="0.25">0.25</option>
+        <option value="0.5">0.5</option>
+        <option value="1" selected>1</option>
+        <option value="2">2</option>
+        <option value="5">5</option>
+      </select>
+    </label>
+    <label class="selection-field">Light color
+      <input type="color" id="sel-color" value="#38bdf8" style="width:34px; height:26px; padding:1px; border:none; background:transparent; cursor:pointer;">
+    </label>
+    <button id="sel-add-target" class="glass-button" title="Add a target to each selected spawn area (T)">+ Target</button>
+    <button id="sel-duplicate" class="glass-button" title="Duplicate all selected (N)">Duplicate</button>
+    <button id="sel-clear" class="glass-button">Deselect</button>
+    <button id="sel-delete" class="glass-button" style="color: var(--accent-rose); border-color: rgba(244, 63, 94, 0.4);">Delete</button>
+    <div class="selection-hint">Arrows move &middot; PgUp/PgDn height &middot; [ ] rotate &middot; L lock &middot; U unlock &middot; N duplicate &middot; T add target to area &middot; Del delete</div>
+  </div>
+
+  <!-- API Modal -->
+  <div id="api-modal" class="modal-overlay">
+    <div class="glass-panel modal-content">
+      <div class="inspector-header">
+        <div class="inspector-title" style="color: var(--accent-indigo);">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+          Scene Maker JS API Console Commands
+        </div>
+        <button class="inspector-close" id="modal-close">&times;</button>
+      </div>
+
+      <p style="font-size: 13px; color: var(--text-muted); margin-top: 10px;">
+        You can open the browser developer console (<kbd>F12</kbd>) and execute commands on <code style="color:var(--accent-sky)">window.sceneAPI</code>:
+      </p>
+
+      <div class="code-block">
+// 1. Spawn Blocks Programmatically
+let light = sceneAPI.spawnLight({ x: 0, y: 5, z: 0, color: '#38bdf8', isLocked: true });
+let cam = sceneAPI.spawnCamera({ x: -6, y: 4, z: 0, fov: 60, range: 25 });
+let target = sceneAPI.spawnTarget({ x: 0, y: 1.5, z: -8, isLocked: true });
+
+// 2. Rotate & Modify
+sceneAPI.rotateObject(light.id, -30, 45, 0);
+sceneAPI.setLightColor(light.id, '#f59e0b');
+sceneAPI.setObjectPhysics(target.id, true); // Disable physics
+sceneAPI.setLightAngle(light.id, 60);
+sceneAPI.setLightIntensity(light.id, 6);
+sceneAPI.setCameraRange(cam.id, 30);
+sceneAPI.setCameraTrackMode(cam.id, 'pair'); // or 'between'
+sceneAPI.setLightBeamLength(light.id, 25);
+
+// 3. Spawn Areas (bounded zones that hold targets)
+let area = sceneAPI.spawnArea({ x: 0, y: 0.5, z: -6, mode: '2D', width: 8, height: 3, rotation: 30 });
+area.spawnTarget();                       // next free cell
+area.spawnTarget({ x: 1, y: 0, z: 0 });   // from the left-bottom corner, in blocks
+area.spawnTarget({ cell: [2, 1, 0] });    // by cell index
+area.spawnTargets(5, { isLocked: false });
+area.targets.forEach((t, i) => t.setLocal(i, 0, 0)); // (0,0,0) = left-bottom cell
+area.targets[0].setRotation(90);          // degrees, around Y
+area.targets[1].setLocked(false);
+area.removeTarget(2);
+area.setTargetCollision(true);            // targets are solid to each other (default: they pass through)
+area.setMode('3D'); area.setSize({ width: 6, height: 3, depth: 4 });
+sceneAPI.getAreas();                      // every spawn area
+
+// 4. Save / Load Scene
+sceneAPI.saveScene();
+sceneAPI.loadScene();
+      </div>
+
+      <p style="font-size: 12px; color: var(--text-muted); margin-top: 14px; line-height: 1.7;">
+        <b style="color: var(--text-main);">Shortcuts:</b>
+        <kbd>Ctrl</kbd>+<kbd>S</kbd> save &middot; <kbd>Wheel</kbd> pick a tool, <kbd>Enter</kbd> activate it &middot;
+        <kbd>1</kbd>-<kbd>6</kbd> spawn type (Spawn Mode) &middot; <kbd>Esc</kbd> close the open panel &middot; <kbd>P</kbd> light paths
+      </p>
+
+      <div style="display: flex; justify-content: flex-end; margin-top: 14px;">
+        <button id="btn-run-demo" class="glass-button" style="color: var(--accent-emerald);">
+          Run Demo Setup Script
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div id="confirm-modal" class="modal-overlay">
+    <div class="glass-panel modal-content confirm-content">
+      <h3>Clear the whole scene?</h3>
+      <p>This removes all <b id="confirm-count">0</b> objects and every link. A scene you saved earlier is not touched.</p>
+      <div class="confirm-actions">
+        <button id="confirm-cancel" class="glass-button">Cancel</button>
+        <button id="confirm-ok" class="glass-button" style="color: var(--accent-rose);">Clear Everything</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="axis-compass" class="glass-panel compass">
+    <canvas id="compass-canvas" width="232" height="232"></canvas>
+    <div id="compass-readout" class="compass-readout">Facing <b>-Z</b></div>
+    <div id="compass-pos" class="compass-pos" title="Your position in the world">
+      <span><i style="color:#f87171">X</i><span id="pos-x">0.0</span></span>
+      <span><i style="color:#4ade80">Y</i><span id="pos-y">0.0</span></span>
+      <span><i style="color:#60a5fa">Z</i><span id="pos-z">0.0</span></span>
+    </div>
+  </div>
+
+  <!-- Minimal Toast -->
+  <div class="toast-container">
+    <div id="toast" class="glass-panel toast">
+      <span class="toast-dot"></span>
+      <span id="toast-message">Scene Maker ready</span>
+    </div>
+  </div>
+
+  <!-- Application Engine Script -->
+  <script>
+    /**
+     * Scene Maker Engine & API
+     */
+
+    // Audio Synthesizer (Silent Tracking)
+    class SoundSynthesizer {
+      constructor() { this.ctx = null; }
+      init() {
+        if (!this.ctx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          this.ctx = new AudioContext();
+        }
+      }
+      playSpawn() {
+        if (!this.ctx) return;
+        const osc = this.ctx.createOscillator(), gain = this.ctx.createGain();
+        osc.type = 'sine'; osc.frequency.setValueAtTime(350, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(700, this.ctx.currentTime + 0.1);
+        gain.gain.setValueAtTime(0.18, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.1);
+        osc.connect(gain); gain.connect(this.ctx.destination);
+        osc.start(); osc.stop(this.ctx.currentTime + 0.1);
+      }
+      playLink() {
+        if (!this.ctx) return;
+        const osc = this.ctx.createOscillator(), gain = this.ctx.createGain();
+        osc.type = 'triangle'; osc.frequency.setValueAtTime(523, this.ctx.currentTime);
+        osc.frequency.setValueAtTime(659, this.ctx.currentTime + 0.08);
+        gain.gain.setValueAtTime(0.18, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.15);
+        osc.connect(gain); gain.connect(this.ctx.destination);
+        osc.start(); osc.stop(this.ctx.currentTime + 0.15);
+      }
+    }
+    const sfx = new SoundSynthesizer();
+
+    // Global State
+    let uiActions = {};
+
+    const STATE = {
+      mode: 'fly', // 'fly' | 'select' | 'spawn' | 'grab' | 'link'
+      locomotion: 'fly', // 'fly' | 'walk'
+      spawnType: 'light', // 'light' | 'camera' | 'target' | 'building' | 'cube' | 'area'
+      objects: [], // Array of block records
+      links: [],   // Array of tether link records
+      activeChain: [],
+      selectedObjects: [], // Multi-selection array
+      hoveredObject: null,
+      selectedObjectForInspector: null,
+      showLightPaths: false,
+      isPointerLocked: false
+    };
+
+    // Global Engines
+    let scene, camera, renderer, physicsWorld;
+    let raycaster, mouseVector;
+    let groundMesh, groundBody;
+
+    // Flight & Walk Controls State
+    const cameraState = {
+      position: new THREE.Vector3(0, 6, 14),
+      velocity: new THREE.Vector3(0, 0, 0),
+      yaw: 0, pitch: 0,
+      moveSpeed: 14.0,
+      walkSpeed: 7.0,
+      eyeHeight: 1.6,
+      radius: 0.3,
+      stepHeight: 0.6,
+      isGrounded: false,
+      lastSpacePressTime: 0,
+      spaceHeld: false,
+      lastSpaceTap: false,
+      sprint: false,
+      sprintMult: 1.8,
+      lastWDown: 0,
+      walkVel: { x: 0, z: 0 },
+      accelRate: 11,
+      brakeRate: 4.5,
+      keys: { w: false, a: false, s: false, d: false, space: false, shift: false, c: false }
+    };
+
+    // Grab Physics State
+    const grabState = {
+      grabbedObject: null,
+      grabConstraint: null,
+      grabBody: null,
+      grabDistance: 6.0,
+      beamLine: null,
+      kinematic: false,
+      grabOffset: new THREE.Vector3(),
+      suspendedLinks: []
+    };
+
+
+    // Helper Mesh Overlays
+    let buildPreviewMesh = null;
+    let spawnAreaPreview = null;
+    let chainPreviewLine = null;
+    const trackingLines = [];
+    let trackingLineCursor = 0;
+    let MAX_SHADOW_LIGHTS = 4;
+    let idCounter = 0;
+    let selectionPanelCount = 0;
+    const areaState = { active: false, start: new THREE.Vector3(), end: new THREE.Vector3(), height: 6, mesh: null };
+    const nudgeState = { step: 1, rotStep: 15 };
+
+    function makeId(prefix) {
+      idCounter++;
+      return prefix + '_' + Date.now() + '_' + idCounter;
+    }
+    const selectionHighlightHelpers = new Map(); // objId -> THREE.BoxHelper
+
+    // --- Core Initialization ---
+    window.addEventListener('load', () => {
+      initThree();
+      initCannon();
+      initEnvironment();
+      initEventListeners();
+      initUI();
+      initInspector();
+      setupSceneAPI();
+
+      try {
+        let oldPrefix = ['mu', 'ku'].join('');
+        let oldScene = localStorage.getItem(oldPrefix + '_3d_scene_data');
+        if (oldScene && !localStorage.getItem('scene_maker_scene_data')) localStorage.setItem('scene_maker_scene_data', oldScene);
+      } catch (err) {}
+      // Auto-load previously saved scene from LocalStorage if present
+      if (localStorage.getItem('scene_maker_scene_data')) {
+        window.sceneAPI.loadScene();
+      }
+
+      let lastTime = performance.now();
+      function animate(time) {
+        requestAnimationFrame(animate);
+        const dt = Math.min((time - lastTime) / 1000, 0.1);
+        lastTime = time;
+
+        updatePhysics(dt);
+        updateCameraLocomotion(dt);
+        updateRaycasting();
+        updateLinks();
+        updateGrabBeam();
+        updateSpawnAreas();
+        updateCameraTrackingAndLinkedLights();
+        updateSelectionHighlightHelpers();
+        updateAreaPreview();
+        updateSelectionPanel();
+        updateCompass();
+
+        renderer.render(scene, camera);
+      }
+      animate(performance.now());
+    });
+
+    // --- Three.js Setup ---
+    function initThree() {
+      const container = document.getElementById('canvas-container');
+
+      scene = new THREE.Scene();
+      scene.background = new THREE.Color(0x050811);
+      scene.fog = new THREE.FogExp2(0x050811, 0.016);
+
+      camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 500);
+      camera.position.copy(cameraState.position);
+
+      renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.15;
+      container.appendChild(renderer.domElement);
+
+      raycaster = new THREE.Raycaster();
+      mouseVector = new THREE.Vector2(0, 0);
+    }
+
+    // --- Cannon Physics Setup ---
+    function initCannon() {
+      physicsWorld = new CANNON.World();
+      physicsWorld.gravity.set(0, -9.81, 0);
+      physicsWorld.broadphase = new CANNON.NaiveBroadphase();
+      physicsWorld.solver.iterations = 10;
+
+      let addBodyBase = physicsWorld.addBody.bind(physicsWorld);
+      physicsWorld.addBody = (b) => {
+        if (b.collisionFilterMask === 1) b.collisionFilterMask = 3;
+        addBodyBase(b);
+      };
+
+      const defaultMaterial = new CANNON.Material("default");
+      const contactMaterial = new CANNON.ContactMaterial(defaultMaterial, defaultMaterial, {
+        friction: 0.4, restitution: 0.2
+      });
+      physicsWorld.addContactMaterial(contactMaterial);
+      physicsWorld.defaultContactMaterial = contactMaterial;
+
+      grabState.grabBody = new CANNON.Body({ mass: 0 });
+      physicsWorld.addBody(grabState.grabBody);
+    }
+
+    // --- Environment Setup ---
+    function initEnvironment() {
+      const ambientLight = new THREE.AmbientLight(0x94a3b8, 0.5);
+      scene.add(ambientLight);
+
+      const hemiLight = new THREE.HemisphereLight(0x38bdf8, 0x050811, 0.45);
+      hemiLight.position.set(0, 50, 0);
+      scene.add(hemiLight);
+
+      const dirLight = new THREE.DirectionalLight(0xffffff, 0.85);
+      dirLight.position.set(30, 50, 20);
+      dirLight.castShadow = true;
+      dirLight.shadow.mapSize.width = 2048;
+      dirLight.shadow.mapSize.height = 2048;
+      dirLight.shadow.bias = -0.0005;
+      scene.add(dirLight);
+
+      // Y = 0 Ground Plane
+      const groundGeo = new THREE.PlaneGeometry(250, 250);
+
+      const gridCanvas = document.createElement('canvas');
+      gridCanvas.width = 256; gridCanvas.height = 256;
+      const ctx = gridCanvas.getContext('2d');
+      ctx.fillStyle = '#0a0f1d'; ctx.fillRect(0, 0, 256, 256);
+      ctx.strokeStyle = '#1e293b'; ctx.lineWidth = 2;
+      ctx.strokeRect(0, 0, 256, 256);
+      ctx.strokeStyle = '#0284c7'; ctx.lineWidth = 1; ctx.globalAlpha = 0.25;
+      ctx.strokeRect(0, 0, 64, 64); ctx.strokeRect(64, 0, 64, 64);
+
+      const gridTexture = new THREE.CanvasTexture(gridCanvas);
+      gridTexture.wrapS = THREE.RepeatWrapping;
+      gridTexture.wrapT = THREE.RepeatWrapping;
+      gridTexture.repeat.set(62.5, 62.5);
+
+      const groundMat = new THREE.MeshStandardMaterial({ map: gridTexture, roughness: 0.85 });
+      groundMesh = new THREE.Mesh(groundGeo, groundMat);
+      groundMesh.rotation.x = -Math.PI / 2;
+      groundMesh.position.y = 0;
+      groundMesh.receiveShadow = true;
+      groundMesh.userData = { isGround: true };
+      scene.add(groundMesh);
+
+      const gridHelper = new THREE.GridHelper(250, 250, 0x38bdf8, 0x1e293b);
+      gridHelper.position.y = 0.01;
+      scene.add(gridHelper);
+
+      // Cannon Physics Ground Body at Y = 0
+      const groundShape = new CANNON.Plane();
+      groundBody = new CANNON.Body({ mass: 0 });
+      groundBody.addShape(groundShape);
+      groundBody.quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), -Math.PI / 2);
+      physicsWorld.addBody(groundBody);
+
+      // Preview Mesh Helpers
+      const prevGeo = new THREE.BoxGeometry(1.02, 1.02, 1.02);
+      const prevMat = new THREE.MeshBasicMaterial({ color: 0x34d399, wireframe: true, transparent: true, opacity: 0.6 });
+      buildPreviewMesh = new THREE.Mesh(prevGeo, prevMat);
+      buildPreviewMesh.visible = false;
+      scene.add(buildPreviewMesh);
+
+      spawnAreaPreview = new THREE.LineSegments(
+        new THREE.EdgesGeometry(new THREE.BoxGeometry(1, 1, 1)),
+        new THREE.LineBasicMaterial({ color: 0xa78bfa, transparent: true, opacity: 0.85 })
+      );
+      spawnAreaPreview.visible = false;
+      scene.add(spawnAreaPreview);
+
+      const chainLineGeo = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(), new THREE.Vector3()]);
+      const chainLineMat = new THREE.LineDashedMaterial({ color: 0x34d399, dashSize: 0.3, gapSize: 0.15, linewidth: 2 });
+      chainPreviewLine = new THREE.Line(chainLineGeo, chainLineMat);
+      chainPreviewLine.visible = false;
+      chainPreviewLine.frustumCulled = false;
+      scene.add(chainPreviewLine);
+
+      const beamGeo = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(), new THREE.Vector3()]);
+      const beamMat = new THREE.LineBasicMaterial({ color: 0xfbbf24, linewidth: 3 });
+      grabState.beamLine = new THREE.Line(beamGeo, beamMat);
+      grabState.beamLine.visible = false;
+      grabState.beamLine.frustumCulled = false;
+      scene.add(grabState.beamLine);
+
+      const areaGeo = new THREE.BoxGeometry(1, 1, 1);
+      areaState.mesh = new THREE.Mesh(areaGeo, new THREE.MeshBasicMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.1, depthWrite: false }));
+      areaState.mesh.add(new THREE.LineSegments(new THREE.EdgesGeometry(areaGeo), new THREE.LineBasicMaterial({ color: 0x38bdf8 })));
+      areaState.mesh.raycast = () => {};
+      areaState.mesh.visible = false;
+      scene.add(areaState.mesh);
+    }
+
+    // --- Inputs & Event Listeners ---
+    function initEventListeners() {
+      const container = document.getElementById('canvas-container');
+
+      container.addEventListener('click', (e) => {
+        sfx.init();
+        if (!STATE.isPointerLocked) {
+          container.requestPointerLock();
+        } else if (STATE.isPointerLocked) {
+          handleInteractionClick(e);
+        }
+      });
+
+      // Right-Click Listener to Open Block Properties
+      let lastContextTime = 0;
+
+      function handleContextAction(e) {
+        if (!container.contains(e.target)) return;
+        let now = performance.now();
+        if (now - lastContextTime < 200) return;
+        lastContextTime = now;
+
+        if (grabState.grabbedObject) {
+          stopGrab(20.0);
+          return;
+        }
+
+        let hitObj = pickBlockAtCursor(e);
+        if (hitObj) {
+          if (document.pointerLockElement) document.exitPointerLock();
+          openInspectorForObject(hitObj);
+        }
+      }
+
+      window.addEventListener('contextmenu', (e) => {
+        e.preventDefault();
+        handleContextAction(e);
+      });
+
+      window.addEventListener('mousedown', (e) => {
+        if (e.button === 2) handleContextAction(e);
+      });
+
+      window.addEventListener('wheel', (e) => {
+        if (STATE.mode === 'grab' && grabState.grabbedObject) {
+          grabState.grabDistance += e.deltaY * 0.005;
+          grabState.grabDistance = Math.max(2.0, Math.min(40.0, grabState.grabDistance));
+        } else if (STATE.mode === 'select' && areaState.active) {
+          areaState.height = Math.max(1, Math.min(40, areaState.height - e.deltaY * 0.01));
+          showToast('Area height: ' + areaState.height.toFixed(1));
+        } else if (uiActions.wheelTool && !e.ctrlKey && !(uiActions.isConfirmOpen && uiActions.isConfirmOpen()) && !(e.target.closest && e.target.closest('.glass-panel, .modal-overlay'))) {
+          uiActions.wheelTool(e.deltaY);
+        }
+      }, { passive: true });
+
+      document.addEventListener('pointerlockchange', () => {
+        STATE.isPointerLocked = (document.pointerLockElement === container);
+        if (!STATE.isPointerLocked && grabState.grabbedObject) {
+          stopGrab();
+        }
+        if (!STATE.isPointerLocked) cancelArea();
+      });
+
+      document.addEventListener('click', (e) => {
+        let btn = e.target.closest ? e.target.closest('button') : null;
+        if (btn) btn.blur();
+      });
+
+      document.addEventListener('mousemove', (e) => {
+        if (!STATE.isPointerLocked) return;
+        const sensitivity = 0.0022;
+        cameraState.yaw -= e.movementX * sensitivity;
+        cameraState.pitch -= e.movementY * sensitivity;
+
+        const limit = Math.PI / 2 - 0.02;
+        cameraState.pitch = Math.max(-limit, Math.min(limit, cameraState.pitch));
+      });
+
+      // Keyboard Delete & Double-Tap Space Detection
+      window.addEventListener('keydown', (e) => {
+        if (e.code === 'KeyS' && (e.ctrlKey || e.metaKey) && !e.altKey) {
+          e.preventDefault();
+          if (!e.repeat) window.sceneAPI.saveScene();
+          return;
+        }
+        if (uiActions.isConfirmOpen && uiActions.isConfirmOpen()) {
+          if (e.code === 'Escape') { e.preventDefault(); uiActions.closeConfirm(); }
+          return;
+        }
+        if (e.code === 'Escape' && uiActions.escape && uiActions.escape()) {
+          e.preventDefault();
+          return;
+        }
+
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+
+        switch (e.code) {
+          case 'KeyW':
+            if (!e.repeat && !cameraState.keys.w) {
+              let wNow = performance.now();
+              if (wNow - cameraState.lastWDown < 300) cameraState.sprint = true;
+              cameraState.lastWDown = wNow;
+            }
+            cameraState.keys.w = true;
+            break;
+          case 'KeyS': cameraState.keys.s = true; break;
+          case 'KeyA': cameraState.keys.a = true; break;
+          case 'KeyD': cameraState.keys.d = true; break;
+          case 'ShiftLeft':
+          case 'ShiftRight': cameraState.keys.shift = true; break;
+          case 'KeyC': cameraState.keys.c = true; break;
+
+          case 'ArrowUp':
+          case 'ArrowDown':
+          case 'ArrowLeft':
+          case 'ArrowRight':
+          case 'PageUp':
+          case 'PageDown':
+            if (getActionTargets().length > 0) {
+              e.preventDefault();
+              nudgeTargets(e.code);
+            }
+            break;
+
+          case 'BracketLeft': if (!e.ctrlKey && !e.metaKey && !e.altKey) massRotate(-nudgeState.rotStep); break;
+          case 'BracketRight': if (!e.ctrlKey && !e.metaKey && !e.altKey) massRotate(nudgeState.rotStep); break;
+          case 'KeyL': if (!e.ctrlKey && !e.metaKey && !e.altKey) massSetLocked(true); break;
+          case 'KeyU': if (!e.ctrlKey && !e.metaKey && !e.altKey) massSetLocked(false); break;
+          case 'KeyN': if (!e.ctrlKey && !e.metaKey && !e.altKey) massDuplicate(); break;
+          case 'KeyT': if (!e.ctrlKey && !e.metaKey && !e.altKey) addTargetsToSelectedAreas(1); break;
+
+          case 'Space':
+            cameraState.keys.space = true;
+            if (e.repeat || cameraState.spaceHeld) break;
+            cameraState.spaceHeld = true;
+
+            let spaceNow = performance.now();
+            if (cameraState.lastSpaceTap && spaceNow - cameraState.lastSpacePressTime < 320) {
+              toggleLocomotionMode();
+              cameraState.lastSpacePressTime = 0;
+            } else {
+              if (STATE.locomotion === 'walk' && cameraState.isGrounded) {
+                cameraState.velocity.y = 6.0;
+                cameraState.isGrounded = false;
+              }
+              cameraState.lastSpacePressTime = spaceNow;
+            }
+            break;
+
+          case 'KeyP': setLightPathsVisible(!STATE.showLightPaths); break;
+
+          case 'Delete':
+          case 'Backspace':
+            deleteSelectedOrHoveredObjects();
+            break;
+
+          case 'Enter':
+          case 'NumpadEnter':
+            if (uiActions.activatePending && uiActions.activatePending()) { e.preventDefault(); break; }
+            if (STATE.mode === 'link') finalizeDaisyChain();
+            break;
+
+          case 'Digit1': case 'Digit2': case 'Digit3': case 'Digit4': case 'Digit5': case 'Digit6':
+          case 'Numpad1': case 'Numpad2': case 'Numpad3': case 'Numpad4': case 'Numpad5': case 'Numpad6':
+            if (!e.ctrlKey && !e.metaKey && !e.altKey && uiActions.spawnHotkey) uiActions.spawnHotkey(parseInt(e.code.slice(-1), 10));
+            break;
+        }
+      });
+
+      window.addEventListener('keyup', (e) => {
+        switch (e.code) {
+          case 'KeyW': cameraState.keys.w = false; cameraState.sprint = false; break;
+          case 'KeyS': cameraState.keys.s = false; break;
+          case 'KeyA': cameraState.keys.a = false; break;
+          case 'KeyD': cameraState.keys.d = false; break;
+          case 'Space':
+            cameraState.keys.space = false;
+            cameraState.spaceHeld = false;
+            cameraState.lastSpaceTap = performance.now() - cameraState.lastSpacePressTime < 220;
+            break;
+          case 'ShiftLeft':
+          case 'ShiftRight': cameraState.keys.shift = false; break;
+          case 'KeyC': cameraState.keys.c = false; break;
+        }
+      });
+
+      window.addEventListener('blur', () => {
+        Object.keys(cameraState.keys).forEach(k => { cameraState.keys[k] = false; });
+        cameraState.spaceHeld = false;
+        cameraState.lastSpaceTap = false;
+        cameraState.sprint = false;
+      });
+
+      window.addEventListener('resize', onWindowResize);
+    }
+
+    let compassState = { ctx: null, readout: null, last: '', axes: [
+      { v: new THREE.Vector3(1, 0, 0), label: 'X', color: '#f87171' },
+      { v: new THREE.Vector3(0, 1, 0), label: 'Y', color: '#4ade80' },
+      { v: new THREE.Vector3(0, 0, 1), label: 'Z', color: '#60a5fa' }
+    ], inv: new THREE.Quaternion(), tmp: new THREE.Vector3(), dir: new THREE.Vector3() };
+
+    function updateCompass() {
+      let cs = compassState;
+      if (!cs.ctx) {
+        let canvas = document.getElementById('compass-canvas');
+        if (!canvas) return;
+        cs.ctx = canvas.getContext('2d');
+        cs.readout = document.getElementById('compass-readout');
+        cs.pos = ['pos-x', 'pos-y', 'pos-z'].map(id => document.getElementById(id));
+        cs.posText = ['', '', ''];
+      }
+      let ctx = cs.ctx;
+      let size = 232, c = size / 2, len = 78;
+      cs.inv.copy(camera.quaternion).invert();
+
+      let items = [];
+      cs.axes.forEach(a => {
+        [1, -1].forEach(sign => {
+          cs.tmp.copy(a.v).multiplyScalar(sign).applyQuaternion(cs.inv);
+          items.push({ x: cs.tmp.x, y: -cs.tmp.y, z: cs.tmp.z, a: a, sign: sign });
+        });
+      });
+      items.sort((p, q) => p.z - q.z);
+
+      ctx.clearRect(0, 0, size, size);
+      ctx.beginPath();
+      ctx.arc(c, c, 100, 0, Math.PI * 2);
+      ctx.strokeStyle = 'rgba(148,163,184,0.18)';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      items.forEach(it => {
+        let ex = c + it.x * len, ey = c + it.y * len;
+        let depth = 0.55 + 0.45 * (it.z + 1) / 2;
+        ctx.globalAlpha = it.sign > 0 ? depth : depth * 0.45;
+        ctx.strokeStyle = it.a.color;
+        ctx.fillStyle = it.a.color;
+        ctx.lineWidth = it.sign > 0 ? 5 : 3;
+        ctx.lineCap = 'round';
+        ctx.beginPath();
+        ctx.moveTo(c, c);
+        ctx.lineTo(ex, ey);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.arc(ex, ey, it.sign > 0 ? 17 : 11, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.globalAlpha = Math.min(1, ctx.globalAlpha + 0.3);
+        ctx.fillStyle = '#0b1120';
+        ctx.font = (it.sign > 0 ? 'bold 22px' : 'bold 15px') + ' system-ui, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText((it.sign > 0 ? '' : '-') + it.a.label, ex, ey + 1);
+      });
+      ctx.globalAlpha = 1;
+
+      camera.getWorldDirection(cs.dir);
+      let d = cs.dir;
+      let ax = Math.abs(d.x), ay = Math.abs(d.y), az = Math.abs(d.z);
+      let name;
+      if (ay > ax && ay > az) name = d.y > 0 ? '+Y (up)' : '-Y (down)';
+      else if (ax > az) name = d.x > 0 ? '+X' : '-X';
+      else name = d.z > 0 ? '+Z' : '-Z';
+      let heading = Math.round((Math.atan2(d.x, -d.z) * 180 / Math.PI + 360) % 360) % 360;
+      let text = 'Facing <b>' + name + '</b> &middot; ' + heading + '&deg;';
+      if (text !== cs.last) { cs.last = text; cs.readout.innerHTML = text; }
+
+      let p = camera.position;
+      [p.x, p.y, p.z].forEach((v, i) => {
+        let t = (Math.abs(v) < 0.05 ? 0 : v).toFixed(1);
+        if (t !== cs.posText[i]) { cs.posText[i] = t; cs.pos[i].textContent = t; }
+      });
+    }
+
+    function setLightPathsVisible(on) {
+      STATE.showLightPaths = on;
+      let btn = document.getElementById('btn-toggle-paths');
+      if (btn) btn.classList.toggle('active', on);
+      try { localStorage.setItem('scene_maker_show_light_paths', on ? '1' : '0'); } catch (err) {}
+      showToast(on ? "Light paths shown" : "Light paths hidden");
+    }
+
+    function toggleLocomotionMode() {
+      if (STATE.locomotion === 'fly') {
+        STATE.locomotion = 'walk';
+        camera.position.y = Math.max(cameraState.eyeHeight, camera.position.y);
+        cameraState.velocity.y = 0;
+        cameraState.walkVel.x = 0; cameraState.walkVel.z = 0;
+        showToast("WALK MODE ACTIVATED");
+      } else {
+        STATE.locomotion = 'fly';
+        showToast("FLY MODE ACTIVATED");
+      }
+
+      //const badge = document.getElementById('locomotion-badge');
+      //badge.innerText = STATE.locomotion.toUpperCase() + " MODE";
+      //if (STATE.locomotion === 'walk') badge.classList.add('walk');
+      //else badge.classList.remove('walk');
+      
+      
+    }
+
+    function deleteSelectedOrHoveredObjects() {
+      if (STATE.selectedObjects.length > 0) {
+        const count = STATE.selectedObjects.length;
+        [...STATE.selectedObjects].forEach(obj => window.sceneAPI.removeObject(obj.id));
+        STATE.selectedObjects = [];
+        showToast(`${count} Selected Objects Deleted`);
+      } else if (STATE.hoveredObject) {
+        window.sceneAPI.removeObject(STATE.hoveredObject.id);
+        STATE.hoveredObject = null;
+        showToast("Object Deleted");
+      }
+    }
+
+    function onWindowResize() {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+
+    // --- Walk Mode Block Collision ---
+    function getBlockBounds(obj) {
+      obj.body.computeAABB();
+      return obj.body.aabb;
+    }
+
+    function isBlockedAt(x, z, footY, headY) {
+      let r = cameraState.radius;
+      return STATE.objects.some(o => {
+        if (o.type === 'area') return false;
+        let b = getBlockBounds(o);
+        return x > b.lowerBound.x - r && x < b.upperBound.x + r &&
+               z > b.lowerBound.z - r && z < b.upperBound.z + r &&
+               headY > b.lowerBound.y && footY + cameraState.stepHeight < b.upperBound.y;
+      });
+    }
+
+    function getFloorHeight(x, z, footY) {
+      let r = cameraState.radius;
+      let floorY = 0;
+      STATE.objects.forEach(o => {
+        if (o.type === 'area') return;
+        let b = getBlockBounds(o);
+        let top = b.upperBound.y;
+        let inside = x > b.lowerBound.x - r && x < b.upperBound.x + r &&
+                     z > b.lowerBound.z - r && z < b.upperBound.z + r;
+        if (inside && top <= footY + cameraState.stepHeight && top > floorY) floorY = top;
+      });
+      return floorY;
+    }
+
+    // --- Locomotion & Camera Physics ---
+    function updateCameraLocomotion(dt) {
+      const euler = new THREE.Euler(cameraState.pitch, cameraState.yaw, 0, 'YXZ');
+      camera.quaternion.setFromEuler(euler);
+
+      if (!STATE.isPointerLocked) {
+        cameraState.walkVel.x = 0; cameraState.walkVel.z = 0; cameraState.sprint = false;
+        return;
+      }
+
+      const forward = new THREE.Vector3(0, 0, -1).applyQuaternion(camera.quaternion);
+      const right = new THREE.Vector3(1, 0, 0).applyQuaternion(camera.quaternion);
+      const up = new THREE.Vector3(0, 1, 0);
+
+      if (STATE.locomotion === 'fly') {
+        // Free 3D Spatial Flight
+        const moveDir = new THREE.Vector3();
+        if (cameraState.keys.w) moveDir.add(forward);
+        if (cameraState.keys.s) moveDir.sub(forward);
+        if (cameraState.keys.d) moveDir.add(right);
+        if (cameraState.keys.a) moveDir.sub(right);
+        if (cameraState.keys.space) moveDir.add(up);
+        if (cameraState.keys.shift && STATE.mode !== 'select') moveDir.sub(up);
+        if (cameraState.keys.c) moveDir.sub(up);
+
+        if (moveDir.lengthSq() > 0) {
+          moveDir.normalize();
+          camera.position.addScaledVector(moveDir, cameraState.moveSpeed * (cameraState.sprint ? cameraState.sprintMult : 1) * dt);
+        }
+      } else {
+        // Walk Mode with Ground Gravity & Eye Height
+        const planarForward = new THREE.Vector3(forward.x, 0, forward.z).normalize();
+        const planarRight = new THREE.Vector3(right.x, 0, right.z).normalize();
+
+        const moveDir = new THREE.Vector3();
+        if (cameraState.keys.w) moveDir.add(planarForward);
+        if (cameraState.keys.s) moveDir.sub(planarForward);
+        if (cameraState.keys.d) moveDir.add(planarRight);
+        if (cameraState.keys.a) moveDir.sub(planarRight);
+
+        let footY = camera.position.y - cameraState.eyeHeight;
+        let headY = camera.position.y + 0.2;
+
+        let wv = cameraState.walkVel;
+        let wantsMove = moveDir.lengthSq() > 0;
+        if (wantsMove) moveDir.normalize();
+        let topSpeed = cameraState.walkSpeed * (cameraState.sprint && cameraState.keys.w ? cameraState.sprintMult : 1);
+        let rate = wantsMove ? cameraState.accelRate : cameraState.brakeRate;
+        let blend = 1 - Math.exp(-rate * dt);
+        wv.x += (moveDir.x * topSpeed - wv.x) * blend;
+        wv.z += (moveDir.z * topSpeed - wv.z) * blend;
+        if (!wantsMove && Math.abs(wv.x) + Math.abs(wv.z) < 0.04) { wv.x = 0; wv.z = 0; }
+
+        if (wv.x !== 0 || wv.z !== 0) {
+          let stepX = wv.x * dt;
+          let stepZ = wv.z * dt;
+          if (!isBlockedAt(camera.position.x + stepX, camera.position.z, footY, headY)) camera.position.x += stepX;
+          else wv.x = 0;
+          if (!isBlockedAt(camera.position.x, camera.position.z + stepZ, footY, headY)) camera.position.z += stepZ;
+          else wv.z = 0;
+        }
+
+        let floorY = getFloorHeight(camera.position.x, camera.position.z, footY);
+
+        cameraState.velocity.y -= 18.0 * dt;
+        camera.position.y += cameraState.velocity.y * dt;
+
+        let minY = floorY + cameraState.eyeHeight;
+        if (camera.position.y <= minY) {
+          camera.position.y = minY;
+          cameraState.velocity.y = 0;
+          cameraState.isGrounded = true;
+        } else {
+          cameraState.isGrounded = false;
+        }
+      }
+    }
+
+    // --- Raycasting & Hover Loop ---
+    function updateRaycasting() {
+      raycaster.setFromCamera(mouseVector, camera);
+
+      const interactiveMeshes = [groundMesh];
+      STATE.objects.forEach(obj => {
+        interactiveMeshes.push(obj.mesh);
+        obj.mesh.traverse(child => { if (child.isMesh) interactiveMeshes.push(child); });
+      });
+
+      const intersects = raycaster.intersectObjects(interactiveMeshes);
+
+      if (STATE.hoveredObject && !STATE.selectedObjects.includes(STATE.hoveredObject) && STATE.hoveredObject !== grabState.grabbedObject) {
+        refreshHighlight(STATE.hoveredObject);
+        STATE.hoveredObject = null;
+      }
+
+      buildPreviewMesh.visible = false;
+      spawnAreaPreview.visible = false;
+      chainPreviewLine.visible = false;
+
+      if (intersects.length > 0) {
+        const hit = intersects[0];
+        const hitObject = getRootBlockObject(hit.object);
+
+        if (STATE.mode === 'spawn') {
+          const normal = hit.face.normal.clone().transformDirection(hit.object.matrixWorld);
+
+          if (STATE.spawnType === 'area') {
+            let pl = getAreaPlacement(hit, normal);
+            spawnAreaPreview.position.set(pl.x, pl.y, pl.z);
+            spawnAreaPreview.scale.set(pl.width, pl.height, pl.depth);
+            spawnAreaPreview.visible = true;
+          } else if (STATE.spawnType === 'building') {
+            const gridPos = new THREE.Vector3(
+              Math.round(hit.point.x + normal.x * 0.45),
+              Math.max(0, Math.floor(hit.point.y + normal.y * 0.45)) + 0.5,
+              Math.round(hit.point.z + normal.z * 0.45)
+            );
+            buildPreviewMesh.position.copy(gridPos);
+            buildPreviewMesh.visible = true;
+          } else {
+            const spawnPos = hit.point.clone().add(normal.clone().multiplyScalar(0.5));
+            if (spawnPos.y < 0.5) spawnPos.y = 0.5;
+            buildPreviewMesh.position.copy(spawnPos);
+            buildPreviewMesh.visible = true;
+          }
+        }
+        else if (STATE.mode === 'link') {
+          if (hitObject) {
+            STATE.hoveredObject = hitObject;
+            if (!STATE.activeChain.includes(hitObject)) {
+              setObjectEmissive(hitObject, 0x10b981);
+            }
+          }
+
+          if (STATE.activeChain.length > 0) {
+            const lastCube = STATE.activeChain[STATE.activeChain.length - 1];
+            const p1 = lastCube.mesh.position;
+            const p2 = hit.point;
+
+            const positions = chainPreviewLine.geometry.attributes.position.array;
+            positions[0] = p1.x; positions[1] = p1.y; positions[2] = p1.z;
+            positions[3] = p2.x; positions[4] = p2.y; positions[5] = p2.z;
+            chainPreviewLine.geometry.attributes.position.needsUpdate = true;
+            chainPreviewLine.computeLineDistances();
+            chainPreviewLine.visible = true;
+          }
+        }
+        else if (STATE.mode === 'select' || STATE.mode === 'grab') {
+          if (hitObject && hitObject !== grabState.grabbedObject) {
+            STATE.hoveredObject = hitObject;
+            if (!STATE.selectedObjects.includes(hitObject)) {
+              setObjectEmissive(hitObject, STATE.mode === 'grab' ? 0xfbbf24 : 0x38bdf8);
+            }
+          }
+        }
+      }
+    }
+
+    function getInteractiveMeshes(includeGround) {
+      let list = includeGround ? [groundMesh] : [];
+      STATE.objects.forEach(obj => {
+        list.push(obj.mesh);
+        obj.mesh.traverse(child => { if (child.isMesh) list.push(child); });
+      });
+      return list;
+    }
+
+    function pickBlockAtCursor(e) {
+      let ndc = mouseVector;
+      if (!STATE.isPointerLocked && e) {
+        ndc = new THREE.Vector2((e.clientX / window.innerWidth) * 2 - 1, -(e.clientY / window.innerHeight) * 2 + 1);
+      }
+      raycaster.setFromCamera(ndc, camera);
+      let hits = raycaster.intersectObjects(getInteractiveMeshes(false));
+      if (hits.length === 0) return null;
+      return getRootBlockObject(hits[0].object) || null;
+    }
+
+    function getRootBlockObject(mesh) {
+      let curr = mesh;
+      while (curr && curr.parent && curr.parent !== scene) {
+        curr = curr.parent;
+      }
+      return STATE.objects.find(o => o.mesh === curr);
+    }
+
+    function setObjectEmissive(obj, hexColor) {
+      if (!obj || !obj.mesh) return;
+      obj.mesh.traverse(child => {
+        if (child.isMesh && child.material && child.material.emissive) {
+          child.material.emissive.setHex(hexColor);
+        }
+      });
+    }
+
+    // --- Click Handlers ---
+    function handleInteractionClick(e) {
+      if (STATE.mode === 'select' && e && e.shiftKey) {
+        handleAreaClick();
+        return;
+      }
+
+      if (areaState.active) {
+        cancelArea();
+        return;
+      }
+
+      raycaster.setFromCamera(mouseVector, camera);
+      const interactiveMeshes = [groundMesh];
+      STATE.objects.forEach(obj => {
+        interactiveMeshes.push(obj.mesh);
+        obj.mesh.traverse(child => { if (child.isMesh) interactiveMeshes.push(child); });
+      });
+
+      const intersects = raycaster.intersectObjects(interactiveMeshes);
+      if (intersects.length === 0) return;
+      const hit = intersects[0];
+      const hitObject = getRootBlockObject(hit.object);
+
+      if (STATE.mode === 'spawn') {
+        const normal = hit.face.normal.clone().transformDirection(hit.object.matrixWorld);
+
+        if (STATE.spawnType === 'area') {
+          let pl = getAreaPlacement(hit, normal);
+          window.sceneAPI.spawnArea({ x: pl.x, y: pl.y, z: pl.z, mode: pl.mode, width: pl.width, height: pl.height, depth: pl.depth });
+          showToast("Spawn area placed. Right-click it and add targets, or press T");
+        } else if (STATE.spawnType === 'building') {
+          const gridX = Math.round(hit.point.x + normal.x * 0.45);
+          const gridY = Math.max(0, Math.floor(hit.point.y + normal.y * 0.45));
+          const gridZ = Math.round(hit.point.z + normal.z * 0.45);
+          window.sceneAPI.spawnBuildingBlock({ gridX, gridY, gridZ });
+        } else {
+          const spawnPos = hit.point.clone().add(normal.clone().multiplyScalar(0.5));
+          if (spawnPos.y < 0.5) spawnPos.y = 0.5;
+
+          if (STATE.spawnType === 'light') window.sceneAPI.spawnLight({ x: spawnPos.x, y: spawnPos.y, z: spawnPos.z });
+          else if (STATE.spawnType === 'camera') window.sceneAPI.spawnCamera({ x: spawnPos.x, y: spawnPos.y, z: spawnPos.z });
+          else if (STATE.spawnType === 'target') window.sceneAPI.spawnTarget({ x: spawnPos.x, y: spawnPos.y, z: spawnPos.z, isLocked: true });
+          else if (STATE.spawnType === 'cube') window.sceneAPI.spawnCube({ x: spawnPos.x, y: spawnPos.y, z: spawnPos.z });
+        }
+      }
+      else if (STATE.mode === 'select') {
+        if (hitObject) {
+          toggleObjectSelection(hitObject);
+        } else {
+          clearSelection();
+        }
+      }
+      else if (STATE.mode === 'link') {
+        if (hitObject) addCubeToChain(hitObject);
+      }
+      else if (STATE.mode === 'grab') {
+        if (grabState.grabbedObject) stopGrab();
+        else if (hitObject) startGrab(hitObject, hit.point);
+      }
+    }
+
+    function toggleObjectSelection(obj) {
+      const idx = STATE.selectedObjects.indexOf(obj);
+      if (idx > -1) {
+        STATE.selectedObjects.splice(idx, 1);
+        refreshHighlight(obj);
+      } else {
+        STATE.selectedObjects.push(obj);
+        setObjectEmissive(obj, 0x38bdf8);
+      }
+    }
+
+    function clearSelection() {
+      let old = STATE.selectedObjects;
+      STATE.selectedObjects = [];
+      old.forEach(obj => refreshHighlight(obj));
+    }
+
+    function refreshHighlight(obj) {
+      if (!obj) return;
+      let hex = 0x000000;
+      if (STATE.activeChain.includes(obj)) hex = 0x059669;
+      if (STATE.selectedObjects.includes(obj) || STATE.selectedObjectForInspector === obj) hex = 0x38bdf8;
+      if (grabState.grabbedObject === obj) hex = 0xfbbf24;
+      setObjectEmissive(obj, hex);
+    }
+
+    function getActionTargets() {
+      if (STATE.selectedObjects.length > 0) return STATE.selectedObjects;
+      if (STATE.selectedObjectForInspector) return [STATE.selectedObjectForInspector];
+      return [];
+    }
+
+    function getAimPoint() {
+      raycaster.setFromCamera(mouseVector, camera);
+      let hits = raycaster.intersectObjects(getInteractiveMeshes(true));
+      if (hits.length > 0) return hits[0].point.clone();
+      return camera.position.clone().add(new THREE.Vector3(0, 0, -20).applyQuaternion(camera.quaternion));
+    }
+
+    function getAreaBounds() {
+      let a = areaState.start;
+      let b = areaState.end;
+      let minY = Math.min(a.y, b.y);
+      return {
+        minX: Math.min(a.x, b.x), maxX: Math.max(a.x, b.x),
+        minZ: Math.min(a.z, b.z), maxZ: Math.max(a.z, b.z),
+        minY: minY, maxY: Math.max(minY + areaState.height, Math.max(a.y, b.y))
+      };
+    }
+
+    function handleAreaClick() {
+      let p = getAimPoint();
+
+      if (!areaState.active) {
+        areaState.active = true;
+        areaState.start.copy(p);
+        areaState.end.copy(p);
+        areaState.mesh.visible = true;
+        showToast("Corner set. Aim at the opposite corner and Shift+Click again (wheel = height)");
+        return;
+      }
+
+      areaState.end.copy(p);
+      let b = getAreaBounds();
+      cancelArea();
+
+      if (b.maxX - b.minX < 0.3 && b.maxZ - b.minZ < 0.3) {
+        showToast("Area too small");
+        return;
+      }
+
+      let m = 0.25;
+      let added = 0;
+      STATE.objects.forEach(o => {
+        let p2 = o.mesh.position;
+        let inside = p2.x >= b.minX - m && p2.x <= b.maxX + m &&
+                     p2.z >= b.minZ - m && p2.z <= b.maxZ + m &&
+                     p2.y >= b.minY - m && p2.y <= b.maxY + m;
+        if (inside && !STATE.selectedObjects.includes(o)) {
+          STATE.selectedObjects.push(o);
+          refreshHighlight(o);
+          added++;
+        }
+      });
+
+      showToast(added + " added, " + STATE.selectedObjects.length + " selected");
+    }
+
+    function cancelArea() {
+      if (!areaState.active) return;
+      areaState.active = false;
+      if (areaState.mesh) areaState.mesh.visible = false;
+    }
+
+    function updateAreaPreview() {
+      if (!areaState.active) return;
+      areaState.end.copy(getAimPoint());
+      let b = getAreaBounds();
+      areaState.mesh.position.set((b.minX + b.maxX) / 2, (b.minY + b.maxY) / 2, (b.minZ + b.maxZ) / 2);
+      areaState.mesh.scale.set(Math.max(b.maxX - b.minX, 0.05), Math.max(b.maxY - b.minY, 0.05), Math.max(b.maxZ - b.minZ, 0.05));
+    }
+
+    function updateSelectionPanel() {
+      let count = STATE.selectedObjects.length;
+      if (count === selectionPanelCount) return;
+      selectionPanelCount = count;
+      document.getElementById('selection-panel').classList.toggle('open', count > 0);
+      document.getElementById('selection-count').innerText = count + (count === 1 ? ' block selected' : ' blocks selected');
+    }
+
+    function getViewAxes() {
+      let q = camera.quaternion;
+      let right = new THREE.Vector3(1, 0, 0).applyQuaternion(q);
+      let forward = new THREE.Vector3(0, 0, -1).applyQuaternion(q);
+      if (Math.hypot(forward.x, forward.z) < 0.35) forward = new THREE.Vector3(0, 1, 0).applyQuaternion(q);
+
+      let rightAxis = Math.abs(right.x) >= Math.abs(right.z)
+        ? new THREE.Vector3(Math.sign(right.x) || 1, 0, 0)
+        : new THREE.Vector3(0, 0, Math.sign(right.z) || 1);
+
+      let forwardAxis = rightAxis.x !== 0
+        ? new THREE.Vector3(0, 0, Math.sign(forward.z) || -1)
+        : new THREE.Vector3(Math.sign(forward.x) || 1, 0, 0);
+
+      return { forward: forwardAxis, right: rightAxis };
+    }
+
+    function moveObjectBy(obj, d) {
+      let p = obj.body.position;
+      obj.body.computeAABB();
+      let half = (obj.body.aabb.upperBound.y - obj.body.aabb.lowerBound.y) / 2;
+      let nx = p.x + d.x;
+      let ny = Math.max(p.y + d.y, half);
+      let nz = p.z + d.z;
+
+      obj.body.position.set(nx, ny, nz);
+      obj.mesh.position.set(nx, ny, nz);
+      obj.body.velocity.set(0, 0, 0);
+      obj.body.angularVelocity.set(0, 0, 0);
+      obj.body.aabbNeedsUpdate = true;
+      obj.body.wakeUp();
+
+      if (obj.type === 'building') {
+        obj.gridX = nx;
+        obj.gridY = ny - 0.5;
+        obj.gridZ = nz;
+      }
+    }
+
+    function rebuildLinkConstraint(l) {
+      if (grabState.suspendedLinks.includes(l)) return;
+      if (l.constraint) physicsWorld.removeConstraint(l.constraint);
+      let dist = l.bodyA.position.distanceTo(l.bodyB.position);
+      l.constraint = new CANNON.DistanceConstraint(l.bodyA, l.bodyB, dist);
+      physicsWorld.addConstraint(l.constraint);
+    }
+
+    function refreshTargetLinks(targets) {
+      let touched = new Set();
+      targets.forEach(o => {
+        STATE.links.forEach(l => { if (l.objectA === o || l.objectB === o) touched.add(l); });
+      });
+      touched.forEach(l => rebuildLinkConstraint(l));
+    }
+
+    function syncInspectorFields() {
+      let o = STATE.selectedObjectForInspector;
+      if (!o) return;
+      document.getElementById('insp-pos-x').value = o.mesh.position.x.toFixed(2);
+      document.getElementById('insp-pos-y').value = o.mesh.position.y.toFixed(2);
+      document.getElementById('insp-pos-z').value = o.mesh.position.z.toFixed(2);
+      document.getElementById('insp-lock-physics').checked = o.isLocked;
+    }
+
+    function nudgeTargets(code) {
+      let targets = getActionTargets();
+      if (targets.length === 0) return;
+
+      let axes = getViewAxes();
+      let d = new THREE.Vector3();
+      if (code === 'ArrowUp') d.copy(axes.forward);
+      else if (code === 'ArrowDown') d.copy(axes.forward).negate();
+      else if (code === 'ArrowRight') d.copy(axes.right);
+      else if (code === 'ArrowLeft') d.copy(axes.right).negate();
+      else if (code === 'PageUp') d.set(0, 1, 0);
+      else if (code === 'PageDown') d.set(0, -1, 0);
+      d.multiplyScalar(nudgeState.step);
+
+      targets.forEach(o => moveObjectBy(o, d));
+      refreshTargetLinks(targets);
+      syncInspectorFields();
+    }
+
+    function massRotate(deg) {
+      let targets = getActionTargets();
+      if (targets.length === 0) return;
+
+      let q = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), THREE.MathUtils.degToRad(deg));
+      let pivot = new THREE.Vector3();
+      targets.forEach(o => pivot.add(o.mesh.position));
+      pivot.divideScalar(targets.length);
+
+      if (targets.length > 1 && Math.abs(deg) % 90 === 0 && targets.every(o => o.type === 'building')) {
+        pivot.x = Math.round(pivot.x);
+        pivot.z = Math.round(pivot.z);
+      }
+
+      let rel = new THREE.Vector3();
+      let d = new THREE.Vector3();
+      targets.forEach(o => {
+        rel.copy(o.mesh.position).sub(pivot).applyQuaternion(q);
+        let nx = Math.round((pivot.x + rel.x) * 10000) / 10000;
+        let nz = Math.round((pivot.z + rel.z) * 10000) / 10000;
+        d.set(nx - o.mesh.position.x, 0, nz - o.mesh.position.z);
+        moveObjectBy(o, d);
+        o.mesh.quaternion.premultiply(q);
+        o.body.quaternion.copy(o.mesh.quaternion);
+        o.body.aabbNeedsUpdate = true;
+      });
+
+      refreshTargetLinks(targets);
+      syncInspectorFields();
+    }
+
+    function massSetLocked(locked) {
+      let targets = getActionTargets();
+      if (targets.length === 0) return;
+
+      let n = 0;
+      targets.forEach(o => {
+        if (o.type === 'building' || o.type === 'area') return;
+        window.sceneAPI.setObjectPhysics(o.id, locked);
+        n++;
+      });
+
+      syncInspectorFields();
+      showToast(n > 0 ? (locked ? 'Locked ' : 'Physics enabled on ') + n + ' blocks' : 'Building blocks are always locked');
+    }
+
+    function cloneObject(o, d) {
+      if (o.areaRef) {
+        return o.areaRef.spawnTarget({ isLocked: o.isLocked, rotation: THREE.MathUtils.radToDeg(o.localRot) });
+      }
+
+      let p = o.body.position;
+      let x = p.x + d.x;
+      let y = p.y + d.y;
+      let z = p.z + d.z;
+      let rec = null;
+
+      if (o.type === 'light') rec = createLightBlock({ x, y, z, color: o.color, angle: o.angle, intensity: o.intensity, beamLength: o.beamLength, isLocked: o.isLocked });
+      else if (o.type === 'camera') rec = createCameraBlock({ x, y, z, fov: o.fov, range: o.range, trackMode: o.trackMode, isLocked: o.isLocked });
+      else if (o.type === 'target') rec = createTargetBlock({ x, y, z, isLocked: o.isLocked });
+      else if (o.type === 'building') rec = createBuildingBlock({ gridX: x, gridY: y - 0.5, gridZ: z, color: o.color });
+      else if (o.type === 'area') {
+        rec = createAreaBlock({ x, y, z, mode: o.dimMode, width: o.width, height: o.height, depth: o.depth, targetCollision: o.targetCollision });
+        o.targets.forEach(t => {
+          let tc = t.getLocal();
+          spawnTargetInArea(rec, { x: tc.x, y: tc.y, z: tc.z, rotation: THREE.MathUtils.radToDeg(t.localRot), isLocked: t.isLocked });
+        });
+      }
+      else {
+        rec = createNormalCube({ x, y, z, color: o.color });
+        if (o.isLocked) window.sceneAPI.setObjectPhysics(rec.id, true);
+      }
+
+      rec.mesh.quaternion.copy(o.mesh.quaternion);
+      rec.body.quaternion.copy(rec.mesh.quaternion);
+      return rec;
+    }
+
+    function massDuplicate() {
+      let sources = [...getActionTargets()];
+      sources = sources.filter(o => !(o.areaRef && sources.includes(o.areaRef)));
+      if (sources.length === 0) return;
+
+      let axis = getViewAxes().right;
+      let min = Infinity;
+      let max = -Infinity;
+      sources.forEach(o => {
+        let v = o.body.position.x * axis.x + o.body.position.z * axis.z;
+        let half = 0.5;
+        if (o.type === 'area') {
+          o.body.computeAABB();
+          half = Math.abs(axis.x) * (o.body.aabb.upperBound.x - o.body.aabb.lowerBound.x) / 2 +
+                 Math.abs(axis.z) * (o.body.aabb.upperBound.z - o.body.aabb.lowerBound.z) / 2;
+        }
+        min = Math.min(min, v - half);
+        max = Math.max(max, v + half);
+      });
+
+      let d = axis.clone().multiplyScalar(Math.ceil(max - min - 0.001));
+      let copies = sources.map(o => cloneObject(o, d)).filter(Boolean);
+      if (copies.length === 0) { showToast("Nothing to duplicate (spawn area full)"); return; }
+      let old = STATE.selectedObjects;
+
+      STATE.selectedObjects = copies;
+      old.forEach(o => refreshHighlight(o));
+      sources.forEach(o => refreshHighlight(o));
+      copies.forEach(o => refreshHighlight(o));
+      showToast(copies.length + ' duplicated');
+    }
+
+    function resetInteractionState() {
+      if (grabState.grabConstraint) {
+        physicsWorld.removeConstraint(grabState.grabConstraint);
+        grabState.grabConstraint = null;
+      }
+      grabState.grabbedObject = null;
+      grabState.suspendedLinks = [];
+      grabState.kinematic = false;
+      grabState.beamLine.visible = false;
+      document.getElementById('crosshair').classList.remove('grab-active');
+      STATE.selectedObjects = [];
+      STATE.activeChain = [];
+      cancelArea();
+      STATE.hoveredObject = null;
+      STATE.selectedObjectForInspector = null;
+      document.getElementById('inspector-panel').classList.remove('open');
+    }
+
+    function updateSelectionHighlightHelpers() {
+      // Remove stale box helpers
+      for (const [id, helper] of selectionHighlightHelpers.entries()) {
+        if (!STATE.selectedObjects.some(o => o.id === id)) {
+          scene.remove(helper);
+          selectionHighlightHelpers.delete(id);
+        }
+      }
+
+      // Add/update active selection helpers
+      STATE.selectedObjects.forEach(obj => {
+        if (!selectionHighlightHelpers.has(obj.id)) {
+          const helper = new THREE.BoxHelper(obj.mesh, 0x38bdf8);
+          scene.add(helper);
+          selectionHighlightHelpers.set(obj.id, helper);
+        } else {
+          selectionHighlightHelpers.get(obj.id).update();
+        }
+      });
+    }
+
+    // --- Block Factory Definitions ---
+
+    // --- Spawn Areas ---
+    let areaSpawnConfig = { mode: '1D', width: 6, height: 1, depth: 1 };
+    let AREA_LIMITS = { width: 50, height: 20, depth: 50 };
+    let AREA_MODES = ['1D', '2D', '3D'];
+    let TARGET_HALF = 0.45;
+    let AXIS_Y = new THREE.Vector3(0, 1, 0);
+    let areaEuler = new THREE.Euler();
+    let areaQuat = new THREE.Quaternion();
+    let areaPanelCache = '';
+    let areaPanelStamp = 0;
+
+    function clampInt(v, lo, hi, fallback) {
+      v = Math.round(parseFloat(v));
+      if (!isFinite(v)) v = fallback;
+      return Math.max(lo, Math.min(hi, v));
+    }
+
+    function wrapPi(a) {
+      while (a > Math.PI) a -= Math.PI * 2;
+      while (a < -Math.PI) a += Math.PI * 2;
+      return a;
+    }
+
+    function getYawOf(q) {
+      areaEuler.setFromQuaternion(q, 'YXZ');
+      return areaEuler.y;
+    }
+
+    function normalizeAreaDims(mode, w, h, d) {
+      return {
+        width: clampInt(w, 1, AREA_LIMITS.width, 1),
+        height: mode === '1D' ? 1 : clampInt(h, 1, AREA_LIMITS.height, 1),
+        depth: mode === '3D' ? clampInt(d, 1, AREA_LIMITS.depth, 1) : 1
+      };
+    }
+
+    function getAreaPlacement(hit, normal) {
+      let dims = normalizeAreaDims(areaSpawnConfig.mode, areaSpawnConfig.width, areaSpawnConfig.height, areaSpawnConfig.depth);
+      let gx = Math.round(hit.point.x + normal.x * 0.45);
+      let gy = Math.max(0, Math.floor(hit.point.y + normal.y * 0.45));
+      let gz = Math.round(hit.point.z + normal.z * 0.45);
+      return {
+        x: gx + (dims.width - 1) / 2,
+        y: gy + dims.height / 2,
+        z: gz + (dims.depth - 1) / 2,
+        width: dims.width, height: dims.height, depth: dims.depth,
+        mode: areaSpawnConfig.mode
+      };
+    }
+
+    function areaLocalToWorld(area, lx, ly, lz, yaw) {
+      let c = Math.cos(yaw);
+      let s = Math.sin(yaw);
+      let p = area.mesh.position;
+      return { x: p.x + lx * c + lz * s, y: p.y + ly, z: p.z - lx * s + lz * c };
+    }
+
+    function areaWorldToLocal(area, wx, wy, wz, yaw) {
+      let c = Math.cos(yaw);
+      let s = Math.sin(yaw);
+      let p = area.mesh.position;
+      let dx = wx - p.x;
+      let dz = wz - p.z;
+      return { x: dx * c - dz * s, y: wy - p.y, z: dx * s + dz * c };
+    }
+
+    function fitLocalYaw(area, rot) {
+      let ratio = Math.min(area.width, area.depth) / (TARGET_HALF * 2);
+      if (ratio >= Math.SQRT2 - 1e-6) return rot;
+      let quarter = Math.PI / 2;
+      let k = Math.round(rot / quarter);
+      let off = rot - k * quarter;
+      let maxOff = Math.max(0, Math.asin(Math.min(1, ratio / Math.SQRT2)) - Math.PI / 4);
+      off = Math.max(-maxOff, Math.min(maxOff, off));
+      return k * quarter + off;
+    }
+
+    function clampLocalPos(area, lx, ly, lz, rot) {
+      let f = TARGET_HALF * (Math.abs(Math.cos(rot)) + Math.abs(Math.sin(rot)));
+      let mx = Math.max(0, area.width / 2 - f);
+      let my = Math.max(0, area.height / 2 - TARGET_HALF);
+      let mz = Math.max(0, area.depth / 2 - f);
+      return {
+        x: Math.max(-mx, Math.min(mx, lx)),
+        y: Math.max(-my, Math.min(my, ly)),
+        z: Math.max(-mz, Math.min(mz, lz))
+      };
+    }
+
+    function areaCellCenter(area, i, j, k) {
+      return { x: i + 0.5 - area.width / 2, y: j + 0.5 - area.height / 2, z: k + 0.5 - area.depth / 2 };
+    }
+
+    function cellToLocal(area, x, y, z) {
+      return { x: x - area.width / 2 + 0.5, y: y - area.height / 2 + 0.5, z: z - area.depth / 2 + 0.5 };
+    }
+
+    function localToCell(area, l) {
+      return { x: l.x + area.width / 2 - 0.5, y: l.y + area.height / 2 - 0.5, z: l.z + area.depth / 2 - 0.5 };
+    }
+
+    function areaCellKey(area, t) {
+      let i = Math.min(area.width - 1, Math.max(0, Math.floor(t.local.x + area.width / 2)));
+      let j = Math.min(area.height - 1, Math.max(0, Math.floor(t.local.y + area.height / 2)));
+      let k = Math.min(area.depth - 1, Math.max(0, Math.floor(t.local.z + area.depth / 2)));
+      return i + ',' + j + ',' + k;
+    }
+
+    function getFreeLocalCell(area, list) {
+      let taken = new Set();
+      (list || area.targets).forEach(t => taken.add(areaCellKey(area, t)));
+      for (let j = 0; j < area.height; j++) {
+        for (let k = 0; k < area.depth; k++) {
+          for (let i = 0; i < area.width; i++) {
+            if (!taken.has(i + ',' + j + ',' + k)) return areaCellCenter(area, i, j, k);
+          }
+        }
+      }
+      return null;
+    }
+
+    function writeTargetPose(area, t) {
+      let yaw = getYawOf(area.mesh.quaternion);
+      let w = areaLocalToWorld(area, t.local.x, t.local.y, t.local.z, yaw);
+      areaQuat.setFromAxisAngle(AXIS_Y, yaw + t.localRot);
+      let bp = t.body.position;
+      let bq = t.body.quaternion;
+      let moved = Math.abs(bp.x - w.x) > 1e-4 || Math.abs(bp.y - w.y) > 1e-4 || Math.abs(bp.z - w.z) > 1e-4;
+      let turned = Math.abs(areaQuat.x - bq.x) + Math.abs(areaQuat.y - bq.y) + Math.abs(areaQuat.z - bq.z) + Math.abs(areaQuat.w - bq.w) > 1e-4;
+
+      if (moved) {
+        t.body.position.set(w.x, w.y, w.z);
+        t.mesh.position.set(w.x, w.y, w.z);
+        t.body.velocity.set(0, 0, 0);
+        t.body.angularVelocity.set(0, 0, 0);
+      }
+      if (turned) {
+        t.body.quaternion.set(areaQuat.x, areaQuat.y, areaQuat.z, areaQuat.w);
+        t.mesh.quaternion.copy(areaQuat);
+        t.body.angularVelocity.set(0, 0, 0);
+      }
+      if (moved || turned) {
+        t.body.aabbNeedsUpdate = true;
+        t.body.wakeUp();
+      }
+    }
+
+    function constrainTargetLocal(area, t) {
+      t.localRot = fitLocalYaw(area, wrapPi(t.localRot));
+      let c = clampLocalPos(area, t.local.x, t.local.y, t.local.z, t.localRot);
+      t.local.x = c.x; t.local.y = c.y; t.local.z = c.z;
+    }
+
+    function getAreaSig(area) {
+      let p = area.mesh.position;
+      return [p.x, p.y, p.z, getYawOf(area.mesh.quaternion), area.width, area.height, area.depth].map(v => v.toFixed(4)).join('|');
+    }
+
+    function syncAreaTargets(area) {
+      area.targets.forEach(t => {
+        constrainTargetLocal(area, t);
+        writeTargetPose(area, t);
+      });
+      area.sig = getAreaSig(area);
+    }
+
+    function updateSpawnAreas() {
+      let now = performance.now();
+      STATE.objects.forEach(area => {
+        if (area.type !== 'area') return;
+
+        areaEuler.setFromQuaternion(area.mesh.quaternion, 'YXZ');
+        let yaw = areaEuler.y;
+        if (Math.abs(areaEuler.x) > 1e-4 || Math.abs(areaEuler.z) > 1e-4) {
+          area.mesh.quaternion.setFromAxisAngle(AXIS_Y, yaw);
+          area.body.quaternion.copy(area.mesh.quaternion);
+        }
+
+        let sig = getAreaSig(area);
+        let areaMoved = sig !== area.sig;
+        area.sig = sig;
+
+        area.targets.forEach(t => {
+          if (!areaMoved) {
+            let l = areaWorldToLocal(area, t.body.position.x, t.body.position.y, t.body.position.z, yaw);
+            t.local.x = l.x; t.local.y = l.y; t.local.z = l.z;
+            t.localRot = wrapPi(getYawOf(t.mesh.quaternion) - yaw);
+          }
+          constrainTargetLocal(area, t);
+          writeTargetPose(area, t);
+        });
+
+        if (STATE.selectedObjectForInspector === area && now - areaPanelStamp > 250) {
+          areaPanelStamp = now;
+          refreshAreaPanel(area);
+        }
+      });
+    }
+
+    function reflowAreaTargets(area) {
+      let hx = area.width / 2 - TARGET_HALF;
+      let hy = area.height / 2 - TARGET_HALF;
+      let hz = area.depth / 2 - TARGET_HALF;
+      let outside = area.targets.filter(t => Math.abs(t.local.x) > hx + 1e-3 || Math.abs(t.local.y) > hy + 1e-3 || Math.abs(t.local.z) > hz + 1e-3);
+      let placed = area.targets.filter(t => !outside.includes(t));
+      outside.forEach(t => {
+        let cell = getFreeLocalCell(area, placed);
+        if (cell) { t.local.x = cell.x; t.local.y = cell.y; t.local.z = cell.z; }
+        placed.push(t);
+      });
+    }
+
+    function syncAreaBody(area) {
+      let b = area.body;
+      b.shapes.length = 0;
+      b.shapeOffsets.length = 0;
+      b.shapeOrientations.length = 0;
+      b.addShape(new CANNON.Box(new CANNON.Vec3(area.width / 2, area.height / 2, area.depth / 2)));
+      b.updateBoundingRadius();
+      b.aabbNeedsUpdate = true;
+    }
+
+    function buildAreaVisuals(area) {
+      let group = area.mesh;
+      for (let i = group.children.length - 1; i >= 0; i--) {
+        let c = group.children[i];
+        group.remove(c);
+        if (c.geometry) c.geometry.dispose();
+        if (c.material) c.material.dispose();
+      }
+
+      let w = area.width, h = area.height, d = area.depth;
+      let boxGeo = new THREE.BoxGeometry(w, h, d);
+      let outline = new THREE.LineSegments(
+        new THREE.EdgesGeometry(boxGeo),
+        new THREE.LineDashedMaterial({ color: 0xa78bfa, dashSize: 0.28, gapSize: 0.16, fog: false })
+      );
+      boxGeo.dispose();
+      outline.computeLineDistances();
+      outline.raycast = () => {};
+      group.add(outline);
+
+      let handleMat = new THREE.MeshStandardMaterial({ color: 0xa78bfa, roughness: 0.4, metalness: 0.2 });
+      let center = new THREE.Mesh(new THREE.OctahedronGeometry(0.22), handleMat);
+      group.add(center);
+
+      let cornerGeo = new THREE.BoxGeometry(0.2, 0.2, 0.2);
+      [-1, 1].forEach(sx => [-1, 1].forEach(sy => [-1, 1].forEach(sz => {
+        let m = new THREE.Mesh(cornerGeo, handleMat);
+        m.position.set(sx * w / 2, sy * h / 2, sz * d / 2);
+        group.add(m);
+      })));
+    }
+
+    function createAreaBlock({ id, x = 0, y, z = 0, mode = '1D', width = 6, height = 1, depth = 1, rotation = 0, targetCollision = false } = {}) {
+      if (!AREA_MODES.includes(mode)) mode = '1D';
+      let dims = normalizeAreaDims(mode, width, height, depth);
+      if (y === undefined) y = 0;
+      y = Math.max(y, dims.height / 2);
+
+      let group = new THREE.Group();
+      group.position.set(x, y, z);
+      scene.add(group);
+
+      let body = new CANNON.Body({ mass: 0, position: new CANNON.Vec3(x, y, z) });
+      body.collisionFilterGroup = 0;
+      body.collisionFilterMask = 0;
+      physicsWorld.addBody(body);
+
+      let area = {
+        id: id || makeId('area'),
+        type: 'area',
+        mesh: group,
+        body: body,
+        isLocked: true,
+        dimMode: mode,
+        width: dims.width, height: dims.height, depth: dims.depth,
+        targets: [],
+        targetCollision: !!targetCollision,
+        sig: null
+      };
+
+      decorateAreaRecord(area);
+      syncAreaBody(area);
+      buildAreaVisuals(area);
+      if (rotation) setAreaRotation(area, rotation);
+
+      STATE.objects.push(area);
+      sfx.playSpawn();
+      return area;
+    }
+
+    function decorateAreaRecord(area) {
+      Object.defineProperty(area, 'count', { get: () => area.targets.length, enumerable: false });
+      Object.defineProperty(area, 'capacity', { get: () => area.width * area.height * area.depth, enumerable: false });
+      area.spawnTarget = (opts) => spawnTargetInArea(area, opts);
+      area.spawnTargets = (n, opts) => {
+        let out = [];
+        for (let i = 0; i < n; i++) {
+          let t = spawnTargetInArea(area, Object.assign({}, opts));
+          if (!t) break;
+          out.push(t);
+        }
+        return out;
+      };
+      area.getTarget = (i) => area.targets[i] || null;
+      area.removeTarget = (ref) => removeAreaTarget(area, ref);
+      area.clearTargets = () => { [...area.targets].forEach(t => window.sceneAPI.removeObject(t.id)); };
+      area.setTargetCollision = (on) => setAreaTargetCollision(area, on);
+      area.setMode = (mode) => setAreaMode(area, mode);
+      area.setSize = (size) => setAreaSize(area, size);
+      area.setRotation = (deg) => setAreaRotation(area, deg);
+      area.setPosition = (x, y, z) => setAreaPosition(area, x, y, z);
+    }
+
+    function applyTargetFilter(area, t) {
+      t.body.collisionFilterGroup = 2;
+      t.body.collisionFilterMask = area.targetCollision ? 3 : 1;
+    }
+
+    function setAreaTargetCollision(area, on) {
+      area.targetCollision = !!on;
+      area.targets.forEach(t => { applyTargetFilter(area, t); t.body.wakeUp(); });
+      notifyAreaChanged(area);
+      return area;
+    }
+
+    function registerAreaTarget(area, t, local, rot) {
+      Object.defineProperty(t, 'areaRef', { value: area, writable: true, enumerable: false, configurable: true });
+      Object.defineProperty(t, 'index', { get: () => area.targets.indexOf(t), enumerable: false, configurable: true });
+      t.areaId = area.id;
+      applyTargetFilter(area, t);
+      t.local = { x: local.x, y: local.y, z: local.z };
+      t.localRot = rot;
+      t.body.fixedRotation = true;
+      t.body.updateMassProperties();
+      t.getLocal = () => localToCell(area, t.local);
+      t.setLocal = (x, y, z) => {
+        let c = cellToLocal(area, x || 0, y || 0, z || 0);
+        t.local.x = c.x; t.local.y = c.y; t.local.z = c.z;
+        constrainTargetLocal(area, t);
+        writeTargetPose(area, t);
+        notifyAreaChanged(area);
+        return t;
+      };
+      t.setRotation = (deg) => {
+        t.localRot = THREE.MathUtils.degToRad(deg);
+        constrainTargetLocal(area, t);
+        writeTargetPose(area, t);
+        return t;
+      };
+      t.setLocked = (locked) => { window.sceneAPI.setObjectPhysics(t.id, locked); notifyAreaChanged(area); return t; };
+      t.remove = () => removeAreaTarget(area, t);
+      area.targets.push(t);
+    }
+
+    function spawnTargetInArea(area, opts) {
+      opts = opts || {};
+      let rot = THREE.MathUtils.degToRad(opts.rotation || 0);
+      let local = null;
+
+      if (opts.cell) {
+        let i = clampInt(opts.cell[0], 0, area.width - 1, 0);
+        let j = clampInt(opts.cell[1], 0, area.height - 1, 0);
+        let k = clampInt(opts.cell[2], 0, area.depth - 1, 0);
+        local = areaCellCenter(area, i, j, k);
+      } else if (opts.x !== undefined || opts.y !== undefined || opts.z !== undefined) {
+        local = cellToLocal(area, opts.x || 0, opts.y || 0, opts.z || 0);
+      } else {
+        local = getFreeLocalCell(area);
+      }
+
+      if (!local) { showToast("Spawn area is full"); return null; }
+
+      let locked = opts.isLocked !== undefined ? opts.isLocked : (opts.locked !== undefined ? opts.locked : true);
+      rot = fitLocalYaw(area, rot);
+      let c = clampLocalPos(area, local.x, local.y, local.z, rot);
+      let yaw = getYawOf(area.mesh.quaternion);
+      let w = areaLocalToWorld(area, c.x, c.y, c.z, yaw);
+
+      let t = createTargetBlock({ id: opts.id, x: w.x, y: w.y, z: w.z, isLocked: locked });
+      registerAreaTarget(area, t, c, rot);
+      writeTargetPose(area, t);
+      notifyAreaChanged(area);
+      return t;
+    }
+
+    function removeAreaTarget(area, ref) {
+      let t = typeof ref === 'number' ? area.targets[ref] : area.targets.find(x => x === ref || x.id === ref);
+      if (!t) return false;
+      window.sceneAPI.removeObject(t.id);
+      return true;
+    }
+
+    function setAreaMode(area, mode) {
+      if (!AREA_MODES.includes(mode)) return area;
+      area.dimMode = mode;
+      return setAreaSize(area, {});
+    }
+
+    function setAreaSize(area, size) {
+      size = size || {};
+      let dims = normalizeAreaDims(
+        area.dimMode,
+        size.width !== undefined ? size.width : area.width,
+        size.height !== undefined ? size.height : area.height,
+        size.depth !== undefined ? size.depth : area.depth
+      );
+      area.width = dims.width; area.height = dims.height; area.depth = dims.depth;
+
+      let minY = area.height / 2;
+      if (area.body.position.y < minY) {
+        area.body.position.y = minY;
+        area.mesh.position.y = minY;
+      }
+
+      syncAreaBody(area);
+      buildAreaVisuals(area);
+      reflowAreaTargets(area);
+      syncAreaTargets(area);
+      notifyAreaChanged(area);
+      return area;
+    }
+
+    function setAreaRotation(area, deg) {
+      area.mesh.quaternion.setFromAxisAngle(AXIS_Y, THREE.MathUtils.degToRad(deg));
+      area.body.quaternion.copy(area.mesh.quaternion);
+      area.body.aabbNeedsUpdate = true;
+      syncAreaTargets(area);
+      return area;
+    }
+
+    function setAreaPosition(area, x, y, z) {
+      y = Math.max(y, area.height / 2);
+      area.mesh.position.set(x, y, z);
+      area.body.position.set(x, y, z);
+      area.body.aabbNeedsUpdate = true;
+      syncAreaTargets(area);
+      return area;
+    }
+
+    function notifyAreaChanged(area) {
+      if (STATE.selectedObjectForInspector === area) refreshAreaPanel(area);
+    }
+
+    function addTargetsToSelectedAreas(count) {
+      let areas = [];
+      getActionTargets().forEach(o => {
+        let a = o.type === 'area' ? o : o.areaRef;
+        if (a && !areas.includes(a)) areas.push(a);
+      });
+      if (areas.length === 0) { showToast("Select a spawn area first, then press T"); return; }
+
+      let added = 0;
+      areas.forEach(a => { added += a.spawnTargets(count).length; });
+      if (added > 0) showToast(added + (added === 1 ? " target added" : " targets added"));
+    }
+
+    function refreshAreaPanel(area) {
+      if (!area) return;
+      let el = (id) => document.getElementById(id);
+
+      if (document.activeElement !== el('insp-area-mode')) el('insp-area-mode').value = area.dimMode;
+      [['insp-area-w', area.width, true], ['insp-area-h', area.height, area.dimMode !== '1D'], ['insp-area-d', area.depth, area.dimMode === '3D']].forEach(([id, val, enabled]) => {
+        let input = el(id);
+        input.disabled = !enabled;
+        if (document.activeElement !== input) input.value = val;
+      });
+
+      el('insp-area-collide').checked = !!area.targetCollision;
+      el('insp-area-count').innerText = area.targets.length + ' / ' + (area.width * area.height * area.depth) + ' cells';
+
+      let fmt = (v) => (Math.round(v * 100) / 100).toFixed(2);
+      let html = area.targets.map((t, i) =>
+        '<div class="area-row" data-i="' + i + '"><span class="area-row-main" data-act="open">#' + i + ' &middot; ' +
+        fmt(t.getLocal().x) + ', ' + fmt(t.getLocal().y) + ', ' + fmt(t.getLocal().z) + '</span>' +
+        '<button data-act="lock">' + (t.isLocked ? 'Locked' : 'Free') + '</button>' +
+        '<button data-act="del">&times;</button></div>'
+      ).join('');
+
+      if (html !== areaPanelCache) {
+        areaPanelCache = html;
+        el('insp-area-list').innerHTML = html || '<div class="area-empty">No targets yet</div>';
+      }
+    }
+
+    function buildBeamGeometry(angle, beamLength) {
+      let radius = Math.tan(THREE.MathUtils.degToRad(angle / 2)) * beamLength;
+      let geo = new THREE.ConeGeometry(radius, beamLength, 16, 1, true);
+      geo.rotateX(Math.PI / 2);
+      geo.translate(0, 0, -beamLength / 2);
+      return geo;
+    }
+
+    function rebalanceShadowLights() {
+      let count = 0;
+      STATE.objects.forEach(o => {
+        if (o.type !== 'light') return;
+        o.spotLight.castShadow = count < MAX_SHADOW_LIGHTS;
+        count++;
+      });
+    }
+
+    // 1. LIGHT SOURCE BLOCK (Straight forward beam)
+    function createLightBlock({ id, x, y, z, color = '#38bdf8', angle = 45, intensity = 4, range, beamLength = range !== undefined ? range : 20, isLocked = true }) {
+      const group = new THREE.Group();
+      group.position.set(x, y, z);
+
+      // Main Cylinder Body pointing forward (-Z)
+      const cylGeo = new THREE.CylinderGeometry(0.3, 0.45, 1.0, 16);
+      cylGeo.rotateX(Math.PI / 2); // Cylinder ends align along Z
+      const cylMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, metalness: 0.8, roughness: 0.2 });
+      const cylMesh = new THREE.Mesh(cylGeo, cylMat);
+      cylMesh.castShadow = true;
+      group.add(cylMesh);
+
+      // Glowing Lens Aperture
+      const lensGeo = new THREE.CircleGeometry(0.28, 16);
+      const lensMat = new THREE.MeshBasicMaterial({ color: color });
+      const lensMesh = new THREE.Mesh(lensGeo, lensMat);
+      lensMesh.position.z = -0.51;
+      lensMesh.rotation.y = Math.PI;
+      group.add(lensMesh);
+
+      // Three.js SpotLight pointing forward along -Z
+      const spotLight = new THREE.SpotLight(color, intensity, beamLength, THREE.MathUtils.degToRad(angle / 2), 0.3, 1);
+      spotLight.position.set(0, 0, 0);
+      spotLight.castShadow = false;
+      spotLight.shadow.mapSize.set(1024, 1024);
+      
+      const lightTarget = new THREE.Object3D();
+      lightTarget.position.set(0, 0, -10);
+      group.add(lightTarget);
+      spotLight.target = lightTarget;
+      group.add(spotLight);
+
+      // Beam cone: apex at the lens, widening along -Z
+
+      const coneMat = new THREE.MeshBasicMaterial({
+        color: color, transparent: true, opacity: 0.18, depthWrite: false, blending: THREE.AdditiveBlending
+      });
+      const coneMesh = new THREE.Mesh(buildBeamGeometry(angle, beamLength), coneMat);
+      coneMesh.raycast = () => {};
+      group.add(coneMesh);
+
+      scene.add(group);
+
+      // Cannon Rigid Body
+      const body = new CANNON.Body({
+        mass: isLocked ? 0 : 2.0,
+        position: new CANNON.Vec3(x, y, z)
+      });
+      body.addShape(new CANNON.Cylinder(0.4, 0.4, 1.0, 12));
+      physicsWorld.addBody(body);
+
+      const record = {
+        id: id || makeId('light'),
+        type: 'light',
+        mesh: group,
+        body: body,
+        spotLight: spotLight,
+        lightConeMesh: coneMesh,
+        lensMesh: lensMesh,
+        color: color,
+        angle: angle,
+        intensity: intensity,
+        beamLength: beamLength,
+        isLocked: isLocked
+      };
+
+      STATE.objects.push(record);
+      rebalanceShadowLights();
+      sfx.playSpawn();
+      return record;
+    }
+
+    // 2. CAMERA BLOCK (Quiet tracking, no sound)
+    function createCameraBlock({ id, x, y, z, fov = 60, range = 20, trackMode = 'between', isLocked = true }) {
+      const group = new THREE.Group();
+      group.position.set(x, y, z);
+
+      const boxGeo = new THREE.BoxGeometry(0.8, 0.6, 0.9);
+      const boxMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.3, metalness: 0.7 });
+      const boxMesh = new THREE.Mesh(boxGeo, boxMat);
+      boxMesh.castShadow = true;
+      group.add(boxMesh);
+
+      const lensGeo = new THREE.CylinderGeometry(0.22, 0.22, 0.3, 16);
+      lensGeo.rotateX(Math.PI / 2);
+      const lensMat = new THREE.MeshStandardMaterial({ color: 0x38bdf8, roughness: 0.1, metalness: 0.9 });
+      const lensMesh = new THREE.Mesh(lensGeo, lensMat);
+      lensMesh.position.z = -0.55;
+      group.add(lensMesh);
+
+      const frustumLines = updateCameraFrustumLines(group, fov, range);
+
+      scene.add(group);
+
+      const body = new CANNON.Body({
+        mass: isLocked ? 0 : 1.5,
+        position: new CANNON.Vec3(x, y, z)
+      });
+      body.addShape(new CANNON.Box(new CANNON.Vec3(0.4, 0.3, 0.45)));
+      physicsWorld.addBody(body);
+
+      const record = {
+        id: id || makeId('cam'),
+        type: 'camera',
+        mesh: group,
+        body: body,
+        frustumLines: frustumLines,
+        fov: fov,
+        range: range,
+        trackMode: trackMode,
+        pairs: new Map(),
+        isLocked: isLocked,
+        trackedTargets: []
+      };
+
+      STATE.objects.push(record);
+      sfx.playSpawn();
+      return record;
+    }
+
+    function updateCameraFrustumLines(camGroup, fov, range) {
+      if (camGroup.userData.frustumMesh) {
+        camGroup.remove(camGroup.userData.frustumMesh);
+        camGroup.userData.frustumMesh.geometry.dispose();
+        camGroup.userData.frustumMesh.material.dispose();
+      }
+
+      const fovRad = THREE.MathUtils.degToRad(fov / 2);
+      const halfH = Math.tan(fovRad) * range;
+      const halfW = halfH * 1.33;
+
+      const points = [
+        new THREE.Vector3(0, 0, 0), new THREE.Vector3(-halfW, halfH, -range),
+        new THREE.Vector3(0, 0, 0), new THREE.Vector3(halfW, halfH, -range),
+        new THREE.Vector3(0, 0, 0), new THREE.Vector3(halfW, -halfH, -range),
+        new THREE.Vector3(0, 0, 0), new THREE.Vector3(-halfW, -halfH, -range),
+        new THREE.Vector3(-halfW, halfH, -range), new THREE.Vector3(halfW, halfH, -range),
+        new THREE.Vector3(halfW, halfH, -range), new THREE.Vector3(halfW, -halfH, -range),
+        new THREE.Vector3(halfW, -halfH, -range), new THREE.Vector3(-halfW, -halfH, -range),
+        new THREE.Vector3(-halfW, -halfH, -range), new THREE.Vector3(-halfW, halfH, -range)
+      ];
+
+      const lineGeo = new THREE.BufferGeometry().setFromPoints(points);
+      const lineMat = new THREE.LineDashedMaterial({
+        color: 0xffffff, dashSize: 0.4, gapSize: 0.2, linewidth: 1.5, transparent: true, opacity: 0.45
+      });
+
+      const lineMesh = new THREE.LineSegments(lineGeo, lineMat);
+      lineMesh.computeLineDistances();
+      camGroup.add(lineMesh);
+      camGroup.userData.frustumMesh = lineMesh;
+      return lineMesh;
+    }
+
+    // 3. TARGET BLOCK (Default locked physics for smooth manipulation)
+    function createTargetBlock({ id, x, y, z, isLocked = true }) {
+      const group = new THREE.Group();
+      group.position.set(x, y, z);
+
+      const boxGeo = new THREE.BoxGeometry(0.9, 0.9, 0.9);
+      const boxMat = new THREE.MeshStandardMaterial({ color: 0xf43f5e, roughness: 0.3, metalness: 0.4 });
+      const boxMesh = new THREE.Mesh(boxGeo, boxMat);
+      boxMesh.castShadow = true;
+      group.add(boxMesh);
+
+      const ringGeo = new THREE.RingGeometry(0.15, 0.35, 16);
+      const ringMat = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide });
+      
+      const faces = [
+        { pos: [0, 0, 0.46], rot: [0, 0, 0] },
+        { pos: [0, 0, -0.46], rot: [0, Math.PI, 0] },
+        { pos: [0.46, 0, 0], rot: [0, Math.PI / 2, 0] },
+        { pos: [-0.46, 0, 0], rot: [0, -Math.PI / 2, 0] }
+      ];
+
+      faces.forEach(f => {
+        const ring = new THREE.Mesh(ringGeo, ringMat);
+        ring.position.set(...f.pos);
+        ring.rotation.set(...f.rot);
+        group.add(ring);
+      });
+
+      scene.add(group);
+
+      const body = new CANNON.Body({
+        mass: isLocked ? 0 : 1.2,
+        position: new CANNON.Vec3(x, y, z)
+      });
+      body.addShape(new CANNON.Box(new CANNON.Vec3(0.45, 0.45, 0.45)));
+      physicsWorld.addBody(body);
+
+      const record = {
+        id: id || makeId('target'),
+        type: 'target',
+        mesh: group,
+        body: body,
+        isLocked: isLocked
+      };
+
+      STATE.objects.push(record);
+      sfx.playSpawn();
+      return record;
+    }
+
+    // 4. BUILDING BLOCK (Immune to gravity, strict grid snap)
+    function createBuildingBlock({ id, gridX, gridY, gridZ, color = '#10b981' }) {
+      const size = 1.0;
+      const geo = new THREE.BoxGeometry(size, size, size);
+      const mat = new THREE.MeshStandardMaterial({ color: color, roughness: 0.4, metalness: 0.2 });
+      const mesh = new THREE.Mesh(geo, mat);
+      
+      const px = gridX;
+      const py = gridY + size / 2;
+      const pz = gridZ;
+
+      mesh.position.set(px, py, pz);
+      mesh.castShadow = true;
+      mesh.receiveShadow = true;
+
+      const edges = new THREE.EdgesGeometry(geo);
+      const lineMat = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.25 });
+      mesh.add(new THREE.LineSegments(edges, lineMat));
+
+      scene.add(mesh);
+
+      const body = new CANNON.Body({ mass: 0, position: new CANNON.Vec3(px, py, pz) });
+      body.addShape(new CANNON.Box(new CANNON.Vec3(size/2, size/2, size/2)));
+      physicsWorld.addBody(body);
+
+      const record = {
+        id: id || makeId('build'),
+        type: 'building',
+        mesh: mesh,
+        body: body,
+        color: color,
+        gridX: gridX, gridY: gridY, gridZ: gridZ,
+        isLocked: true
+      };
+
+      STATE.objects.push(record);
+      sfx.playSpawn();
+      return record;
+    }
+
+    // 5. NORMAL PHYSICS CUBE
+    function createNormalCube({ id, x, y, z, color }) {
+      const size = 1.0;
+      const colors = [0x38bdf8, 0x818cf8, 0xc084fc, 0xfb923c, 0xfacc15];
+      if (color === undefined) color = colors[Math.floor(Math.random() * colors.length)];
+
+      const geo = new THREE.BoxGeometry(size, size, size);
+      const mat = new THREE.MeshStandardMaterial({ color: color, roughness: 0.3, metalness: 0.3 });
+      const mesh = new THREE.Mesh(geo, mat);
+      mesh.position.set(x, y, z);
+      mesh.castShadow = true;
+      mesh.receiveShadow = true;
+      scene.add(mesh);
+
+      const body = new CANNON.Body({ mass: 1.5, position: new CANNON.Vec3(x, y, z) });
+      body.addShape(new CANNON.Box(new CANNON.Vec3(size/2, size/2, size/2)));
+      physicsWorld.addBody(body);
+
+      const record = {
+        id: id || makeId('cube'),
+        type: 'cube',
+        mesh: mesh,
+        body: body,
+        color: color,
+        isLocked: false
+      };
+
+      STATE.objects.push(record);
+      sfx.playSpawn();
+      return record;
+    }
+
+    function acquireTrackingLine(p1, p2, color) {
+      let line = trackingLines[trackingLineCursor];
+      if (!line) {
+        let geo = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(), new THREE.Vector3()]);
+        line = new THREE.Line(geo, new THREE.LineBasicMaterial({ color: 0xf43f5e }));
+        line.frustumCulled = false;
+        scene.add(line);
+        trackingLines.push(line);
+      }
+      trackingLineCursor++;
+      line.material.color.setHex(color === undefined ? 0xf43f5e : color);
+      let positions = line.geometry.attributes.position.array;
+      positions[0] = p1.x; positions[1] = p1.y; positions[2] = p1.z;
+      positions[3] = p2.x; positions[4] = p2.y; positions[5] = p2.z;
+      line.geometry.attributes.position.needsUpdate = true;
+      line.visible = true;
+    }
+
+    function aimLightAt(lightObj, point) {
+      let aimMat = new THREE.Matrix4().lookAt(lightObj.mesh.position, point, new THREE.Vector3(0, 1, 0));
+      let aimQuat = new THREE.Quaternion().setFromRotationMatrix(aimMat);
+      lightObj.mesh.quaternion.slerp(aimQuat, 0.15);
+      lightObj.body.quaternion.copy(lightObj.mesh.quaternion);
+    }
+
+    function getLinkedLights(camObj) {
+      let seen = new Set([camObj]);
+      let queue = [camObj];
+      let lights = [];
+      while (queue.length > 0) {
+        let cur = queue.shift();
+        getLinkedObjects(cur).forEach(n => {
+          if (seen.has(n) || n.type === 'camera') return;
+          seen.add(n);
+          queue.push(n);
+          if (n.type === 'light') lights.push(n);
+        });
+      }
+      return lights;
+    }
+
+    function updatePairAssignments(camObj, tracked, lights) {
+      let pairs = camObj.pairs;
+      pairs.forEach((light, target) => {
+        if (!tracked.includes(target) || !lights.includes(light)) pairs.delete(target);
+      });
+
+      let used = new Set(pairs.values());
+      tracked.forEach(target => {
+        if (pairs.has(target)) return;
+        let best = null;
+        let bestDist = Infinity;
+        lights.forEach(l => {
+          if (used.has(l)) return;
+          let d = l.mesh.position.distanceTo(target.mesh.position);
+          if (d < bestDist) { best = l; bestDist = d; }
+        });
+        if (best) {
+          pairs.set(target, best);
+          used.add(best);
+        }
+      });
+      return pairs;
+    }
+
+    // --- Spatial Camera Tracking & Linked Light Updates (SILENT - NO SOUND) ---
+    function updateCameraTrackingAndLinkedLights() {
+      trackingLines.forEach(line => { line.visible = false; });
+      trackingLineCursor = 0;
+
+      let cameras = STATE.objects.filter(o => o.type === 'camera');
+      let targets = STATE.objects.filter(o => o.type === 'target');
+
+      cameras.forEach(camObj => {
+        camObj.trackedTargets = [];
+        let camPos = camObj.mesh.position;
+        let camForward = new THREE.Vector3(0, 0, -1).applyQuaternion(camObj.mesh.quaternion).normalize();
+        let fovHalfRad = THREE.MathUtils.degToRad(camObj.fov / 2);
+
+        targets.forEach(targetObj => {
+          let toTarget = new THREE.Vector3().subVectors(targetObj.mesh.position, camPos);
+          let dist = toTarget.length();
+          if (dist > camObj.range || dist <= 0.1) return;
+
+          toTarget.normalize();
+          let angle = Math.acos(THREE.MathUtils.clamp(camForward.dot(toTarget), -1, 1));
+          if (angle <= fovHalfRad) camObj.trackedTargets.push(targetObj);
+        });
+
+        let tracked = camObj.trackedTargets;
+        if (tracked.length === 0) return;
+
+        tracked.forEach(t => acquireTrackingLine(camPos, t.mesh.position));
+
+        let lights = getLinkedLights(camObj);
+        if (lights.length === 0) return;
+
+        if (camObj.trackMode === 'pair' && tracked.length > 1 && lights.length > 1) {
+          let assigned = new Map();
+          updatePairAssignments(camObj, tracked, lights).forEach((light, target) => assigned.set(light, target));
+
+          lights.forEach(light => {
+            let target = assigned.get(light);
+            if (!target) {
+              let bestDist = Infinity;
+              tracked.forEach(t => {
+                let d = light.mesh.position.distanceTo(t.mesh.position);
+                if (d < bestDist) { target = t; bestDist = d; }
+              });
+            }
+            aimLightAt(light, target.mesh.position);
+            if (STATE.showLightPaths) acquireTrackingLine(light.mesh.position, target.mesh.position, 0x38bdf8);
+          });
+        } else {
+          let center = new THREE.Vector3();
+          tracked.forEach(t => center.add(t.mesh.position));
+          center.divideScalar(tracked.length);
+          lights.forEach(light => {
+            aimLightAt(light, center);
+            if (STATE.showLightPaths) acquireTrackingLine(light.mesh.position, center, 0x38bdf8);
+          });
+        }
+      });
+    }
+
+    function getLinkedObjects(sourceObj) {
+      const linked = [];
+      STATE.links.forEach(l => {
+        if (l.objectA === sourceObj) linked.push(l.objectB);
+        else if (l.objectB === sourceObj) linked.push(l.objectA);
+      });
+      return linked;
+    }
+
+    // --- Daisy Link Tool ---
+    function addCubeToChain(obj) {
+      if (obj.type === 'area') { showToast("Spawn areas can't be linked"); return; }
+      if (STATE.activeChain.length > 0 && STATE.activeChain[STATE.activeChain.length - 1] === obj) return;
+
+      STATE.activeChain.push(obj);
+      setObjectEmissive(obj, 0x059669);
+      sfx.playLink();
+
+      if (STATE.activeChain.length >= 2) {
+        const objA = STATE.activeChain[STATE.activeChain.length - 2];
+        const objB = STATE.activeChain[STATE.activeChain.length - 1];
+
+        const dist = objA.body.position.distanceTo(objB.body.position);
+        const constraint = new CANNON.DistanceConstraint(objA.body, objB.body, dist);
+        physicsWorld.addConstraint(constraint);
+
+        const lineGeo = new THREE.BufferGeometry().setFromPoints([objA.mesh.position, objB.mesh.position]);
+        const lineMat = new THREE.LineBasicMaterial({ color: 0x10b981, linewidth: 3 });
+        const lineMesh = new THREE.Line(lineGeo, lineMat);
+        scene.add(lineMesh);
+
+        STATE.links.push({
+          id: Date.now() + Math.random(),
+          bodyA: objA.body, bodyB: objB.body,
+          objectA: objA, objectB: objB,
+          lineMesh: lineMesh, constraint: constraint
+        });
+      }
+    }
+
+    function finalizeDaisyChain() {
+      STATE.activeChain.forEach(c => setObjectEmissive(c, 0x000000));
+      STATE.activeChain = [];
+    }
+
+    // --- Grab Tool Mechanics ---
+    function startGrab(obj, hitPoint) {
+      grabState.grabbedObject = obj;
+
+      const connectedLinks = STATE.links.filter(l => l.objectA === obj || l.objectB === obj);
+      grabState.suspendedLinks = connectedLinks;
+      connectedLinks.forEach(l => { if (l.constraint) physicsWorld.removeConstraint(l.constraint); });
+
+      grabState.kinematic = obj.body.mass === 0 && obj.type !== 'building';
+      grabState.grabOffset.set(obj.body.position.x - hitPoint.x, obj.body.position.y - hitPoint.y, obj.body.position.z - hitPoint.z);
+      let localPivot = new CANNON.Vec3();
+      obj.body.pointToLocalFrame(new CANNON.Vec3(hitPoint.x, hitPoint.y, hitPoint.z), localPivot);
+
+      grabState.grabBody.position.copy(new CANNON.Vec3(hitPoint.x, hitPoint.y, hitPoint.z));
+      if (!grabState.kinematic) {
+        grabState.grabConstraint = new CANNON.PointToPointConstraint(obj.body, localPivot, grabState.grabBody, new CANNON.Vec3(0,0,0));
+        physicsWorld.addConstraint(grabState.grabConstraint);
+      }
+
+      grabState.grabDistance = camera.position.distanceTo(hitPoint);
+      obj.body.angularDamping = 0.85;
+      setObjectEmissive(obj, 0xfbbf24);
+
+      document.getElementById('crosshair').classList.add('grab-active');
+    }
+
+    function stopGrab(throwForce = 0) {
+      if (!grabState.grabbedObject) return;
+
+      if (grabState.grabConstraint) {
+        physicsWorld.removeConstraint(grabState.grabConstraint);
+        grabState.grabConstraint = null;
+      }
+
+      const obj = grabState.grabbedObject;
+      obj.body.angularDamping = 0.01;
+
+      if (grabState.suspendedLinks.length > 0) {
+        grabState.suspendedLinks.forEach(l => {
+          const newDist = l.bodyA.position.distanceTo(l.bodyB.position);
+          l.constraint = new CANNON.DistanceConstraint(l.bodyA, l.bodyB, newDist);
+          physicsWorld.addConstraint(l.constraint);
+        });
+        grabState.suspendedLinks = [];
+      }
+
+      if (throwForce > 0 && !obj.isLocked) {
+        const throwDir = new THREE.Vector3(0,0,-1).applyQuaternion(camera.quaternion).normalize();
+        obj.body.applyImpulse(new CANNON.Vec3(throwDir.x*throwForce, throwDir.y*throwForce, throwDir.z*throwForce), obj.body.position);
+      }
+
+      grabState.grabbedObject = null;
+      grabState.kinematic = false;
+      refreshHighlight(obj);
+      grabState.beamLine.visible = false;
+      document.getElementById('crosshair').classList.remove('grab-active');
+    }
+
+    function updateGrabBeam() {
+      if (!grabState.grabbedObject) return;
+
+      const rayDir = new THREE.Vector3(0, 0, -1).applyQuaternion(camera.quaternion).normalize();
+      const targetPos = camera.position.clone().add(rayDir.multiplyScalar(grabState.grabDistance));
+
+      grabState.grabBody.position.copy(new CANNON.Vec3(targetPos.x, targetPos.y, targetPos.z));
+      let grabbed = grabState.grabbedObject;
+      if (grabState.kinematic) {
+        grabbed.body.computeAABB();
+        let half = (grabbed.body.aabb.upperBound.y - grabbed.body.aabb.lowerBound.y) / 2;
+        let nx = targetPos.x + grabState.grabOffset.x;
+        let ny = Math.max(targetPos.y + grabState.grabOffset.y, half);
+        let nz = targetPos.z + grabState.grabOffset.z;
+        grabbed.body.position.set(nx, ny, nz);
+        grabbed.mesh.position.set(nx, ny, nz);
+        grabbed.body.velocity.set(0, 0, 0);
+        grabbed.body.angularVelocity.set(0, 0, 0);
+        grabbed.body.aabbNeedsUpdate = true;
+      } else {
+        grabbed.body.wakeUp();
+      }
+
+      const p1 = camera.position.clone().add(rayDir.clone().multiplyScalar(0.5));
+      const p2 = grabState.grabbedObject.mesh.position;
+
+      const positions = grabState.beamLine.geometry.attributes.position.array;
+      positions[0] = p1.x; positions[1] = p1.y; positions[2] = p1.z;
+      positions[3] = p2.x; positions[4] = p2.y; positions[5] = p2.z;
+      grabState.beamLine.geometry.attributes.position.needsUpdate = true;
+      grabState.beamLine.visible = true;
+    }
+
+    function updateLinks() {
+      STATE.links.forEach(l => {
+        const p1 = l.bodyA.position; const p2 = l.bodyB.position;
+        const positions = l.lineMesh.geometry.attributes.position.array;
+        positions[0] = p1.x; positions[1] = p1.y; positions[2] = p1.z;
+        positions[3] = p2.x; positions[4] = p2.y; positions[5] = p2.z;
+        l.lineMesh.geometry.attributes.position.needsUpdate = true;
+        l.lineMesh.frustumCulled = false;
+      });
+    }
+
+    function updatePhysics(dt) {
+      physicsWorld.step(dt);
+      STATE.objects.forEach(obj => {
+        obj.mesh.position.copy(obj.body.position);
+        obj.mesh.quaternion.copy(obj.body.quaternion);
+      });
+    }
+
+    // --- Property Inspector Logic ---
+    function initInspector() {
+      const panel = document.getElementById('inspector-panel');
+      const closeBtn = document.getElementById('insp-close');
+
+      closeBtn.addEventListener('click', () => {
+        panel.classList.remove('open');
+        let prev = STATE.selectedObjectForInspector;
+        STATE.selectedObjectForInspector = null;
+        refreshHighlight(prev);
+      });
+
+      document.getElementById('insp-pos-x').addEventListener('change', updateSelectedFromInspector);
+      document.getElementById('insp-pos-y').addEventListener('change', updateSelectedFromInspector);
+      document.getElementById('insp-pos-z').addEventListener('change', updateSelectedFromInspector);
+
+      const pitchSlider = document.getElementById('insp-rot-pitch');
+      const yawSlider = document.getElementById('insp-rot-yaw');
+      const rollSlider = document.getElementById('insp-rot-roll');
+
+      pitchSlider.addEventListener('input', () => {
+        document.getElementById('val-rot-pitch').innerText = pitchSlider.value + '°';
+        updateSelectedFromInspector();
+      });
+      yawSlider.addEventListener('input', () => {
+        document.getElementById('val-rot-yaw').innerText = yawSlider.value + '°';
+        updateSelectedFromInspector();
+      });
+      rollSlider.addEventListener('input', () => {
+        document.getElementById('val-rot-roll').innerText = rollSlider.value + '°';
+        updateSelectedFromInspector();
+      });
+
+      document.getElementById('insp-lock-physics').addEventListener('change', (e) => {
+        if (STATE.selectedObjectForInspector) {
+          window.sceneAPI.setObjectPhysics(STATE.selectedObjectForInspector.id, e.target.checked);
+          e.target.checked = STATE.selectedObjectForInspector.isLocked;
+        }
+      });
+
+      document.getElementById('insp-light-color').addEventListener('input', (e) => {
+        if (STATE.selectedObjectForInspector && STATE.selectedObjectForInspector.type === 'light') {
+          window.sceneAPI.setLightColor(STATE.selectedObjectForInspector.id, e.target.value);
+        }
+      });
+
+      const lightAngle = document.getElementById('insp-light-angle');
+      lightAngle.addEventListener('input', () => {
+        document.getElementById('val-light-angle').innerText = lightAngle.value + '°';
+        if (STATE.selectedObjectForInspector && STATE.selectedObjectForInspector.type === 'light') {
+          window.sceneAPI.setLightAngle(STATE.selectedObjectForInspector.id, parseFloat(lightAngle.value));
+        }
+      });
+
+      let lightIntensity = document.getElementById('insp-light-intensity');
+      lightIntensity.addEventListener('input', () => {
+        document.getElementById('val-light-intensity').innerText = lightIntensity.value;
+        if (STATE.selectedObjectForInspector && STATE.selectedObjectForInspector.type === 'light') {
+          window.sceneAPI.setLightIntensity(STATE.selectedObjectForInspector.id, parseFloat(lightIntensity.value));
+        }
+      });
+
+      let camRange = document.getElementById('insp-cam-range');
+      camRange.addEventListener('input', () => {
+        document.getElementById('val-cam-range').innerText = camRange.value;
+        if (STATE.selectedObjectForInspector && STATE.selectedObjectForInspector.type === 'camera') {
+          window.sceneAPI.setCameraRange(STATE.selectedObjectForInspector.id, parseFloat(camRange.value));
+        }
+      });
+
+      let lightLength = document.getElementById('insp-light-length');
+      lightLength.addEventListener('input', () => {
+        document.getElementById('val-light-length').innerText = lightLength.value;
+        if (STATE.selectedObjectForInspector && STATE.selectedObjectForInspector.type === 'light') {
+          window.sceneAPI.setLightBeamLength(STATE.selectedObjectForInspector.id, parseFloat(lightLength.value));
+        }
+      });
+
+      let camMode = document.getElementById('insp-cam-mode');
+      camMode.addEventListener('change', () => {
+        if (STATE.selectedObjectForInspector && STATE.selectedObjectForInspector.type === 'camera') {
+          window.sceneAPI.setCameraTrackMode(STATE.selectedObjectForInspector.id, camMode.value);
+        }
+      });
+
+      const camFov = document.getElementById('insp-cam-fov');
+      camFov.addEventListener('input', () => {
+        document.getElementById('val-cam-fov').innerText = camFov.value + '°';
+        if (STATE.selectedObjectForInspector && STATE.selectedObjectForInspector.type === 'camera') {
+          window.sceneAPI.setCameraFOV(STATE.selectedObjectForInspector.id, parseFloat(camFov.value));
+        }
+      });
+
+      let areaOf = () => (STATE.selectedObjectForInspector && STATE.selectedObjectForInspector.type === 'area') ? STATE.selectedObjectForInspector : null;
+
+      document.getElementById('insp-area-mode').addEventListener('change', (e) => {
+        let a = areaOf();
+        if (a) setAreaMode(a, e.target.value);
+      });
+
+      ['w', 'h', 'd'].forEach(k => {
+        document.getElementById('insp-area-' + k).addEventListener('change', (e) => {
+          let a = areaOf();
+          if (!a) return;
+          let key = { w: 'width', h: 'height', d: 'depth' }[k];
+          let size = {};
+          size[key] = parseFloat(e.target.value);
+          setAreaSize(a, size);
+        });
+      });
+
+      document.getElementById('insp-area-collide').addEventListener('change', (e) => { let a = areaOf(); if (a) a.setTargetCollision(e.target.checked); });
+      document.getElementById('insp-area-add').addEventListener('click', () => { let a = areaOf(); if (a) a.spawnTarget(); });
+      document.getElementById('insp-area-add5').addEventListener('click', () => { let a = areaOf(); if (a) a.spawnTargets(5); });
+      document.getElementById('insp-area-remove-last').addEventListener('click', () => { let a = areaOf(); if (a && a.targets.length) a.removeTarget(a.targets.length - 1); });
+      document.getElementById('insp-area-clear').addEventListener('click', () => { let a = areaOf(); if (a) a.clearTargets(); });
+
+      document.getElementById('insp-area-list').addEventListener('click', (e) => {
+        let a = areaOf();
+        let row = e.target.closest ? e.target.closest('.area-row') : null;
+        if (!a || !row) return;
+        let t = a.targets[parseInt(row.getAttribute('data-i'), 10)];
+        if (!t) return;
+        let act = e.target.getAttribute('data-act');
+        if (act === 'del') a.removeTarget(t);
+        else if (act === 'lock') t.setLocked(!t.isLocked);
+        else if (act === 'open') openInspectorForObject(t);
+      });
+
+      document.getElementById('insp-target-open-area').addEventListener('click', () => {
+        let o = STATE.selectedObjectForInspector;
+        if (o && o.areaRef) openInspectorForObject(o.areaRef);
+      });
+
+      document.getElementById('insp-btn-delete').addEventListener('click', () => {
+        if (STATE.selectedObjectForInspector) {
+          window.sceneAPI.removeObject(STATE.selectedObjectForInspector.id);
+          panel.classList.remove('open');
+        }
+      });
+    }
+
+    function openInspectorForObject(obj) {
+      let prev = STATE.selectedObjectForInspector;
+      STATE.selectedObjectForInspector = obj;
+      refreshHighlight(prev);
+      refreshHighlight(obj);
+
+      const panel = document.getElementById('inspector-panel');
+      document.getElementById('insp-type-title').innerText = (obj.type === 'area' ? 'SPAWN AREA' : obj.type.toUpperCase()) + ' Properties';
+      document.getElementById('insp-id').value = obj.id;
+
+      document.getElementById('insp-pos-x').value = obj.mesh.position.x.toFixed(2);
+      document.getElementById('insp-pos-y').value = obj.mesh.position.y.toFixed(2);
+      document.getElementById('insp-pos-z').value = obj.mesh.position.z.toFixed(2);
+
+      const euler = new THREE.Euler().setFromQuaternion(obj.mesh.quaternion, 'YXZ');
+      document.getElementById('insp-rot-pitch').value = Math.round(THREE.MathUtils.radToDeg(euler.x));
+      document.getElementById('insp-rot-yaw').value = Math.round(THREE.MathUtils.radToDeg(euler.y));
+      document.getElementById('insp-rot-roll').value = Math.round(THREE.MathUtils.radToDeg(euler.z));
+
+      document.getElementById('val-rot-pitch').innerText = Math.round(THREE.MathUtils.radToDeg(euler.x)) + '°';
+      document.getElementById('val-rot-yaw').innerText = Math.round(THREE.MathUtils.radToDeg(euler.y)) + '°';
+      document.getElementById('val-rot-roll').innerText = Math.round(THREE.MathUtils.radToDeg(euler.z)) + '°';
+
+      document.getElementById('insp-lock-physics').checked = obj.isLocked;
+
+      document.getElementById('insp-sec-light').style.display = (obj.type === 'light') ? 'block' : 'none';
+      document.getElementById('insp-sec-camera').style.display = (obj.type === 'camera') ? 'block' : 'none';
+      document.getElementById('insp-sec-area').style.display = (obj.type === 'area') ? 'flex' : 'none';
+      document.getElementById('insp-sec-area-target').style.display = obj.areaRef ? 'flex' : 'none';
+      document.getElementById('insp-row-lock').style.display = (obj.type === 'area') ? 'none' : 'flex';
+      let yawOnly = obj.type === 'area' || !!obj.areaRef;
+      document.getElementById('insp-rot-pitch').closest('.form-group').style.display = yawOnly ? 'none' : 'flex';
+      document.getElementById('insp-rot-roll').closest('.form-group').style.display = yawOnly ? 'none' : 'flex';
+
+      if (obj.type === 'area') {
+        areaPanelCache = '';
+        refreshAreaPanel(obj);
+      } else if (obj.areaRef) {
+        document.getElementById('insp-target-area-info').innerText = 'Target #' + obj.areaRef.targets.indexOf(obj) + ' of ' + obj.areaRef.id + ' (' + obj.areaRef.dimMode + '). Stays inside the area; rotates around Y only.';
+      }
+
+      if (obj.type === 'light') {
+        document.getElementById('insp-light-color').value = obj.color;
+        document.getElementById('insp-light-angle').value = obj.angle;
+        document.getElementById('val-light-angle').innerText = obj.angle + '°';
+        document.getElementById('insp-light-intensity').value = obj.intensity;
+        document.getElementById('val-light-intensity').innerText = obj.intensity;
+        document.getElementById('insp-light-length').value = obj.beamLength;
+        document.getElementById('val-light-length').innerText = obj.beamLength;
+      } else if (obj.type === 'camera') {
+        document.getElementById('insp-cam-fov').value = obj.fov;
+        document.getElementById('val-cam-fov').innerText = obj.fov + '°';
+        document.getElementById('insp-cam-range').value = obj.range;
+        document.getElementById('val-cam-range').innerText = obj.range;
+        document.getElementById('insp-cam-mode').value = obj.trackMode;
+      }
+
+      panel.classList.add('open');
+    }
+
+    function updateSelectedFromInspector() {
+      const obj = STATE.selectedObjectForInspector;
+      if (!obj) return;
+
+      const px = parseFloat(document.getElementById('insp-pos-x').value);
+      const py = parseFloat(document.getElementById('insp-pos-y').value);
+      const pz = parseFloat(document.getElementById('insp-pos-z').value);
+
+      const pitch = parseFloat(document.getElementById('insp-rot-pitch').value);
+      const yaw = parseFloat(document.getElementById('insp-rot-yaw').value);
+      const roll = parseFloat(document.getElementById('insp-rot-roll').value);
+
+      obj.mesh.position.set(px, py, pz);
+      obj.body.position.set(px, py, pz);
+
+      window.sceneAPI.rotateObject(obj.id, pitch, yaw, roll);
+    }
+
+    // --- Global JavaScript API (window.sceneAPI) ---
+    function setupSceneAPI() {
+      window.sceneAPI = {
+        spawnLight: ({ x = 0, y = 5, z = 0, color = '#38bdf8', angle = 45, intensity = 4, range, beamLength, isLocked = true } = {}) => {
+          return createLightBlock({ x, y, z, color, angle, intensity, range, beamLength, isLocked });
+        },
+
+        spawnCamera: ({ x = 0, y = 4, z = 0, fov = 60, range = 20, trackMode = 'between', isLocked = true } = {}) => {
+          return createCameraBlock({ x, y, z, fov, range, trackMode, isLocked });
+        },
+
+        spawnTarget: ({ x = 0, y = 1.5, z = -5, isLocked = true } = {}) => {
+          return createTargetBlock({ x, y, z, isLocked });
+        },
+
+        spawnArea: ({ x = 0, y, z = 0, mode = '1D', width = 6, height = 1, depth = 1, rotation = 0, targets = 0, targetCollision = false } = {}) => {
+          let area = createAreaBlock({ x, y, z, mode, width, height, depth, rotation, targetCollision });
+          if (targets > 0) area.spawnTargets(targets);
+          return area;
+        },
+
+        getAreas: () => STATE.objects.filter(o => o.type === 'area'),
+
+        getArea: (id) => STATE.objects.find(o => o.id === id && o.type === 'area') || null,
+
+        getAreaTargets: (id) => {
+          let a = STATE.objects.find(o => o.id === id && o.type === 'area');
+          return a ? a.targets : [];
+        },
+
+        spawnTargetInArea: (id, opts) => {
+          let a = STATE.objects.find(o => o.id === id && o.type === 'area');
+          return a ? spawnTargetInArea(a, opts) : null;
+        },
+
+        removeTargetFromArea: (id, ref) => {
+          let a = STATE.objects.find(o => o.id === id && o.type === 'area');
+          return a ? removeAreaTarget(a, ref) : false;
+        },
+
+        setAreaMode: (id, mode) => {
+          let a = STATE.objects.find(o => o.id === id && o.type === 'area');
+          return a ? setAreaMode(a, mode) : null;
+        },
+
+        setAreaSize: (id, size) => {
+          let a = STATE.objects.find(o => o.id === id && o.type === 'area');
+          return a ? setAreaSize(a, size) : null;
+        },
+
+        setAreaRotation: (id, deg) => {
+          let a = STATE.objects.find(o => o.id === id && o.type === 'area');
+          return a ? setAreaRotation(a, deg) : null;
+        },
+
+        spawnBuildingBlock: ({ gridX = 0, gridY = 0, gridZ = 0, color = '#10b981' } = {}) => {
+          return createBuildingBlock({ gridX, gridY, gridZ, color });
+        },
+
+        spawnCube: ({ x = 0, y = 3, z = 0 } = {}) => {
+          return createNormalCube({ x, y, z });
+        },
+
+        setLightColor: (id, hexColor) => {
+          const obj = STATE.objects.find(o => o.id === id);
+          if (obj && obj.type === 'light') {
+            obj.color = hexColor;
+            obj.spotLight.color.set(hexColor);
+            obj.lensMesh.material.color.set(hexColor);
+            obj.lightConeMesh.material.color.set(hexColor);
+          }
+        },
+
+        rotateObject: (id, pitchDeg, yawDeg, rollDeg) => {
+          const obj = STATE.objects.find(o => o.id === id);
+          if (obj) {
+            const euler = new THREE.Euler(
+              THREE.MathUtils.degToRad(pitchDeg),
+              THREE.MathUtils.degToRad(yawDeg),
+              THREE.MathUtils.degToRad(rollDeg),
+              'YXZ'
+            );
+            obj.mesh.quaternion.setFromEuler(euler);
+            obj.body.quaternion.copy(obj.mesh.quaternion);
+          }
+        },
+
+        setCameraFOV: (id, fovDegrees) => {
+          const obj = STATE.objects.find(o => o.id === id);
+          if (obj && obj.type === 'camera') {
+            obj.fov = fovDegrees;
+            updateCameraFrustumLines(obj.mesh, obj.fov, obj.range);
+          }
+        },
+
+        setCameraRange: (id, range) => {
+          let obj = STATE.objects.find(o => o.id === id);
+          if (obj && obj.type === 'camera') {
+            obj.range = range;
+            updateCameraFrustumLines(obj.mesh, obj.fov, obj.range);
+          }
+        },
+
+        setLightAngle: (id, degrees) => {
+          let obj = STATE.objects.find(o => o.id === id);
+          if (obj && obj.type === 'light') {
+            obj.angle = degrees;
+            obj.spotLight.angle = THREE.MathUtils.degToRad(degrees / 2);
+            obj.lightConeMesh.geometry.dispose();
+            obj.lightConeMesh.geometry = buildBeamGeometry(degrees, obj.beamLength);
+          }
+        },
+
+        setLightBeamLength: (id, length) => {
+          let obj = STATE.objects.find(o => o.id === id);
+          if (obj && obj.type === 'light') {
+            obj.beamLength = length;
+            obj.spotLight.distance = length;
+            obj.lightConeMesh.geometry.dispose();
+            obj.lightConeMesh.geometry = buildBeamGeometry(obj.angle, length);
+          }
+        },
+
+        setCameraTrackMode: (id, mode) => {
+          let obj = STATE.objects.find(o => o.id === id);
+          if (obj && obj.type === 'camera' && (mode === 'between' || mode === 'pair')) {
+            obj.trackMode = mode;
+            obj.pairs.clear();
+          }
+        },
+
+        setLightIntensity: (id, intensity) => {
+          let obj = STATE.objects.find(o => o.id === id);
+          if (obj && obj.type === 'light') {
+            obj.intensity = intensity;
+            obj.spotLight.intensity = intensity;
+          }
+        },
+
+        setObjectPhysics: (id, isLocked) => {
+          const obj = STATE.objects.find(o => o.id === id);
+          if (obj) {
+            if (obj.type === 'building' || obj.type === 'area') isLocked = true;
+            obj.isLocked = isLocked;
+            obj.body.mass = isLocked ? 0 : 1.5;
+            obj.body.type = isLocked ? CANNON.Body.STATIC : CANNON.Body.DYNAMIC;
+            obj.body.updateMassProperties();
+            obj.body.wakeUp();
+            if (isLocked) {
+              obj.body.velocity.set(0, 0, 0);
+              obj.body.angularVelocity.set(0, 0, 0);
+            }
+          }
+        },
+
+        removeObject: (id) => {
+          let found = STATE.objects.find(o => o.id === id);
+          if (found && found.type === 'area') [...found.targets].forEach(t => window.sceneAPI.removeObject(t.id));
+          if (found && found.areaRef) {
+            let owner = found.areaRef;
+            let ti = owner.targets.indexOf(found);
+            if (ti > -1) owner.targets.splice(ti, 1);
+            notifyAreaChanged(owner);
+          }
+          const idx = STATE.objects.findIndex(o => o.id === id);
+          if (idx !== -1) {
+            const obj = STATE.objects[idx];
+
+            if (grabState.grabbedObject === obj) stopGrab();
+
+            const relatedLinks = STATE.links.filter(l => l.objectA === obj || l.objectB === obj);
+            relatedLinks.forEach(l => {
+              scene.remove(l.lineMesh);
+              if (l.constraint) physicsWorld.removeConstraint(l.constraint);
+            });
+            STATE.links = STATE.links.filter(l => l.objectA !== obj && l.objectB !== obj);
+
+            scene.remove(obj.mesh);
+            physicsWorld.removeBody(obj.body);
+            STATE.objects.splice(idx, 1);
+
+            STATE.selectedObjects = STATE.selectedObjects.filter(o => o !== obj);
+            STATE.activeChain = STATE.activeChain.filter(o => o !== obj);
+            if (STATE.hoveredObject === obj) STATE.hoveredObject = null;
+            if (STATE.selectedObjectForInspector === obj) {
+              STATE.selectedObjectForInspector = null;
+              document.getElementById('inspector-panel').classList.remove('open');
+            }
+            rebalanceShadowLights();
+          }
+        },
+
+        saveScene: () => {
+          const serialized = {
+            objects: STATE.objects.map(o => ({
+              id: o.id, type: o.type,
+              px: o.mesh.position.x, py: o.mesh.position.y, pz: o.mesh.position.z,
+              qx: o.mesh.quaternion.x, qy: o.mesh.quaternion.y, qz: o.mesh.quaternion.z, qw: o.mesh.quaternion.w,
+              color: o.color, angle: o.angle, fov: o.fov, isLocked: o.isLocked,
+              intensity: o.intensity, range: o.range, beamLength: o.beamLength, trackMode: o.trackMode,
+              gridX: o.gridX, gridY: o.gridY, gridZ: o.gridZ,
+              dimMode: o.dimMode, width: o.width, height: o.height, depth: o.depth, tcol: o.targetCollision,
+              areaId: o.areaRef ? o.areaRef.id : undefined,
+              areaIndex: o.areaRef ? o.areaRef.targets.indexOf(o) : undefined,
+              lx: o.local ? o.local.x : undefined, ly: o.local ? o.local.y : undefined, lz: o.local ? o.local.z : undefined,
+              lrot: o.local ? o.localRot : undefined
+            })),
+            links: STATE.links.map(l => ({ idA: l.objectA.id, idB: l.objectB.id }))
+          };
+
+          localStorage.setItem('scene_maker_scene_data', JSON.stringify(serialized));
+          showToast("Scene Saved to LocalStorage!");
+        },
+
+        loadScene: () => {
+          const raw = localStorage.getItem('scene_maker_scene_data');
+          if (!raw) { showToast("No Saved Scene Found!"); return; }
+
+          try {
+            const data = JSON.parse(raw);
+            
+            // Clear current scene
+            STATE.objects.forEach(o => { scene.remove(o.mesh); physicsWorld.removeBody(o.body); });
+            STATE.links.forEach(l => { scene.remove(l.lineMesh); if (l.constraint) physicsWorld.removeConstraint(l.constraint); });
+            STATE.objects = []; STATE.links = [];
+            resetInteractionState();
+
+            let pendingTargets = [];
+            data.objects.forEach(o => {
+              let rec = null;
+              if (o.type === 'area') rec = createAreaBlock({ id: o.id, x: o.px, y: o.py, z: o.pz, mode: o.dimMode, width: o.width, height: o.height, depth: o.depth, targetCollision: !!o.tcol });
+              else
+              if (o.type === 'light') rec = createLightBlock({ id: o.id, x: o.px, y: o.py, z: o.pz, color: o.color, angle: o.angle, intensity: o.intensity, beamLength: o.beamLength, isLocked: o.isLocked });
+              else if (o.type === 'camera') rec = createCameraBlock({ id: o.id, x: o.px, y: o.py, z: o.pz, fov: o.fov, range: o.range, trackMode: o.trackMode, isLocked: o.isLocked });
+              else if (o.type === 'target') {
+                rec = createTargetBlock({ id: o.id, x: o.px, y: o.py, z: o.pz, isLocked: o.isLocked });
+                if (o.areaId) pendingTargets.push({ rec, o });
+              }
+              else if (o.type === 'building') rec = createBuildingBlock({ id: o.id, gridX: o.gridX, gridY: o.gridY, gridZ: o.gridZ, color: o.color });
+              else if (o.type === 'cube') rec = createNormalCube({ id: o.id, x: o.px, y: o.py, z: o.pz, color: o.color });
+
+              if (rec) {
+                rec.body.position.set(o.px, o.py, o.pz);
+                rec.mesh.position.set(o.px, o.py, o.pz);
+                if (rec.type === 'building') { rec.gridX = o.px; rec.gridY = o.py - 0.5; rec.gridZ = o.pz; }
+                rec.mesh.quaternion.set(o.qx, o.qy, o.qz, o.qw);
+                rec.body.quaternion.copy(rec.mesh.quaternion);
+              }
+            });
+
+            pendingTargets.sort((a, b) => (a.o.areaIndex || 0) - (b.o.areaIndex || 0)).forEach(({ rec, o }) => {
+              let owner = STATE.objects.find(x => x.id === o.areaId && x.type === 'area');
+              if (owner) registerAreaTarget(owner, rec, { x: o.lx || 0, y: o.ly || 0, z: o.lz || 0 }, o.lrot || 0);
+            });
+
+            // Reconstruct tethers
+            data.links.forEach(l => {
+              const objA = STATE.objects.find(o => o.id === l.idA);
+              const objB = STATE.objects.find(o => o.id === l.idB);
+              if (objA && objB) {
+                const dist = objA.body.position.distanceTo(objB.body.position);
+                const constraint = new CANNON.DistanceConstraint(objA.body, objB.body, dist);
+                physicsWorld.addConstraint(constraint);
+
+                const lineGeo = new THREE.BufferGeometry().setFromPoints([objA.mesh.position, objB.mesh.position]);
+                const lineMat = new THREE.LineBasicMaterial({ color: 0x10b981, linewidth: 3 });
+                const lineMesh = new THREE.Line(lineGeo, lineMat);
+                scene.add(lineMesh);
+
+                STATE.links.push({
+                  id: Date.now() + Math.random(), bodyA: objA.body, bodyB: objB.body,
+                  objectA: objA, objectB: objB, lineMesh: lineMesh, constraint: constraint
+                });
+              }
+            });
+
+            showToast("Saved Scene Loaded!");
+          } catch(err) {
+            console.error("Failed to load scene", err);
+          }
+        }
+      };
+    }
+
+    // --- UI Toolbar Init ---
+    function initUI() {
+      const btnFly = document.getElementById('btn-mode-fly');
+      const btnSelect = document.getElementById('btn-mode-select');
+      const btnSpawn = document.getElementById('btn-mode-spawn');
+      const btnGrab = document.getElementById('btn-mode-grab');
+      const btnLink = document.getElementById('btn-mode-link');
+      const btnClear = document.getElementById('btn-clear');
+      const btnFinishChain = document.getElementById('btn-finish-chain');
+      const btnSave = document.getElementById('btn-save-scene');
+      const btnLoad = document.getElementById('btn-load-scene');
+      const btnApiHelp = document.getElementById('btn-api-help');
+
+      const spLight = document.getElementById('sp-light');
+      const spCamera = document.getElementById('sp-camera');
+      const spTarget = document.getElementById('sp-target');
+      const spBuilding = document.getElementById('sp-building');
+      const spCube = document.getElementById('sp-cube');
+      const spArea = document.getElementById('sp-area');
+      const areaOpts = document.getElementById('area-opts');
+
+      let toolList = [['fly', btnFly, 'POV Flight'], ['select', btnSelect, 'Select'], ['spawn', btnSpawn, 'Spawn'], ['grab', btnGrab, 'Grab'], ['link', btnLink, 'Link']];
+      let pendingTool = null;
+      let pendingTimer = null;
+      let wheelAcc = 0;
+      let lastWheelStep = 0;
+
+      function clearPending() {
+        pendingTool = null;
+        clearTimeout(pendingTimer);
+        toolList.forEach(t => t[1].classList.remove('pending'));
+      }
+
+      function setPending(mode) {
+        clearPending();
+        if (mode === STATE.mode) { showToast("Tool: " + toolList.find(t => t[0] === mode)[2] + " (active)"); return; }
+        pendingTool = mode;
+        let t = toolList.find(x => x[0] === mode);
+        t[1].classList.add('pending');
+        showToast("Tool: " + t[2] + " - press Enter to activate");
+        pendingTimer = setTimeout(clearPending, 5000);
+      }
+
+      function setMode(mode) {
+        clearPending();
+        if (STATE.mode === 'link') finalizeDaisyChain();
+        if (STATE.mode === 'grab') stopGrab();
+        cancelArea();
+
+        STATE.mode = mode;
+        [btnFly, btnSelect, btnSpawn, btnGrab, btnLink].forEach(b => b.classList.remove('active'));
+        btnFinishChain.style.display = 'none';
+
+        if (mode === 'fly') btnFly.classList.add('active');
+        else if (mode === 'select') { btnSelect.classList.add('active'); showToast("Select: Shift+Click twice to box a 3D area (wheel = height). C to descend."); }
+        else if (mode === 'spawn') btnSpawn.classList.add('active');
+        else if (mode === 'grab') btnGrab.classList.add('active');
+        else if (mode === 'link') { btnLink.classList.add('active'); btnFinishChain.style.display = 'inline-flex'; }
+      }
+
+      uiActions.wheelTool = (dy) => {
+        wheelAcc += dy;
+        if (Math.abs(wheelAcc) < 40) return;
+        let dir = wheelAcc > 0 ? 1 : -1;
+        wheelAcc = 0;
+        let now = performance.now();
+        if (now - lastWheelStep < 120) return;
+        lastWheelStep = now;
+        let from = pendingTool || STATE.mode;
+        let idx = toolList.findIndex(t => t[0] === from);
+        idx = (idx + dir + toolList.length) % toolList.length;
+        setPending(toolList[idx][0]);
+      };
+
+      uiActions.activatePending = () => {
+        if (!pendingTool) return false;
+        let m = pendingTool;
+        setMode(m);
+        return true;
+      };
+
+      btnFly.addEventListener('click', (e) => { e.stopPropagation(); setMode('fly'); });
+      btnSelect.addEventListener('click', (e) => { e.stopPropagation(); setMode('select'); });
+      btnSpawn.addEventListener('click', (e) => { e.stopPropagation(); setMode('spawn'); });
+      btnGrab.addEventListener('click', (e) => { e.stopPropagation(); setMode('grab'); });
+      btnLink.addEventListener('click', (e) => { e.stopPropagation(); setMode('link'); });
+
+      function setSpawnType(type, element) {
+        setMode('spawn');
+        STATE.spawnType = type;
+        [spLight, spCamera, spTarget, spBuilding, spCube, spArea].forEach(el => el.classList.remove('selected'));
+        element.classList.add('selected');
+        areaOpts.style.display = type === 'area' ? 'flex' : 'none';
+      }
+
+      let spawnList = [['light', spLight], ['camera', spCamera], ['target', spTarget], ['building', spBuilding], ['cube', spCube], ['area', spArea]];
+      uiActions.spawnHotkey = (n) => {
+        if (STATE.mode !== 'spawn' || !spawnList[n - 1]) return false;
+        setSpawnType(spawnList[n - 1][0], spawnList[n - 1][1]);
+        return true;
+      };
+
+      spLight.addEventListener('click', (e) => { e.stopPropagation(); setSpawnType('light', spLight); });
+      spCamera.addEventListener('click', (e) => { e.stopPropagation(); setSpawnType('camera', spCamera); });
+      spTarget.addEventListener('click', (e) => { e.stopPropagation(); setSpawnType('target', spTarget); });
+      spBuilding.addEventListener('click', (e) => { e.stopPropagation(); setSpawnType('building', spBuilding); });
+      spCube.addEventListener('click', (e) => { e.stopPropagation(); setSpawnType('cube', spCube); });
+      spArea.addEventListener('click', (e) => { e.stopPropagation(); setSpawnType('area', spArea); });
+
+      let areaModeSel = document.getElementById('sp-area-mode');
+      let areaInputs = { width: document.getElementById('sp-area-w'), height: document.getElementById('sp-area-h'), depth: document.getElementById('sp-area-d') };
+      function readAreaOpts() {
+        areaSpawnConfig.mode = areaModeSel.value;
+        let dims = normalizeAreaDims(areaSpawnConfig.mode, areaInputs.width.value, areaInputs.height.value, areaInputs.depth.value);
+        areaSpawnConfig.width = dims.width; areaSpawnConfig.height = dims.height; areaSpawnConfig.depth = dims.depth;
+        areaInputs.width.disabled = false;
+        areaInputs.height.disabled = areaSpawnConfig.mode === '1D';
+        areaInputs.depth.disabled = areaSpawnConfig.mode !== '3D';
+        areaInputs.height.value = dims.height;
+        areaInputs.depth.value = dims.depth;
+        areaInputs.width.value = dims.width;
+      }
+      [areaModeSel, areaInputs.width, areaInputs.height, areaInputs.depth].forEach(el => el.addEventListener('change', readAreaOpts));
+      areaOpts.addEventListener('click', (e) => e.stopPropagation());
+      readAreaOpts();
+      document.getElementById('sel-add-target').addEventListener('click', (e) => { e.stopPropagation(); addTargetsToSelectedAreas(1); });
+
+      btnSave.addEventListener('click', (e) => { e.stopPropagation(); window.sceneAPI.saveScene(); });
+      btnLoad.addEventListener('click', (e) => { e.stopPropagation(); window.sceneAPI.loadScene(); });
+
+      let confirmModal = document.getElementById('confirm-modal');
+
+      function performClear() {
+        STATE.objects.forEach(o => { scene.remove(o.mesh); physicsWorld.removeBody(o.body); });
+        STATE.links.forEach(l => { scene.remove(l.lineMesh); if (l.constraint) physicsWorld.removeConstraint(l.constraint); });
+        STATE.objects = []; STATE.links = [];
+        resetInteractionState();
+        showToast("Scene Cleared");
+      }
+
+      function closeConfirm() { confirmModal.classList.remove('open'); }
+
+      function requestClear() {
+        if (STATE.objects.length === 0 && STATE.links.length === 0) { showToast("Scene is already empty"); return; }
+        if (document.pointerLockElement) document.exitPointerLock();
+        document.getElementById('confirm-count').textContent = STATE.objects.length;
+        confirmModal.classList.add('open');
+        document.getElementById('confirm-cancel').focus();
+      }
+
+      uiActions.isConfirmOpen = () => confirmModal.classList.contains('open');
+      uiActions.closeConfirm = closeConfirm;
+
+      btnClear.addEventListener('click', (e) => { e.stopPropagation(); requestClear(); });
+      document.getElementById('confirm-cancel').addEventListener('click', closeConfirm);
+      document.getElementById('confirm-ok').addEventListener('click', () => { closeConfirm(); performClear(); });
+      confirmModal.addEventListener('click', (e) => { if (e.target === confirmModal) closeConfirm(); });
+
+      btnFinishChain.addEventListener('click', (e) => { e.stopPropagation(); finalizeDaisyChain(); });
+
+      document.getElementById('sel-lock').addEventListener('click', (e) => { e.stopPropagation(); massSetLocked(true); });
+      document.getElementById('sel-unlock').addEventListener('click', (e) => { e.stopPropagation(); massSetLocked(false); });
+      document.getElementById('sel-rot-left').addEventListener('click', (e) => { e.stopPropagation(); massRotate(-nudgeState.rotStep); });
+      document.getElementById('sel-rot-right').addEventListener('click', (e) => { e.stopPropagation(); massRotate(nudgeState.rotStep); });
+      document.getElementById('sel-duplicate').addEventListener('click', (e) => { e.stopPropagation(); massDuplicate(); });
+      document.getElementById('sel-clear').addEventListener('click', (e) => { e.stopPropagation(); clearSelection(); });
+      document.getElementById('sel-delete').addEventListener('click', (e) => { e.stopPropagation(); deleteSelectedOrHoveredObjects(); });
+
+      document.getElementById('sel-rot-step').addEventListener('change', (e) => { nudgeState.rotStep = parseFloat(e.target.value); });
+      document.getElementById('sel-step').addEventListener('change', (e) => { nudgeState.step = parseFloat(e.target.value); });
+      document.getElementById('sel-color').addEventListener('input', (e) => {
+        getActionTargets().forEach(o => { if (o.type === 'light') window.sceneAPI.setLightColor(o.id, e.target.value); });
+      });
+
+      let btnPaths = document.getElementById('btn-toggle-paths');
+      btnPaths.addEventListener('click', (e) => { e.stopPropagation(); setLightPathsVisible(!STATE.showLightPaths); });
+      try {
+        if (localStorage.getItem('scene_maker_show_light_paths') === '1') {
+          STATE.showLightPaths = true;
+          btnPaths.classList.add('active');
+        }
+      } catch (err) {}
+
+      const modal = document.getElementById('api-modal');
+      btnApiHelp.addEventListener('click', (e) => { e.stopPropagation(); modal.classList.add('open'); });
+      document.getElementById('modal-close').addEventListener('click', () => modal.classList.remove('open'));
+
+      uiActions.escape = () => {
+        if (modal.classList.contains('open')) { modal.classList.remove('open'); return true; }
+        let insp = document.getElementById('inspector-panel');
+        if (insp.classList.contains('open')) { document.getElementById('insp-close').click(); return true; }
+        if (pendingTool) { clearPending(); return true; }
+        return false;
+      };
+
+      document.getElementById('btn-run-demo').addEventListener('click', () => {
+        modal.classList.remove('open');
+        const light = window.sceneAPI.spawnLight({ x: 0, y: 5, z: -2, color: '#38bdf8', isLocked: true });
+        const cam = window.sceneAPI.spawnCamera({ x: -6, y: 4, z: -2, fov: 60, range: 25, isLocked: true });
+        const target = window.sceneAPI.spawnTarget({ x: 0, y: 1.5, z: -10, isLocked: true });
+
+        STATE.activeChain = [cam];
+        addCubeToChain(light);
+        finalizeDaisyChain();
+
+        window.sceneAPI.spawnBuildingBlock({ gridX: -2, gridY: 0, gridZ: -5 });
+        window.sceneAPI.spawnBuildingBlock({ gridX: -2, gridY: 1, gridZ: -5 });
+
+        showToast("Demo Automated Scene Deployed!");
+      });
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toast-message').innerText = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2200);
+    }
+  </script>
+</body>
+</html>
